@@ -1,0 +1,8 @@
+scanpy
+pandas
+numpy
+matplotlib
+seaborn
+scvelo
+jupyter
+jupyter-cache

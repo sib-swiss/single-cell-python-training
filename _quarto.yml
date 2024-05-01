@@ -1,0 +1,52 @@
+project:
+  type: website
+  execute-dir: project
+  render:
+    - "*.qmd"
+    - "!CONTRIBUTIONG.md"
+    - "!LICENSE.md"
+
+website:
+  title: "Spatial transcriptomics"
+  favicon: assets/SIB_logo.svg
+  search: true
+  page-navigation: true
+  navbar:
+    background: "#003eaa"
+    left:
+      - href: index.qmd
+        text: Home
+      - href: precourse_preparations.qmd
+        text: Pre-course preparations
+      - href: course_schedule.qmd
+        text: Course schedule
+      - text: "Course material"
+        menu:
+          - href: "quality_control.qmd"
+            text: Quality control
+          - href: "normalization_scaling.qmd"
+            text: Normalization and scaling
+    right:
+      - icon: github
+        href: https://github.com/sib-swiss/single-cell-python-training/
+        aria-label: GitHub
+  sidebar:
+    logo: assets/SIB_LogoQ_GBv.svg
+
+format:
+  html:
+    code-link: true
+    theme: 
+      - default
+      - custom.scss
+    toc: true
+    header-includes: |
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
+
+execute:
+  freeze: auto 
+  cache: true
+  tidy: true
+
+
+
