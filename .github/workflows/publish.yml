@@ -1,0 +1,38 @@
+on:
+  # manually trigger
+  workflow_dispatch:
+  # pushing to main
+  push:
+    branches: main
+    paths: 
+      - "*.qmd"
+      - custom.scss
+      - renv.lock
+      - _quarto.yml
+      - .github/workflows/publish.yml
+  # every week on sunday
+  schedule:
+    - cron: "0 0 * * SUN"
+
+name: Quarto Publish
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+        GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+      - name: Install Python dependencies
+        uses: py-actions/py-dependency-install@v4
+      - name: Render and Publish
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+
