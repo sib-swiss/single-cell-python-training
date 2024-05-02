@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sib-swiss.github.io/single-cell-python-training/quality_control.html</loc>
-    <lastmod>2024-05-01T12:41:20.144Z</lastmod>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/RNA_Velocity_D3B2-3.html</loc>
+    <lastmod>2024-05-02T13:12:32.764Z</lastmod>
   </url>
   <url>
-    <loc>https://sib-swiss.github.io/single-cell-python-training/normalization_scaling.html</loc>
-    <lastmod>2024-05-01T12:41:20.144Z</lastmod>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/Normalization_And_Scaling_D1B3_Controls.html</loc>
+    <lastmod>2024-05-02T13:12:32.696Z</lastmod>
   </url>
   <url>
-    <loc>https://sib-swiss.github.io/single-cell-python-training/course_schedule.html</loc>
-    <lastmod>2024-05-01T12:41:20.044Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sib-swiss.github.io/single-cell-python-training/index.html</loc>
-    <lastmod>2024-05-01T12:41:20.044Z</lastmod>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/Dimensionality_Reduction_Embedding_D2B1_Controls.html</loc>
+    <lastmod>2024-05-02T13:12:32.696Z</lastmod>
   </url>
   <url>
     <loc>https://sib-swiss.github.io/single-cell-python-training/precourse_preparations.html</loc>
-    <lastmod>2024-05-01T12:41:20.144Z</lastmod>
+    <lastmod>2024-05-02T13:12:32.764Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/course_schedule.html</loc>
+    <lastmod>2024-05-02T13:12:32.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/index.html</loc>
+    <lastmod>2024-05-02T13:12:32.664Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/Clustering_Marker_Genes_D2B2_Controls.html</loc>
+    <lastmod>2024-05-02T13:12:32.688Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/Integration_D2B1_Controls.html</loc>
+    <lastmod>2024-05-02T13:12:32.696Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/Quality_Control_D1B2_Controls.html</loc>
+    <lastmod>2024-05-02T13:12:32.700Z</lastmod>
   </url>
 </urlset>

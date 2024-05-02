@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.554">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Spatial transcriptomics - Clustering and cell annotation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/SIB_logo.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Spatial transcriptomics</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../precourse_preparations.html"> 
+<span class="menu-text">Pre-course preparations</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../course_schedule.html"> 
+<span class="menu-text">Course schedule</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../quality_control.ipynb"> 
+<span class="menu-text">Quality control</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-course-material" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Course material</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-course-material">    
+        <li>
+    <a class="dropdown-item" href="../ipynb/Quality_Control_D1B2_Controls.html">
+ <span class="dropdown-text">Quality control</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ipynb/Normalization_And_Scaling_D1B3_Controls.html">
+ <span class="dropdown-text">Normalization and scaling</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sib-swiss/single-cell-python-training/"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Clustering and cell annotation</li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#visualization-and-cell-type-annotation" id="toc-visualization-and-cell-type-annotation" class="nav-link active" data-scroll-target="#visualization-and-cell-type-annotation">Visualization and cell type annotation</a></li>
+  <li><a href="#automated-cell-type-annotation" id="toc-automated-cell-type-annotation" class="nav-link" data-scroll-target="#automated-cell-type-annotation">Automated cell type annotation</a></li>
+  <li><a href="#another-way-to-annotate-with-label-transfer-from-a-reference-dataset" id="toc-another-way-to-annotate-with-label-transfer-from-a-reference-dataset" class="nav-link" data-scroll-target="#another-way-to-annotate-with-label-transfer-from-a-reference-dataset">Another way to annotate: with label transfer from a reference dataset!</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Clustering and cell annotation</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="0004856f-49fa-4a86-bfe8-759c9d87b806" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scanpy <span class="im">as</span> sc</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># for handling data frames (i.e. data tables)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np <span class="co"># for handling numbers, arrays, and matrices</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># plotting package</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns <span class="co"># plotting package</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Exercise 0</strong>: Before we continue in this notebook with the next steps of the analysis, we need to load our results from the previous notebook using the <code>sc.read_h5ad</code> function and assign them to the variable name <code>adata</code>. Give it a try!</p>
+<div id="b89cb357-cf8f-4d3c-a4fd-761e7826a4b0" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial4.h5ad"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="426adbd7-8765-455f-abb2-a458995483e0" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>AnnData object with n_obs × n_vars = 5469 × 3000
+    obs: 'sample', 'n_counts', 'n_genes', 'n_genes_by_counts', 'log1p_n_genes_by_counts', 'total_counts', 'log1p_total_counts', 'pct_counts_in_top_20_genes', 'total_counts_mt', 'log1p_total_counts_mt', 'pct_counts_mt', 'total_counts_ribo', 'log1p_total_counts_ribo', 'pct_counts_ribo', 'total_counts_hb', 'log1p_total_counts_hb', 'pct_counts_hb', 'is_doublet', 'S_score', 'G2M_score', 'phase'
+    var: 'mt', 'ribo', 'hb', 'n_cells_by_counts', 'mean_counts', 'log1p_mean_counts', 'pct_dropout_by_counts', 'total_counts', 'log1p_total_counts', 'n_cells', 'highly_variable', 'means', 'dispersions', 'dispersions_norm', 'mean', 'std'
+    uns: 'hvg', 'log1p', 'neighbors', 'pca', 'phase_colors', 'sample_colors', 'umap'
+    obsm: 'X_pca', 'X_pcahm', 'X_umap'
+    varm: 'PCs'
+    obsp: 'connectivities', 'distances'</code></pre>
+</div>
+</div>
+<p>Clustering the data helps to identify cells with similar gene expression properties that may belong to the same cell type or cell state. There are two popular clustering methods, both available in scanpy: Leiden clustering.</p>
+<p><strong>Exercise 1</strong>: Run Leiden clustering algorithm. Visualize the clusters on your UMAP representation. Are the clusters different from each method? Visualize the clusters again, this time on the tSNE embedding instead of the UMAP embedding. Are there differences in which clusters are grouped together?</p>
+<div id="ac99bfeb-8690-462a-8957-ddb64a33e390" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/tmp/ipykernel_22873/3467744858.py:1: FutureWarning: In the future, the default backend for leiden will be igraph instead of leidenalg.
+
+ To achieve the future defaults please pass: flavor="igraph" and n_iterations=2.  directed must also be False to work with igraph's implementation.
+  sc.tl.leiden(adata)</code></pre>
+</div>
+</div>
+<p>Next, you can visualize your UMAP and tSNE representations of the scRNA-seq and color by various metadata attributes (including Louvian or Leiden clusters) from the prior steps. For example:</p>
+<div id="628faa0e-e0f2-4a88-8b2b-f108844f5e11" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span><span class="st">"leiden"</span>,legend_loc<span class="op">=</span><span class="st">"on data"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clustering_Marker_Genes_D2B2_Controls_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Exercise 2</strong>: How many cells do you have per cluster? Can you plot a histogram of this?</p>
+<div id="5ef51ebc-edce-40d4-88dd-0d7e408df1df" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>n_clusters <span class="op">=</span> adata.obs[<span class="st">"leiden"</span>].value_counts()</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> n_clusters.plot(kind<span class="op">=</span><span class="st">"bar"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clustering_Marker_Genes_D2B2_Controls_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Exercise 3</strong>: Visualize some of the other metadata on the UMAP embedding, including the <code>n_counts</code>, <code>sample</code>, <code>n_genes</code>, <code>pct_counts_mt</code>, and <code>phase</code> metadata found in <code>adata.obs</code>.</p>
+<p>Do any clusters seem to have an obvious bias towards particular attributes? This might be a sign that we want to optimize prior steps of the analysis, such as adjusting the number of principal components used in the neighborhood smoothing or regressing out particular variables. As with a pandas dataframe, you can also examine the frequency of various attributes using a command such as: <code>adata.obs["phase"].value_counts()</code>.</p>
+<div id="d546124c-7e93-4e12-b189-a67dff8f4a99" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">'n_counts'</span>, <span class="st">'sample'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clustering_Marker_Genes_D2B2_Controls_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="b8f7f316-08b1-4426-b51b-bbb4c7e96b29" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">'n_genes'</span>, <span class="st">'pct_counts_mt'</span>, <span class="st">'phase'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clustering_Marker_Genes_D2B2_Controls_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Exercise 4</strong>: Let’s proceed with Leiden clustering and UMAP embeddings for the time being.</p>
+<ul>
+<li>Create a new metadata attribute for your current clusters, i.e.&nbsp;<code>adata.obs["leiden_res1"] = adata.obs["leiden"]</code>.</li>
+<li>Repeat leiden clustering using different values for the resolution parameter: <code>0.1</code>, <code>0.5</code>, <code>2.0</code>.</li>
+<li>Save the clusters in a new metadata column and visualize them on the UMAP representation.</li>
+<li>How does the number of clusters change with adjustments to the resolution parameter? Using the resolution=1 as a basis, do any clusters divide into two smaller clusters upon changing the resolution parameter? Do any clusters merge together? Can you plot the three different clustering results side-by-side on the UMAP to compare?</li>
+</ul>
+<div id="7c70d0b6-10c1-4e3f-b986-083473bd1ddf" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"leiden_res1"</span>] <span class="op">=</span> adata.obs[<span class="st">"leiden"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="93cb0cc2-a4b4-4dc4-8c46-6caef43c4282" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(adata, key_added<span class="op">=</span><span class="st">"leiden_res0_1"</span>, resolution<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(adata, key_added<span class="op">=</span><span class="st">"leiden_res0_5"</span>, resolution<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden(adata, key_added<span class="op">=</span><span class="st">"leiden_res2"</span>, resolution<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="2bf4bbc4-5a78-4a97-ba58-505556e00f1d" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    adata,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>[<span class="st">"leiden_res0_1"</span>, <span class="st">"leiden_res0_5"</span>, <span class="st">"leiden_res1"</span>, <span class="st">"leiden_res2"</span>],</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    legend_loc<span class="op">=</span><span class="st">"on data"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    ncols<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clustering_Marker_Genes_D2B2_Controls_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>OPTIONAL Exercise 5</strong>: Let’s take a few steps back to understand the previous steps a little bit better! For example, the number of principal components used in computing the neighborhood graph will greatly impact the visualizations. Rerun previous code using the following number of PCs and visualize the different UMAPs and number of clusters: 4 PCs, 8 PCs, 15 PCs, 30 PCs. What changes with the different number of PCs used? Choose an “optimal” number of PCs by examining the contribution of each PC to the total variance with the command: sc.pl.pca_variance_ratio(adata, log=True).</p>
+<div id="a70081a9-567d-4a53-94a7-7efc48c9685d" class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply for 4 PCs</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors <span class="co"># you must complete</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sc.tl.umap <span class="co"># you must complete</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>sc.tl.leiden <span class="co"># you must complete</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata_scvi, color<span class="op">=</span>[<span class="st">"leiden"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="275a871d-3481-471a-b95f-6ba5ec950c36" class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply for 8 PCs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="d8b0d941-dbf0-42b0-8096-e9037e4e1b32" class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply for 15 PCs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="ab6f8296-1b9e-4288-914a-4f21d9c6e8bc" class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply for 30 PCs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="visualization-and-cell-type-annotation" class="level1">
+<h1>Visualization and cell type annotation</h1>
+<p>Before proceeding with marker gene analysis and cell type annotation, restore the raw version of the data, add the necessary annotations, and normalize the counts:</p>
+<div id="f5e4ff0f-e01e-478a-bafe-50688c60a8d8" class="cell" data-executioninfo="{&quot;elapsed&quot;:371,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340449533,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="b94ec1f2-fe65-46be-a531-9daec9f4e464" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>adata_raw <span class="op">=</span> sc.read_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial.h5ad"</span>) <span class="co"># raw data before selecting highly variable genes</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>adata_raw_norm <span class="op">=</span> adata_raw.copy()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_total(adata_raw_norm, target_sum<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata_raw_norm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="009b0082-c330-4253-8b14-97012cd56136" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"leiden"</span>] <span class="op">=</span> adata.obs[<span class="st">"leiden_res1"</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obsm[<span class="st">"X_pca"</span>] <span class="op">=</span> adata.obsm[<span class="st">"X_pcahm"</span>]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> adata.obsm[<span class="st">"X_umap"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s use a simple method implemented by scanpy to find marker genes by the Leiden cluster.</p>
+<div id="34a97279-c6fc-40de-ac63-ad6e7ea275e9" class="cell" data-executioninfo="{&quot;elapsed&quot;:15954,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340476850,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="a83e0455-6ecf-4363-d635-cd20d00a6549" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    adata_raw_norm, use_raw<span class="op">=</span><span class="va">False</span>, groupby<span class="op">=</span><span class="st">"leiden"</span>, method<span class="op">=</span><span class="st">"wilcoxon"</span>, key_added<span class="op">=</span><span class="st">"dea_leiden"</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:429: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "names"] = self.var_names[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:431: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "scores"] = scores[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:434: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "pvals"] = pvals[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:444: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "pvals_adj"] = pvals_adj[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:455: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "logfoldchanges"] = np.log2(
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:429: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "names"] = self.var_names[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:431: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "scores"] = scores[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:434: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "pvals"] = pvals[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:444: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "pvals_adj"] = pvals_adj[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:455: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "logfoldchanges"] = np.log2(
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:429: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "names"] = self.var_names[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:431: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "scores"] = scores[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:434: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "pvals"] = pvals[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:444: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "pvals_adj"] = pvals_adj[global_indices]
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/scanpy/tools/_rank_genes_groups.py:455: PerformanceWarning: DataFrame is highly fragmented.  This is usually the result of calling `frame.insert` many times, which has poor performance.  Consider joining all columns at once using pd.concat(axis=1) instead. To get a de-fragmented frame, use `newframe = frame.copy()`
+  self.stats[group_name, "logfoldchanges"] = np.log2(</code></pre>
+</div>
+</div>
+<div id="7ce63183-1885-4027-a7e9-e67e6ff05cbc" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>sc.settings.set_figure_params(dpi<span class="op">=</span><span class="dv">50</span>, facecolor<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups_dotplot(</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    adata_raw_norm, groupby<span class="op">=</span><span class="st">"leiden"</span>, standard_scale<span class="op">=</span><span class="st">"var"</span>, n_genes<span class="op">=</span><span class="dv">5</span>, key<span class="op">=</span><span class="st">"dea_leiden"</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>WARNING: dendrogram data not found (using key=dendrogram_leiden). Running `sc.tl.dendrogram` with default parameters. For fine tuning it is recommended to run `sc.tl.dendrogram` independently.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clustering_Marker_Genes_D2B2_Controls_files/figure-html/cell-20-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As you can see above, a lot of the differentially expressed genes are highly expressed in multiple clusters. We can filter the differentially expressed genes to select for more cluster-specific differentially expressed genes:</p>
+<div id="0ffa047f-faf3-40a2-ab29-e21fba270a8d" class="cell" data-executioninfo="{&quot;elapsed&quot;:37816,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340534478,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="6934f254-1a02-419f-962d-82c59744337a" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>sc.tl.filter_rank_genes_groups(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    adata_raw_norm,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    min_in_group_fraction<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    max_out_group_fraction<span class="op">=</span><span class="fl">0.2</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    key<span class="op">=</span><span class="st">"dea_leiden"</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    key_added<span class="op">=</span><span class="st">"dea_leiden_filtered"</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="963543bc-c618-4216-a3a4-ad95c3d440d2" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups_dotplot(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>    adata_raw_norm, groupby<span class="op">=</span><span class="st">"leiden"</span>, standard_scale<span class="op">=</span><span class="st">"var"</span>, n_genes<span class="op">=</span><span class="dv">5</span>, key<span class="op">=</span><span class="st">"dea_leiden_filtered"</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clustering_Marker_Genes_D2B2_Controls_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Exercise 6</strong>: Visualize marker genes on the UMAP or tSNE representation. Try to find 3-4 marker genes that are indeed specific to a particular cluster. Are there any clusters that do not seem to have unique marker genes? Are there any clusters containing markers that are only specific to a portion of the cluster? Marker genes should uniformly define cells “everywhere” in a cluster in UMAP space, otherwise the cluster might actually be two!</p>
+<div id="b4169ba1-528b-4828-9e63-036d51f0a864" class="cell" data-executioninfo="{&quot;elapsed&quot;:1510,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340543187,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="3650a62f-a65a-46d5-d377-86ef2246d66a" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    adata,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>[<span class="st">"CD74"</span>, <span class="st">"SSR4"</span>, <span class="st">"CA2"</span>, <span class="st">"HBA2"</span>, <span class="st">"CST3"</span>, <span class="st">"CD37"</span>, <span class="st">"IL32"</span>, <span class="st">"leiden_res0_5"</span>],</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    vmax<span class="op">=</span><span class="st">"p99"</span>,</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    legend_loc<span class="op">=</span><span class="st">"on data"</span>,</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    cmap<span class="op">=</span><span class="st">"coolwarm"</span>,</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clustering_Marker_Genes_D2B2_Controls_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Exercise 7 (optional)</strong>: Let’s take a few steps back to understand all of the previous steps a little bit better! The number of genes selected by the highly_variable_genes function can significantly impact your ability to cluster. Too few genes and you cannot discriminate between different cell types, too many genes and you capture lots of noisy clusters! Try repeating the previous analysis with either 200 or 5000 highly variable genes, naming the AnnData object differently (i.e.&nbsp;adata_200genes) to avoid overwriting your previous results. Transfer the metadata for the new cluster labels to the original AnnData object’s metadata at adata.obs and compare on the UMAP. Are the clusters different?</p>
+<p>Once you have settled on the parameters for the dimensionality reduction and clustering steps, it is time to begin annotating your clusters with cell types. This is normally a challenging step! When you are not too familiar with the marker genes for a particular cluster, a good starting point is simply to Google a strong marker gene and understand its function. Other tools that might be useful include EnrichR and GSEAPy. - https://maayanlab.cloud/Enrichr/ - https://gseapy.readthedocs.io/en/latest/gseapy_example.html#2.-Enrichr-Example</p>
+<p>Fortunately in our case, we will try automated cell type annotations!</p>
+</section>
+<section id="automated-cell-type-annotation" class="level1">
+<h1>Automated cell type annotation</h1>
+<p><strong>Exercise 8</strong> The methods discussed here focus on automated data annotation, distinct from manual methods. Unlike the previously detailed approach, these methods automate data annotation. They operate on different principles, using predefined markers or trained on comprehensive scRNA-seq datasets. It’s vital to note that automated annotations can vary in quality. Thus, they should be seen as a starting point rather than a final solution. <a href="https://www.csbj.org/article/S2001-03702100019-2/fulltext">Pasquini et al., 2021</a> and <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1795-z">Abdelaal et al., 2019</a> offer extensive discussions on automated annotation methods.</p>
+<p>Quality depends on:</p>
+<ul>
+<li><p>Classifier Choice: Various classifier types perform similarly, with neural networks <strong>not</strong> necessarily outperforming linear models [<a href="https://www.csbj.org/article/S2001-03702100019-2/fulltext">1</a>, <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1795-z">2</a>, <a href="https://academic.oup.com/bib/article/22/5/bbab035/6145135?login=false">3</a>].</p></li>
+<li><p>Training Data Quality: Annotation quality relies on the quality of the training data. Poorly annotated or noisy training data can impact the classifier.</p></li>
+<li><p>Data Similarity: Similarity between your data and the classifier’s training data matters. Cross-dataset models often provide better annotations. For example, CellTypist, trained on diverse lung datasets, is likely to perform well on new lung data.</p></li>
+</ul>
+<p>While classifiers have limitations, they offer advantages like rapid annotation, leveraging previous studies, and promoting standardized terminology. Ensuring robust uncertainty measures to quantify annotation reliability is crucial.</p>
+<p>Many classification methods rely on a limited set of genes, typically just 1 to ~10 marker genes per cell type. An alternative approach utilizes classifiers that consider a more extensive gene set, often several thousands or more. These classifiers are trained on previously annotated datasets or atlases. Notable examples include CellTypist <a href="https://www.science.org/doi/full/10.1126/science.abl5197">Conde et al., 2022</a> and Clustifyr <a href="https://f1000research.com/articles/9-223/v2">Fu et al., 2020</a>.</p>
+<p>Let’s explore CellTypist for our data. Referring to the <a href="https://www.celltypist.org/tutorials">CellTypist tutorial</a>, we should prepare our data by normalizing counts to 10,000 counts per cell and subsequently applying a log1p transformation. So we need to re-normalize our data, without our logarithm shift approach, but with a more classical ‘Counts per ten-thousand’.</p>
+<div id="8197e80b-558d-418e-9bcb-5ce3566a4bde" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> celltypist</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> celltypist <span class="im">import</span> models</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="1cfb62bd-530a-4a38-acd5-768d1597f6ad" class="cell" data-executioninfo="{&quot;elapsed&quot;:1690,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340621373,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="d2d313e4-b28f-444d-e69b-30c3db855303" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>adata_celltypist <span class="op">=</span> adata_raw.copy()  <span class="co"># make a copy of our adata</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_per_cell(</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    adata_celltypist, counts_per_cell_after<span class="op">=</span><span class="fl">10000.0</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># normalize to 10,000 counts per cell</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata_celltypist)  <span class="co"># log-transform</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="co"># make .X dense instead of sparse, for compatibility with celltypist:</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>adata_celltypist.X <span class="op">=</span> adata_celltypist.X</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here we will load the model directly from our folder on google drive, where we can find the model trained. Alternatively, CellTypist method propose a panel of models that can be download directly from python using <code>models.download_models(force_update = True)</code>. The idea is of course to use a model that match our biological context, and for pre-trained model-based method like CellTypist, it is possible that your biological context is not available. In that situation, there is no other options than opting for manual annotations.</p>
+<p>There are two models that might be relevant for this particular dataset we are working with. Let’s download both of them and try each one for the classification.</p>
+<div id="56af5840-a823-4379-a90f-6bb86d34a791" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>models.download_models(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    force_update<span class="op">=</span><span class="va">True</span>, model<span class="op">=</span>[<span class="st">"Immune_All_Low.pkl"</span>, <span class="st">"Immune_All_High.pkl"</span>]</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>📜 Retrieving model list from server https://celltypist.cog.sanger.ac.uk/models/models.json
+📚 Total models in list: 46
+📂 Storing models in /home/alex/.celltypist/data/models
+💾 Total models to download: 2
+💾 Downloading model [1/2]: Immune_All_Low.pkl
+💾 Downloading model [2/2]: Immune_All_High.pkl</code></pre>
+</div>
+</div>
+<div id="a647e527-05a9-48de-b89f-182c1ae6f240" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>model_low <span class="op">=</span> models.Model.load(model<span class="op">=</span><span class="st">"Immune_All_Low.pkl"</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>model_high <span class="op">=</span> models.Model.load(model<span class="op">=</span><span class="st">"Immune_All_High.pkl"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For each of these, we can see which cell types it includes to see if bone marrow cell types are included:</p>
+<div id="492989ca-916d-432d-bae7-8943be0c6040" class="cell" data-executioninfo="{&quot;elapsed&quot;:2,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340621804,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="78732559-38c4-4a2a-b288-6de932a266a3" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can print all the cell types covererd by the model</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>model_low.cell_types</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>array(['Age-associated B cells', 'Alveolar macrophages', 'B cells',
+       'CD16+ NK cells', 'CD16- NK cells', 'CD8a/a', 'CD8a/b(entry)',
+       'CMP', 'CRTAM+ gamma-delta T cells', 'Classical monocytes',
+       'Cycling B cells', 'Cycling DCs', 'Cycling NK cells',
+       'Cycling T cells', 'Cycling gamma-delta T cells',
+       'Cycling monocytes', 'DC', 'DC precursor', 'DC1', 'DC2', 'DC3',
+       'Double-negative thymocytes', 'Double-positive thymocytes', 'ELP',
+       'ETP', 'Early MK', 'Early erythroid', 'Early lymphoid/T lymphoid',
+       'Endothelial cells', 'Epithelial cells', 'Erythrocytes',
+       'Erythrophagocytic macrophages', 'Fibroblasts',
+       'Follicular B cells', 'Follicular helper T cells', 'GMP',
+       'Germinal center B cells', 'Granulocytes', 'HSC/MPP',
+       'Hofbauer cells', 'ILC', 'ILC precursor', 'ILC1', 'ILC2', 'ILC3',
+       'Intermediate macrophages', 'Intestinal macrophages',
+       'Kidney-resident macrophages', 'Kupffer cells',
+       'Large pre-B cells', 'Late erythroid', 'MAIT cells', 'MEMP', 'MNP',
+       'Macrophages', 'Mast cells', 'Megakaryocyte precursor',
+       'Megakaryocyte-erythroid-mast cell progenitor',
+       'Megakaryocytes/platelets', 'Memory B cells',
+       'Memory CD4+ cytotoxic T cells', 'Mid erythroid', 'Migratory DCs',
+       'Mono-mac', 'Monocyte precursor', 'Monocytes', 'Myelocytes',
+       'NK cells', 'NKT cells', 'Naive B cells',
+       'Neutrophil-myeloid progenitor', 'Neutrophils',
+       'Non-classical monocytes', 'Plasma cells', 'Plasmablasts',
+       'Pre-pro-B cells', 'Pro-B cells',
+       'Proliferative germinal center B cells', 'Promyelocytes',
+       'Regulatory T cells', 'Small pre-B cells', 'T(agonist)',
+       'Tcm/Naive cytotoxic T cells', 'Tcm/Naive helper T cells',
+       'Tem/Effector helper T cells', 'Tem/Effector helper T cells PD1+',
+       'Tem/Temra cytotoxic T cells', 'Tem/Trm cytotoxic T cells',
+       'Transitional B cells', 'Transitional DC', 'Transitional NK',
+       'Treg(diff)', 'Trm cytotoxic T cells', 'Type 1 helper T cells',
+       'Type 17 helper T cells', 'gamma-delta T cells', 'pDC',
+       'pDC precursor'], dtype=object)</code></pre>
+</div>
+</div>
+<div id="c56a3994-b3a9-419b-8244-4fbf9bde72cb" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We can print all the cell types covererd by the model</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>model_high.cell_types</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>array(['B cells', 'B-cell lineage', 'Cycling cells', 'DC', 'DC precursor',
+       'Double-negative thymocytes', 'Double-positive thymocytes', 'ETP',
+       'Early MK', 'Endothelial cells', 'Epithelial cells',
+       'Erythrocytes', 'Erythroid', 'Fibroblasts', 'Granulocytes',
+       'HSC/MPP', 'ILC', 'ILC precursor', 'MNP', 'Macrophages',
+       'Mast cells', 'Megakaryocyte precursor',
+       'Megakaryocytes/platelets', 'Mono-mac', 'Monocyte precursor',
+       'Monocytes', 'Myelocytes', 'Plasma cells', 'Promyelocytes',
+       'T cells', 'pDC', 'pDC precursor'], dtype=object)</code></pre>
+</div>
+</div>
+<p>The model_high seems to have fewer cell types, let’s start with that for obtaining broader cell type categories.</p>
+<div id="70383dbc-9f21-4620-949c-159ce6a6e592" class="cell" data-executioninfo="{&quot;elapsed&quot;:12802,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340636224,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="6458a888-548c-494f-8a03-b4764be06fdc" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>predictions_high <span class="op">=</span> celltypist.annotate(</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>    adata_celltypist, model<span class="op">=</span>model_high, majority_voting<span class="op">=</span><span class="va">True</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>🔬 Input data has 5469 cells and 10841 genes
+🔗 Matching reference genes in the model
+🧬 3731 features used for prediction
+⚖️ Scaling input data
+🖋️ Predicting labels
+✅ Prediction done!
+👀 Can not detect a neighborhood graph, will construct one before the over-clustering
+/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+⛓️ Over-clustering input data with resolution set to 10
+🗳️ Majority voting the predictions
+✅ Majority voting done!</code></pre>
+</div>
+</div>
+<div id="23254fef-5d6c-4000-a98b-751de99ceba3" class="cell" data-executioninfo="{&quot;elapsed&quot;:19,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340636224,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="8241cd8f-f8b2-4e64-8d30-2fd265f74494" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>predictions_high_adata <span class="op">=</span> predictions_high.to_adata()</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>predictions_high_adata.obs[[<span class="st">'majority_voting'</span>, <span class="st">'conf_score'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">majority_voting</th>
+<th data-quarto-table-cell-role="th">conf_score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">AAACCTGCAGACGCAA-1</td>
+<td>B cells</td>
+<td>0.997790</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">AAACCTGTCATCACCC-1</td>
+<td>T cells</td>
+<td>0.986443</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">AAAGATGCATAAAGGT-1</td>
+<td>Monocytes</td>
+<td>0.961658</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">AAAGCAAAGCAGCGTA-1</td>
+<td>T cells</td>
+<td>0.999908</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">AAAGCAACAATAACGA-1</td>
+<td>T cells</td>
+<td>0.994181</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">TTTGTCACAATGAAAC-1</td>
+<td>T cells</td>
+<td>0.999788</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">TTTGTCACATCTGGTA-1</td>
+<td>B cells</td>
+<td>0.999942</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">TTTGTCAGTACAGCAG-1</td>
+<td>T cells</td>
+<td>0.828790</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">TTTGTCAGTGTGAATA-1</td>
+<td>B-cell lineage</td>
+<td>0.970384</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">TTTGTCAGTTCTCATT-1</td>
+<td>T cells</td>
+<td>0.976647</td>
+</tr>
+</tbody>
+</table>
+
+<p>5469 rows × 2 columns</p>
+</div>
+</div>
+</div>
+</div>
+<div id="e5fbb690-63fb-4197-9453-6c89a3adc2d3" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_annotations_high"</span>] <span class="op">=</span> predictions_high_adata.obs[<span class="st">"majority_voting"</span>]</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_conf_score_high"</span>] <span class="op">=</span> predictions_high_adata.obs[<span class="st">"conf_score"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s do the same for the finer-grained annotations</p>
+<div id="6208ea37-052d-4a72-a7f1-6329ebc7eee2" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>predictions_low <span class="op">=</span> celltypist.annotate(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>    adata_celltypist, model<span class="op">=</span>model_low, majority_voting<span class="op">=</span><span class="va">True</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>🔬 Input data has 5469 cells and 10841 genes
+🔗 Matching reference genes in the model
+🧬 3731 features used for prediction
+⚖️ Scaling input data
+🖋️ Predicting labels
+✅ Prediction done!
+👀 Detected a neighborhood graph in the input object, will run over-clustering on the basis of it
+⛓️ Over-clustering input data with resolution set to 10
+🗳️ Majority voting the predictions
+✅ Majority voting done!</code></pre>
+</div>
+</div>
+<div id="c6e3e799-f62c-47fb-ab4d-dfa0a82700d3" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>predictions_low_adata <span class="op">=</span> predictions_low.to_adata()</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>predictions_low_adata.obs[[<span class="st">'majority_voting'</span>, <span class="st">'conf_score'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">majority_voting</th>
+<th data-quarto-table-cell-role="th">conf_score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">AAACCTGCAGACGCAA-1</td>
+<td>B cells</td>
+<td>0.731157</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">AAACCTGTCATCACCC-1</td>
+<td>Tcm/Naive cytotoxic T cells</td>
+<td>0.975580</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">AAAGATGCATAAAGGT-1</td>
+<td>Classical monocytes</td>
+<td>0.532938</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">AAAGCAAAGCAGCGTA-1</td>
+<td>Tcm/Naive helper T cells</td>
+<td>0.998210</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">AAAGCAACAATAACGA-1</td>
+<td>Tcm/Naive cytotoxic T cells</td>
+<td>0.809559</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">TTTGTCACAATGAAAC-1</td>
+<td>Tcm/Naive cytotoxic T cells</td>
+<td>0.946592</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">TTTGTCACATCTGGTA-1</td>
+<td>Naive B cells</td>
+<td>0.341540</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">TTTGTCAGTACAGCAG-1</td>
+<td>Tcm/Naive cytotoxic T cells</td>
+<td>0.135967</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">TTTGTCAGTGTGAATA-1</td>
+<td>Large pre-B cells</td>
+<td>0.217258</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">TTTGTCAGTTCTCATT-1</td>
+<td>Tcm/Naive helper T cells</td>
+<td>0.090272</td>
+</tr>
+</tbody>
+</table>
+
+<p>5469 rows × 2 columns</p>
+</div>
+</div>
+</div>
+</div>
+<p>And we save our predictions to our AnnData object:</p>
+<div id="99883cac-209f-4189-8928-631a7420dee8" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_annotations_low"</span>] <span class="op">=</span> predictions_low_adata.obs[<span class="st">"majority_voting"</span>]</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_conf_score_low"</span>] <span class="op">=</span> predictions_low_adata.obs[<span class="st">"conf_score"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>CellTypist annotations can then be visualized on the UMAP embedding:</p>
+<div id="7db82a70-7b5b-4268-877e-b5dc71a25391" class="cell" data-executioninfo="{&quot;elapsed&quot;:1596,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340637804,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="1eaca042-bffb-48a5-807e-dc6f865a9d44" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>sc.settings.set_figure_params(dpi<span class="op">=</span><span class="dv">80</span>, facecolor<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    adata_raw_norm,</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>[<span class="st">"celltypist_annotations_low"</span>, <span class="st">"celltypist_annotations_high"</span>],</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>    sort_order<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>    wspace<span class="op">=</span><span class="fl">1.2</span>,</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clustering_Marker_Genes_D2B2_Controls_files/figure-html/cell-36-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Also, each cell gets a prediction score:</p>
+<div id="e17d52db-9074-4e7f-8f70-1b749555ff24" class="cell" data-executioninfo="{&quot;elapsed&quot;:684,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340638480,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="6f3c9170-a120-492b-b43b-5dc3adb098d3" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>    adata_raw_norm,</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>[<span class="st">"celltypist_conf_score_low"</span>, <span class="st">"celltypist_conf_score_high"</span>],</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    sort_order<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    wspace<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clustering_Marker_Genes_D2B2_Controls_files/figure-html/cell-37-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>One way of getting a feeling for the quality of these annotations is by looking if the observed cell type similarities correspond to our expectations:</p>
+<div id="95febf78-c5f9-450a-9f5d-0436dbeae0f5" class="cell" data-executioninfo="{&quot;elapsed&quot;:7,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340638480,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="a46856f4-1aab-41a1-dd0f-29b2fcbf9bcc" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>sc.pl.dendrogram(adata_raw_norm, groupby<span class="op">=</span><span class="st">"celltypist_annotations_low"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>WARNING: dendrogram data not found (using key=dendrogram_celltypist_annotations_low). Running `sc.tl.dendrogram` with default parameters. For fine tuning it is recommended to run `sc.tl.dendrogram` independently.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Clustering_Marker_Genes_D2B2_Controls_files/figure-html/cell-38-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="another-way-to-annotate-with-label-transfer-from-a-reference-dataset" class="level1">
+<h1>Another way to annotate: with label transfer from a reference dataset!</h1>
+<div id="f3279a3c-6f5c-4299-91aa-371e5b4a9f65" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To be added for the diseased conditions...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="75937929-e3fb-4966-ab32-93b33e22bc3d" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> adata_raw_norm.uns[<span class="st">"dea_leiden_filtered"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="ce1e2f61-e900-4a92-9111-3e8c9693d3b3" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.write_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial5.h5ad"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/sib-swiss\.github\.io\/single-cell-python-training\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
