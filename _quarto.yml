@@ -21,15 +21,13 @@ website:
         text: Pre-course preparations
       - href: course_schedule.qmd
         text: Course schedule
-      - href: quality_control.ipynb
-        text: Quality control
       - text: "Course material"
         menu:
           - href: ipynb/Quality_Control_D1B2_Controls.ipynb
             text: Quality control
           - href: ipynb/Normalization_And_Scaling_D1B3_Controls.ipynb
             text: Normalization and scaling
-            
+
     right:
       - icon: github
         href: https://github.com/sib-swiss/single-cell-python-training/
