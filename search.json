@@ -105,11 +105,102 @@
     "text": "Dimensionality reduction\nExercise 5: Compute the neighborhood graph of cells using the PCA representation of the data matrix. The purpose of this step is to understand the “distance” between individual cells in the lower-dimensional PCA space, important for creating 2D scatter plot representations of your data. The number of neighbors used will influence how much the data is smoothened, which is a necessary step due to the sparsity (missing values) widely present in scRNA-seq data compared to bulk methods.\n\nsc.pp.neighbors(adata, n_pcs = 30) # specify the number of neighbors and number of PCs you wish to use\n\n/home/alex/anaconda3/envs/sib_course_2024/lib/python3.9/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html\n  from .autonotebook import tqdm as notebook_tqdm\n\n\nEmbedding the graph in a 2D representation can be performed using either tSNE or UMAP algorithms.\nExercise 6: Run UMAP algorithm on your data after completing the previous steps with default parameters. We will evaluate the quality of each approach in later exercises.\n\nsc.tl.umap(adata)\n\nTo view the UMAP plot:\n\nsc.pl.umap(adata, color=[\"sample\"])\n\n\n\n\n\n\n\n\nExercise 7: Try to change:\nA. Color the dots in the UMAP according to a variable (e.g. n_counts or HBA1). Any idea where the erythrocytes probably are in the UMAP?\nB. The number of neighbors used for the calculation of the UMAP. Which is the parameter to change and how did it affect the output. What is the default? In which situation would you lower/increase this?\nC. The number of principal components (n_pcs) to extremely few (5) or many (50). How does this it affect the output? In your opinion, it is better with fewer or more PCs? Why does n_pcs=150 not work? When would more precision be needed?\n\nsc.pl.umap(adata, color=[\"n_counts\", \"HBA1\"])\n\n\n\n\n\n\n\n\nSave your results!\n\nadata.write_h5ad(\"PBMC_analysis_SIB_tutorial3.h5ad\")"
   },
   {
+    "objectID": "precourse_preparations.html",
+    "href": "precourse_preparations.html",
+    "title": "Pre-course preparations",
+    "section": "",
+    "text": "Participants should already have a basic knowledge in Next Generation Sequencing (NGS) techniques, or have already followed the course NGS - Quality control, Alignment, Visualisation. Knowledge in RNA sequencing is a plus. A basic knowledge of the Python programming language is required. Test your R skills with the quiz here, before registering."
+  },
+  {
+    "objectID": "precourse_preparations.html#required-competences",
+    "href": "precourse_preparations.html#required-competences",
+    "title": "Pre-course preparations",
+    "section": "",
+    "text": "Participants should already have a basic knowledge in Next Generation Sequencing (NGS) techniques, or have already followed the course NGS - Quality control, Alignment, Visualisation. Knowledge in RNA sequencing is a plus. A basic knowledge of the Python programming language is required. Test your R skills with the quiz here, before registering."
+  },
+  {
+    "objectID": "precourse_preparations.html#software",
+    "href": "precourse_preparations.html#software",
+    "title": "Pre-course preparations",
+    "section": "Software",
+    "text": "Software\nAttendees should have a Wi-Fi enabled computer. An online Python and Jupyter Notebook environment will be provided. However, in case you wish to perform the practical exercises on your own computer, please take a moment to install the following before the course:\n\nPython version &gt;= 3.8 installed through Anaconda.\nJupyter Notebook or the Anaconda Navigator\nThe Python packages necessary for the course. Find the script to install them here."
+  },
+  {
+    "objectID": "course_schedule.html",
+    "href": "course_schedule.html",
+    "title": "Course schedule",
+    "section": "",
+    "text": "Note\n\n\n\nOther than the starting time, the time schedule is an approximation. Because we cannot plan a course by the minute, in practice the time points will deviate."
+  },
+  {
+    "objectID": "course_schedule.html#day-1",
+    "href": "course_schedule.html#day-1",
+    "title": "Course schedule",
+    "section": "Day 1",
+    "text": "Day 1\n\n\n\nblock\nstart\nend\nsubject\n\n\n\n\nintroduction\n9:15 AM\n9:30 AM\nIntroduction\n\n\nblock 1\n9:30 AM\n10:15 AM\nIntroduction scRNAseq\n\n\n\n10:15 AM\n10:45 AM\nBREAK\n\n\nblock 2\n10:45 AM\n12:00 PM\nPresentation: Andreia Gouvêa, 10X Field Application Scientist\n\n\n\n12:00 PM\n1:00 PM\nBREAK\n\n\nblock 3\n1:00 PM\n3:00 PM\nCell Ranger and Quality Control\n\n\n\n3:00 PM\n3:30 PM\nBREAK\n\n\nblock 4\n3:30 PM\n5:00 PM\nNormalization and Scaling"
+  },
+  {
+    "objectID": "course_schedule.html#day-2",
+    "href": "course_schedule.html#day-2",
+    "title": "Course schedule",
+    "section": "Day 2",
+    "text": "Day 2\n\n\n\nblock\nstart\nend\nsubject\n\n\n\n\nblock 1\n9:15 AM\n10:30 AM\nDimensionality Reduction and Intergration\n\n\n\n10:30 AM\n11:00 AM\nBREAK\n\n\nblock 2\n11:00 AM\n12:30 PM\nClustering\n\n\n\n12:30 PM\n1:30 PM\nBREAK\n\n\nblock 3\n1:30 PM\n3:00 PM\nCell annotation\n\n\n\n3:00 PM\n3:30 PM\nBREAK\n\n\nblock 4\n3:30 PM\n5:00 PM\nVisualization & further exercises"
+  },
+  {
+    "objectID": "course_schedule.html#day-3",
+    "href": "course_schedule.html#day-3",
+    "title": "Course schedule",
+    "section": "Day 3",
+    "text": "Day 3\n\n\n\nblock\nstart\nend\nsubject\n\n\n\n\nblock 1\n9:15 AM\n10:30 AM\nTranscription factor analysis and cell-cell communication\n\n\n\n10:30 AM\n11:00 AM\nBREAK\n\n\nblock 2\n11:00 AM\n12:30 PM\nTrajectory Inference\n\n\n\n12:30 PM\n1:30 PM\nBREAK\n\n\nblock 3\n1:30 PM\n3:00 PM\nRNA velocity\n\n\n\n3:00 PM\n3:30 PM\nBREAK\n\n\nblock 4\n3:30 PM\n5:00 PM\nRNA velocity"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "SIB days tutorial: introduction to spatial transcriptomics",
+    "title": "SIB course Single Cell Transcriptomics with Python",
     "section": "",
-    "text": "SIB days tutorial: introduction to spatial transcriptomics\nLorem ipsum"
+    "text": "Alex Russell Lederer ORCiD\nGeert van Geest ORCiD\nTania Wyss ORCiD"
+  },
+  {
+    "objectID": "index.html#teachers",
+    "href": "index.html#teachers",
+    "title": "SIB course Single Cell Transcriptomics with Python",
+    "section": "",
+    "text": "Alex Russell Lederer ORCiD\nGeert van Geest ORCiD\nTania Wyss ORCiD"
+  },
+  {
+    "objectID": "index.html#attribution",
+    "href": "index.html#attribution",
+    "title": "SIB course Single Cell Transcriptomics with Python",
+    "section": "Attribution",
+    "text": "Attribution\nParts of this course are inspired by the Single Cell Best Practices Guide and previous R courses from the SIB on Single Cell Transcriptomics by Tania Wass, Rachel Marcone-Jeitziner, Geert van Geert, and Patricia Palagi."
+  },
+  {
+    "objectID": "index.html#overview",
+    "href": "index.html#overview",
+    "title": "SIB course Single Cell Transcriptomics with Python",
+    "section": "Overview",
+    "text": "Overview\nSingle-cell RNA sequencing (scRNA-seq) can measure the gene expression of complex biological systems at the level of individual cells, enabling scientists to generate detailed tissue atlases describing the transcriptomic profiles of thousands or even millions of cells. While scRNA-seq has become a popular technique in diverse fields of biological research, the required expertise for handling such datasets has restricted its use among the larger scientific community. The aim of this 3-day course is to empower researchers to start applying the fundamental scRNA-seq analysis pipeline to their own data. We will outline how to design and interpret results of a scRNA-seq dataset and explore the basics of preprocessing and analysis in Python on real data. We will discuss common concerns in the field, including preprocessing choices, dimensionality reduction, cell type clustering and identification, batch effect correction, pseudotime, and RNA velocity methods. The course will be taught in Python."
+  },
+  {
+    "objectID": "index.html#license-copyright",
+    "href": "index.html#license-copyright",
+    "title": "SIB course Single Cell Transcriptomics with Python",
+    "section": "License & copyright",
+    "text": "License & copyright\nLicense: CC BY-SA 4.0\nCopyright: SIB Swiss Institute of Bioinformatics"
+  },
+  {
+    "objectID": "index.html#learning-outcomes",
+    "href": "index.html#learning-outcomes",
+    "title": "SIB course Single Cell Transcriptomics with Python",
+    "section": "Learning outcomes",
+    "text": "Learning outcomes\n\nGeneral learning outcomes\nBy the end of the course, participants will be able to:\n\nRun Cell Ranger\nEvaluate the quality of a scRNA-seq experiment\nPerform scanpy analysis on their own data\nConfidently communicate about how to overcome potential bottlenecks\n\n\n\nLearning outcomes explained\nTo reach the general learning outcomes above, we have set a number of smaller learning outcomes. Each chapter starts with these smaller learning outcomes. Use these at the start of a chapter to get an idea what you will learn. Use them also at the end of a chapter to evaluate whether you have learned what you were expected to learn."
+  },
+  {
+    "objectID": "index.html#learning-experiences",
+    "href": "index.html#learning-experiences",
+    "title": "SIB course Single Cell Transcriptomics with Python",
+    "section": "Learning experiences",
+    "text": "Learning experiences\nTo reach the learning outcomes we will use lectures, exercises, polls, and group work. During exercises, you are free to discuss with other participants. During lectures, focus on the lecture only.\n\nExercises\nEach block has practical work involved. Some more than others. The practicals are subdivided into chapters, and we’ll have a (short) discussion after each chapter. All answers to the practicals are incorporated, but they are hidden. Do the exercise first by yourself, before checking out the answer. If your answer is different from the answer in the practicals, try to figure out why they are different."
   },
   {
     "objectID": "ipynb/Clustering_Marker_Genes_D2B2_Controls.html",
