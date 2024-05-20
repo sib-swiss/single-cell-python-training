@@ -1,0 +1,16 @@
+---
+title: "Pre-course preparations"
+---
+
+
+## Required competences
+
+Participants should already have a basic knowledge in Next Generation Sequencing (NGS) techniques, or have already followed the course [NGS - Quality control, Alignment, Visualisation](https://sib-swiss.github.io/NGS-introduction-training/2021.11/). Knowledge in RNA sequencing is a plus. A basic knowledge of the Python programming language is required. Test your R skills with the quiz [here](https://docs.google.com/forms/d/e/1FAIpQLSc3vvhtHoY0AeFk1ZJ3CBgQdRtCRf3JNNMfWxMaxYVsfljpcA/viewform), before registering.
+
+## Software
+
+Attendees should have a Wi-Fi enabled computer. An **online Python and Jupyter Notebook environment** will be provided. However, in case you wish to perform the practical exercises on your own computer, please take a moment to install the following before the course:
+
+- Python version >= 3.8 installed through [Anaconda](https://docs.anaconda.com/free/anaconda/).
+- [Jupyter Notebook](https://docs.jupyter.org/en/latest/install/notebook-classic.html) or the [Anaconda Navigator](https://docs.anaconda.com/free/navigator/index.html)
+- The Python packages necessary for the course. Find the script to install them [here](https://github.com/sib-swiss/single-cell-python-training/install_packages.py). 
