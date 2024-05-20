@@ -13,20 +13,30 @@ website:
   search: true
   page-navigation: true
   navbar:
-    background: "#003eaa"
     left:
       - href: index.qmd
         text: Home
       - href: precourse_preparations.qmd
-        text: Pre-course preparations
       - href: course_schedule.qmd
-        text: Course schedule
-      - text: "Course material"
+      - text: "day 1"
         menu:
-          - href: ipynb/Quality_Control_D1B2_Controls.ipynb
-            text: Quality control
-          - href: ipynb/Normalization_And_Scaling_D1B3_Controls.ipynb
-            text: Normalization and scaling
+          - href: "ipynb/day1-1_setup.qmd"
+          - href: "ipynb/day1-1a_cellranger.qmd"
+          - href: "ipynb/day1-2_analysis_tools_qc.ipynb"
+          - href: "ipynb/day1-3_normalization_scaling.ipynb"
+      - text: "day 2"
+        menu: 
+          - href: "ipynb/day2-1_dimensionality_reduction.ipynb"
+          - href: "ipynb/day2-2_integration.ipynb"
+          - href: "ipynb/day2-3_clustering.ipynb"
+          - href: "ipynb/day2-4.visualization.ipynb"
+      - text: "day 3"
+        menu:
+          - href: "ipynb/day3-1_tf.ipynb"
+          - href: "ipynb/day3-2_cc.ipynb"
+	  - href: "ipynb/day3-3_trajectory_analysis.ipynb"
+          - href: "ipynb/day3-4_velocity1.ipynb"
+          - href: "ipynb/day3-4_velocity2.ipynb"
 
     right:
       - icon: github
