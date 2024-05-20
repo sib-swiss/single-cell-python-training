@@ -1,0 +1,45 @@
+---
+title: "Course schedule"
+---
+
+::: {.callout-note}
+**Other than** the **starting time**, the time schedule is an **approximation**. Because we cannot plan a course by the minute, in practice the time points will deviate. 
+:::
+
+## Day 1
+
+| block   	| start    	| end      	| subject                        	|
+|---------	|----------	|----------	|--------------------------------	|
+| introduction 	| 9:15 AM  	| 9:30 AM 	| [Introduction](day1/day1-1_setup.qmd) |
+| block 1 	| 9:30 AM  	| 10:15 AM 	| [Introduction scRNAseq](day1/day1-1_setup.qmd) |
+|         	| 10:15 AM 	| 10:45 AM 	| BREAK                          	|
+| block 2 	| 10:45 AM 	| 12:00 PM 	| Presentation: Andreia Gouvêa, 10X Field Application Scientist 	     |
+|         	| 12:00 PM 	| 1:00 PM  	| BREAK                          	|
+| block 3 	| 1:00 PM  	| 3:00 PM  	| [Cell Ranger and Quality Control](day1/day1-2_analysis_tools_qc.qmd)             	 |
+|         	| 3:00 PM  	| 3:30 PM  	| BREAK                          	|
+| block 4 	| 3:30 PM  	| 5:00 PM  	| [Normalization and Scaling](day1/day1-3_normalization_scaling.qmd)                  
+
+
+## Day 2
+
+| block   	| start    	| end      	| subject                             	|
+|---------	|----------	|----------	|-------------------------------------	|
+| block 1 	| 9:15 AM  	| 10:30 AM 	| [Dimensionality Reduction](day2/day2-1_dimensionality_reduction.qmd) and [Intergration](day2/day2-2.integration.qmd)	|
+|         	| 10:30 AM 	| 11:00 AM 	| BREAK                               	|
+| block 2 	| 11:00 AM 	| 12:30 PM 	| [Clustering](day2/day2-3_clustering.qmd)  |
+|         	| 12:30 PM 	| 1:30 PM  	| BREAK                               	|
+| block 3 	| 1:30 PM  	| 3:00 PM  	| [Cell annotation](day2/day2-4_cell_annotation.qmd)     	|
+|         	| 3:00 PM  	| 3:30 PM  	| BREAK                               	|
+| block 4 	| 3:30 PM  	| 5:00 PM  	| [Visualization & further exercises](day2/day2-5_.visualization.qmd) 	|
+
+## Day 3
+
+| block   	| start    	| end      	| subject                             	|
+|---------	|----------	|----------	|-------------------------------------	|
+| block 1 	| 9:15 AM  	| 10:30 AM 	| [Transcription factor analysis](day3/day3-1_tf.qmd) and [cell-cell communication](day3/day3-2_cc.qmd)	|
+|         	| 10:30 AM 	| 11:00 AM 	| BREAK                               	|
+| block 2 	| 11:00 AM 	| 12:30 PM 	| [Trajectory Inference](day3/day3-3_trajectory_analysis.qmd)            	|
+|         	| 12:30 PM 	| 1:30 PM  	| BREAK                               	|
+| block 3 	| 1:30 PM  	| 3:00 PM  	| [RNA velocity](day3/day3-4_velocity1.qmd)  |
+|         	| 3:00 PM  	| 3:30 PM  	| BREAK                               	|
+| block 4 	| 3:30 PM  	| 5:00 PM  	| [RNA velocity](day3/day3-4_velocity2.qmd) 	|
