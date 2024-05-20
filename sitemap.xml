@@ -1,39 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/day3-4_velocity2.html</loc>
+    <lastmod>2024-05-20T13:30:21.090Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/day2-4_visualization.html</loc>
+    <lastmod>2024-05-20T13:30:21.034Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/day2-2.integration.html</loc>
+    <lastmod>2024-05-20T13:30:21.006Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/day1-3_normalization_scaling.html</loc>
+    <lastmod>2024-05-20T13:30:20.998Z</lastmod>
+  </url>
+  <url>
     <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/RNA_Velocity_D3B2-3.html</loc>
-    <lastmod>2024-05-20T11:53:49.955Z</lastmod>
+    <lastmod>2024-05-20T13:30:20.994Z</lastmod>
   </url>
   <url>
     <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/Normalization_And_Scaling_D1B3_Controls.html</loc>
-    <lastmod>2024-05-20T11:53:49.891Z</lastmod>
+    <lastmod>2024-05-20T13:30:20.930Z</lastmod>
   </url>
   <url>
     <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/Dimensionality_Reduction_Embedding_D2B1_Controls.html</loc>
-    <lastmod>2024-05-20T11:53:49.887Z</lastmod>
+    <lastmod>2024-05-20T13:30:20.926Z</lastmod>
   </url>
   <url>
     <loc>https://sib-swiss.github.io/single-cell-python-training/precourse_preparations.html</loc>
-    <lastmod>2024-05-20T11:53:49.955Z</lastmod>
+    <lastmod>2024-05-20T13:30:21.090Z</lastmod>
   </url>
   <url>
     <loc>https://sib-swiss.github.io/single-cell-python-training/course_schedule.html</loc>
-    <lastmod>2024-05-20T11:53:49.855Z</lastmod>
+    <lastmod>2024-05-20T13:30:20.890Z</lastmod>
   </url>
   <url>
     <loc>https://sib-swiss.github.io/single-cell-python-training/index.html</loc>
-    <lastmod>2024-05-20T11:53:49.855Z</lastmod>
+    <lastmod>2024-05-20T13:30:20.890Z</lastmod>
   </url>
   <url>
     <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/Clustering_Marker_Genes_D2B2_Controls.html</loc>
-    <lastmod>2024-05-20T11:53:49.879Z</lastmod>
+    <lastmod>2024-05-20T13:30:20.918Z</lastmod>
   </url>
   <url>
     <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/Integration_D2B1_Controls.html</loc>
-    <lastmod>2024-05-20T11:53:49.887Z</lastmod>
+    <lastmod>2024-05-20T13:30:20.926Z</lastmod>
   </url>
   <url>
     <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/Quality_Control_D1B2_Controls.html</loc>
-    <lastmod>2024-05-20T11:53:49.891Z</lastmod>
+    <lastmod>2024-05-20T13:30:20.930Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/day1-2_analysis_tools_qc.html</loc>
+    <lastmod>2024-05-20T13:30:20.998Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/day2-1_dimensionality_reduction.html</loc>
+    <lastmod>2024-05-20T13:30:21.006Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/day2-3_clustering.html</loc>
+    <lastmod>2024-05-20T13:30:21.014Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sib-swiss.github.io/single-cell-python-training/ipynb/day3-4_velocity1.html</loc>
+    <lastmod>2024-05-20T13:30:21.086Z</lastmod>
   </url>
 </urlset>

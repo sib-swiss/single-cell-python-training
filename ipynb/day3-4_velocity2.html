@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.554">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Single-cell transcriptomics with Python - RNA velocity with VeloCycle</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../assets/SIB_logo.svg" rel="icon" type="image/svg+xml">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
+
+
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Single-cell transcriptomics with Python</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../index.html" aria-current="page"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../precourse_preparations.html"> 
+<span class="menu-text">Pre-course preparations</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../course_schedule.html"> 
+<span class="menu-text">Course schedule</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-day-1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">day 1</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-day-1">    
+        <li>
+    <a class="dropdown-item" href="../ipynb/day1-1_setup.md">
+ <span class="dropdown-text"></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ipynb/day1-1a_cellranger.md">
+ <span class="dropdown-text"></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ipynb/day1-2_analysis_tools_qc.html">
+ <span class="dropdown-text">Analysis tools and quality control (QC)</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ipynb/day1-3_normalization_scaling.html">
+ <span class="dropdown-text">Normalization</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-day-2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">day 2</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-day-2">    
+        <li>
+    <a class="dropdown-item" href="../ipynb/day2-1_dimensionality_reduction.html">
+ <span class="dropdown-text">Principal component analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ipynb/day2-2_integration.ipynb">
+ <span class="dropdown-text"></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ipynb/day2-3_clustering.html">
+ <span class="dropdown-text">Clustering</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ipynb/day2-4.visualization.ipynb">
+ <span class="dropdown-text"></span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-day-3" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">day 3</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-day-3">    
+        <li>
+    <a class="dropdown-item" href="../ipynb/day3-1_tf.ipynb">
+ <span class="dropdown-text"></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ipynb/day3-2_cc.ipynb">
+ <span class="dropdown-text"></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ipynb/day3-3_trajectory_analysis.ipynb">
+ <span class="dropdown-text"></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ipynb/day3-4_velocity1.html">
+ <span class="dropdown-text">RNA velocity with scvelo</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../ipynb/day3-4_velocity2.html">
+ <span class="dropdown-text">RNA velocity with VeloCycle</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sib-swiss/single-cell-python-training/"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">RNA velocity with VeloCycle</li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#generic-ml" id="toc-generic-ml" class="nav-link active" data-scroll-target="#generic-ml">generic &amp; ml</a></li>
+  <li><a href="#scrna-seq" id="toc-scrna-seq" class="nav-link" data-scroll-target="#scrna-seq">scRNA-seq</a>
+  <ul class="collapse">
+  <li><a href="#load-and-filter-dataset" id="toc-load-and-filter-dataset" class="nav-link" data-scroll-target="#load-and-filter-dataset">Load and filter dataset</a></li>
+  </ul></li>
+  <li><a href="#initialize-cycle-and-phase-objects-with-priors" id="toc-initialize-cycle-and-phase-objects-with-priors" class="nav-link" data-scroll-target="#initialize-cycle-and-phase-objects-with-priors">Initialize cycle and phase objects with priors</a>
+  <ul class="collapse">
+  <li><a href="#run-the-manifold-learning-module" id="toc-run-the-manifold-learning-module" class="nav-link" data-scroll-target="#run-the-manifold-learning-module">Run the manifold-learning module</a></li>
+  <li><a href="#visualize-the-results" id="toc-visualize-the-results" class="nav-link" data-scroll-target="#visualize-the-results">Visualize the results</a></li>
+  <li><a href="#run-the-velocity-learning-module" id="toc-run-the-velocity-learning-module" class="nav-link" data-scroll-target="#run-the-velocity-learning-module">Run the velocity-learning module</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">RNA velocity with VeloCycle</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>The cell cycle is an interesting case for RNA velocity estimation, as pseudotime methods along often fail as estimations of cyclical processes. Moreover, RNA velocity corresponds roughly to cell cycle speed, which is both experimentally verifiable. The cell cycle also unfolds on a timescale of less than 24 hours, which is well suited for studying cell dynamics using RNA lifecycle kinetics, such as with RNA velocity.</p>
+<p>A recent method has been developed called <strong>VeloCycle</strong> to estimate RNA velocity of the cell cycle on the real time scale. This method offers several advantages over existing approaches: - The ability to estimate uncertainty of velocity estimates (i.e.&nbsp;velocity confidence). - The ability to estimate both the low dimensional manifold and the velocity jointly. - The ability to perform statistical tests of velocity between conditions. - The ability to convert velocity estimates to a “real” time scale.</p>
+<p>Comparing cell cycle velocities might be useful in a variable of scientific contexts: - Do two cancer subtumors proliferate as similar speeds? - Does a particular gene knockout or mutant impact the cell cycle speed? - Do progenitor cells in different regions of an organ (i.e., brain) or at different developmental stages divide equally quickly?</p>
+<p>Here, we will offer a short tutorial into VeloCycle, using the ductal cells from the pancreas dataset above. This will also offer insight into probabilistic modeling in Pyro, which is an advanced method used by many tools for modeling complex biological data.</p>
+<div id="e93d5150-d81b-4ba2-900d-a7f5ad94fc6f" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> velocycle <span class="im">as</span> vcy</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scvelo <span class="im">as</span> scv</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scanpy <span class="im">as</span> sc</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> velocycle <span class="im">import</span> <span class="op">*</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> anndata</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyro</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> copy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="b92bce4b-735b-4a56-b71e-aba99f2f3297" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adata_raw <span class="op">=</span> scv.datasets.pancreas()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>adata_cycling <span class="op">=</span> adata_raw[adata_raw.obs[<span class="st">"clusters"</span>].isin([<span class="st">"Ductal"</span>])].copy()</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>adata_cycling</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<pre><code>AnnData object with n_obs × n_vars = 916 × 27998
+    obs: 'clusters_coarse', 'clusters', 'S_score', 'G2M_score'
+    var: 'highly_variable_genes'
+    uns: 'clusters_coarse_colors', 'clusters_colors', 'day_colors', 'neighbors', 'pca'
+    obsm: 'X_pca', 'X_umap'
+    layers: 'spliced', 'unspliced'
+    obsp: 'distances', 'connectivities'</code></pre>
+</div>
+</div>
+<p>import velocycle as vc from velocycle import *</p>
+<section id="generic-ml" class="level1">
+<h1>generic &amp; ml</h1>
+<p>import numpy as np import pandas as pd import matplotlib.pyplot as plt import torch import pyro import copy import scipy import pycircstat import pickle</p>
+</section>
+<section id="scrna-seq" class="level1">
+<h1>scRNA-seq</h1>
+<p>import scanpy as sc import anndata</p>
+<p>from threadpoolctl import threadpool_limits threadpool_limits(limits=8)</p>
+<p>import matplotlib as mpl mpl.rcParams[‘pdf.fonttype’] = 42</p>
+<p>USE_GPU = True if USE_GPU and torch.cuda.is_available(): print(“Will use GPU”) device = torch.device(“cuda:0”) else: print(“Will use CPU”) device = torch.device(“cpu”)</p>
+<section id="load-and-filter-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="load-and-filter-dataset">Load and filter dataset</h2>
+<div id="836243a2-7a44-43c5-ab6f-96c4598e3f45" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata_cycling.copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="57f96149-c8b4-46a0-8dc8-d4eabdd3d9d4" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span><span class="st">'clusters'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity2_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="e28ab205-6e7b-410e-bc03-e76ed5644f3f" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>full_adatas <span class="op">=</span> {<span class="st">"pancreas_ductal"</span>:adata[adata.obs[<span class="st">"clusters"</span>].isin([<span class="st">"Ductal"</span>])].copy()}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="391bbf11-7e7f-45e6-9fb6-45a6a88432fb" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter lowly-expressed genes and concatenate all datasets</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> a <span class="kw">in</span> full_adatas.keys(): </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(full_adatas[a].shape)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    sc.pp.filter_genes(full_adatas[a], min_cells<span class="op">=</span><span class="bu">int</span>((full_adatas[a].n_obs)<span class="op">*</span><span class="fl">0.10</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> anndata.concat(full_adatas, label<span class="op">=</span><span class="st">"batch"</span>, join <span class="op">=</span><span class="st">"outer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(916, 27998)</code></pre>
+</div>
+</div>
+<div id="672680d6-a86d-4216-9d68-5f0200ae0857" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform some very basic gene filtering by unspliced counts</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[:, (data.layers[<span class="st">"unspliced"</span>].toarray().mean(<span class="dv">0</span>) <span class="op">&gt;</span> <span class="fl">0.1</span>)].copy()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform some very basic gene filtering by spliced counts</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data[:, data.layers[<span class="st">"spliced"</span>].toarray().mean(<span class="dv">0</span>) <span class="op">&gt;</span> <span class="fl">0.2</span>].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="70565979-218d-4ad3-b364-984268b29a15" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data.var.index <span class="op">=</span> [i.upper() <span class="cf">for</span> i <span class="kw">in</span> data.var.index]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>AnnData object with n_obs × n_vars = 916 × 1394
+    obs: 'clusters_coarse', 'clusters', 'S_score', 'G2M_score', 'batch'
+    obsm: 'X_pca', 'X_umap'
+    layers: 'spliced', 'unspliced'</code></pre>
+</div>
+</div>
+<div id="aebe66ee-b2eb-48dd-be06-31c76a455ecd" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create design matrix for dataset with a single batch</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>batch_design_matrix <span class="op">=</span> preprocessing.make_design_matrix(data, ids<span class="op">=</span><span class="st">"batch"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="9723c37e-7493-4f58-a2bc-0712d27b50e3" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rough approximation of the cell cycle phase using categorical approaches </span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sc.tl.score_genes_cell_cycle(data, s_genes<span class="op">=</span>utils.S_genes_human, g2m_genes<span class="op">=</span>utils.G2M_genes_human)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>WARNING: genes are not in var_names and ignored: ['BLM', 'BRIP1', 'CASP8AP2', 'CCNE2', 'CDC45', 'CDC6', 'CDCA7', 'CHAF1B', 'CLSPN', 'DSCC1', 'DTL', 'E2F8', 'EXO1', 'FEN1', 'GINS2', 'GMNN', 'MCM2', 'MCM4', 'MCM5', 'MCM6', 'MLF1IP', 'MSH2', 'PCNA', 'POLD3', 'RAD51', 'RAD51AP1', 'RPA2', 'RRM1', 'RRM2', 'SLBP', 'UBR7', 'UHRF1', 'UNG', 'USP1', 'WDR76']
+WARNING: genes are not in var_names and ignored: ['ANLN', 'AURKA', 'AURKB', 'BIRC5', 'BUB1', 'CCNB2', 'CDC20', 'CDC25C', 'CDCA3', 'CDCA8', 'CENPA', 'CENPF', 'CKAP2L', 'CKS1B', 'CTCF', 'DLGAP5', 'ECT2', 'FAM64A', 'G2E3', 'GAS2L3', 'GTSE1', 'HJURP', 'HMGB2', 'HMMR', 'HN1', 'KIF20B', 'KIF2C', 'LBR', 'MKI67', 'NDC80', 'NEK2', 'NUF2', 'PSRC1', 'TACC3', 'TMPO', 'TTK', 'TUBB4B', 'UBE2C']</code></pre>
+</div>
+</div>
+<div id="0b0e6d75-3ceb-43fa-ae19-7aea79431ff4" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create size-normalized data layers</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>preprocessing.normalize_total(data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="40c4b410-9fdb-4377-bb76-82f3b100e713" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get biologically-relevant gene set to use for velocity estimation</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>full_keep_genes <span class="op">=</span> utils.get_cycling_gene_set(size<span class="op">=</span><span class="st">"Medium"</span>, species<span class="op">=</span><span class="st">"Human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="initialize-cycle-and-phase-objects-with-priors" class="level1">
+<h1>Initialize cycle and phase objects with priors</h1>
+<div id="feb74573-96ce-4936-88df-f7696266b5f7" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>n_harm <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>cycle_prior <span class="op">=</span> cycle.Cycle.trivial_prior(gene_names<span class="op">=</span>full_keep_genes, harmonics<span class="op">=</span>n_harm)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>cycle_prior, data_to_fit <span class="op">=</span> preprocessing.filter_shared_genes(cycle_prior, data, filter_type<span class="op">=</span><span class="st">"intersection"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="4f66f66c-22bc-44c8-8669-6be5c94fb653" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the priors for gene harmonics</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="co"># to gene-specific means and stds</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>S <span class="op">=</span> data_to_fit.layers[<span class="st">'spliced'</span>].toarray()</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>S_means <span class="op">=</span> S.mean(axis<span class="op">=</span><span class="dv">0</span>) <span class="co">#sum over cells</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>nu0 <span class="op">=</span> np.log(S_means)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>nu0std <span class="op">=</span> np.std(np.log(S<span class="op">+</span><span class="dv">1</span>), axis<span class="op">=</span><span class="dv">0</span>)<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>S_frac_means<span class="op">=</span>np.vstack((nu0, <span class="dv">0</span><span class="op">*</span>nu0, <span class="dv">0</span><span class="op">*</span>nu0))</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>cycle_prior.set_means(S_frac_means)</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>S_frac_stds<span class="op">=</span>np.vstack((nu0std, <span class="fl">0.5</span><span class="op">*</span>nu0std, <span class="fl">0.5</span><span class="op">*</span>nu0std))</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>cycle_prior.set_stds(S_frac_stds)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f17613a4-444b-4f23-8509-1733f03572e3" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Obtain a PCA prior for individual cell phases</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>phase_prior <span class="op">=</span> phases.Phases.from_pca_heuristic(data_to_fit, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                                               concentration<span class="op">=</span><span class="fl">5.0</span>, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                                               plot<span class="op">=</span><span class="va">True</span>, </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                                               small_count<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity2_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="5587d8a6-8c62-4fa8-8caf-aa736b9f4102" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Shift the phase prior to have maximum correlation with the total raw UMI counts</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>(shift, maxcor, allcor) <span class="op">=</span> phase_prior.max_corr(data_to_fit.obs.n_scounts)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>phase_prior.rotate(angle<span class="op">=-</span>shift)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>plt.plot(phase_prior.phis, data_to_fit.obs.n_scounts, <span class="st">'.'</span>, c<span class="op">=</span><span class="st">'black'</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, np.pi<span class="op">*</span><span class="dv">2</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, np.pi, <span class="dv">2</span><span class="op">*</span>np.pi],[<span class="st">"0"</span>, <span class="st">"π"</span>, <span class="st">"2π"</span>])</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"PCA Phase Prior"</span>)</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Raw Spliced UMIs"</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity2_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="run-the-manifold-learning-module" class="level2">
+<h2 class="anchored" data-anchor-id="run-the-manifold-learning-module">Run the manifold-learning module</h2>
+<div id="11a4d936-6088-464a-b55e-661ac52c9066" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pyro.clear_param_store()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="0f7f04f3-c75b-40b3-a14f-46821486f666" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set batch effect to zero because there is only a single dataset/batch</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>Δν <span class="op">=</span> torch.zeros((batch_design_matrix.shape[<span class="dv">1</span>], S.shape[<span class="dv">1</span>], <span class="dv">1</span>)).<span class="bu">float</span>()</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>condition_on_dict <span class="op">=</span> {<span class="st">"Δν"</span>: Δν}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="c5dafb15-3d46-418e-b054-26f013648ce3" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>metapar <span class="op">=</span> preprocessing.preprocess_for_phase_estimation(anndata<span class="op">=</span>data_to_fit, </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                                          cycle_obj<span class="op">=</span>cycle_prior, </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                                          phase_obj<span class="op">=</span>phase_prior, </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                                          design_mtx<span class="op">=</span>batch_design_matrix,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                                          n_harmonics<span class="op">=</span>n_harm,</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>                                          condition_on<span class="op">=</span>condition_on_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="6548e084-a34c-4732-91ec-f2acacf8549d" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>phase_fit <span class="op">=</span> phase_inference_model.PhaseFitModel(metaparams<span class="op">=</span>metapar, </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                                                condition_on<span class="op">=</span>condition_on_dict)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>phase_fit.check_model()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> Trace Shapes:                          
+  Param Sites:                          
+ Sample Sites:                          
+    cells dist            |             
+         value        916 |             
+    genes dist            |             
+         value         61 |             
+  batches dist            |             
+         value          1 |             
+        ν dist     61   1 |   3         
+         value     61   1 |   3         
+       Δν dist   1 61   1 |             
+         value   1 61   1 |             
+      ϕxy dist        916 |   2         
+         value        916 |   2         
+        ϕ dist            | 916         
+         value            | 916         
+        ζ dist            | 916 3       
+         value            | 916 3       
+    ElogS dist            |   1 1 61 916
+         value            |   1 1 61 916
+shape_inv dist     61   1 |             
+         value     61   1 |             
+        S dist 1 1 61 916 |             
+         value     61 916 |             </code></pre>
+</div>
+</div>
+<div id="b1635511-89d7-4097-98cf-e1ddefdd3aea" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="dv">2000</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>initial_lr <span class="op">=</span> <span class="fl">0.03</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>final_lr <span class="op">=</span> <span class="fl">0.005</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>gamma <span class="op">=</span> final_lr <span class="op">/</span> initial_lr</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>lrd <span class="op">=</span> gamma <span class="op">**</span> (<span class="dv">1</span> <span class="op">/</span> num_steps)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>adam <span class="op">=</span> pyro.optim.ClippedAdam({<span class="st">'lr'</span>: initial_lr, <span class="st">'lrd'</span>: lrd, <span class="st">'betas'</span>: (<span class="fl">0.80</span>, <span class="fl">0.99</span>)})</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>phase_fit.fit(optimizer<span class="op">=</span>adam, num_steps<span class="op">=</span>num_steps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity2_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="visualize-the-results" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-the-results">Visualize the results</h2>
+<div id="fb2a308e-013a-4346-bbfe-60be277ddc20" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Put estimations in new objects</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>cycle_pyro <span class="op">=</span> phase_fit.cycle_pyro</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>phase_pyro <span class="op">=</span> phase_fit.phase_pyro</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="89ff0ccb-21b3-4e20-94f5-293e9f7bcba7" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fit_ElogS <span class="op">=</span> phase_fit.posterior[<span class="st">"ElogS"</span>].squeeze().numpy()</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>fit_ElogS2 <span class="op">=</span> phase_fit.posterior[<span class="st">"ElogS2"</span>].squeeze().numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="fe164326-9d31-4e54-bb2a-b7432641b4b9" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>name2color <span class="op">=</span> {<span class="st">'G1'</span>:<span class="st">"tab:blue"</span>, <span class="st">'S'</span>:<span class="st">"tab:orange"</span>, <span class="st">'G2M'</span>:<span class="st">"tab:green"</span>}</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>gene_list <span class="op">=</span> [<span class="st">"CDK1"</span>, <span class="st">"HELLS"</span>, <span class="st">"SON"</span>, <span class="st">"TOP2A"</span>, <span class="st">"HAT1"</span>]</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> np.array(data_to_fit.var.index)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>plt.figure(<span class="va">None</span>,(<span class="dv">24</span>, <span class="dv">4</span>))</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>ix <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(gene_list)):</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    g <span class="op">=</span> gene_list[i]</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">1</span>, <span class="bu">len</span>(gene_list), ix)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>    plt.scatter(phase_pyro.phis, </span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>                metapar.S[np.where(gene_names<span class="op">==</span>g)[<span class="dv">0</span>][<span class="dv">0</span>], :].squeeze().cpu().numpy(), </span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>                s<span class="op">=</span><span class="dv">10</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, c<span class="op">=</span>[name2color[x] <span class="cf">for</span> x <span class="kw">in</span> data_to_fit.obs[<span class="st">"phase"</span>]])</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    plt.scatter(phase_pyro.phis, </span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>                np.exp(fit_ElogS2[np.where(gene_names<span class="op">==</span>g)[<span class="dv">0</span>][<span class="dv">0</span>], :]), </span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>                s<span class="op">=</span><span class="dv">10</span>, c<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    plt.title(g)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">"ϕ"</span>)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">"counts"</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    ix<span class="op">+=</span><span class="dv">1</span></span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>    plt.xticks([<span class="dv">0</span>, np.pi<span class="op">/</span><span class="dv">2</span>, np.pi, <span class="dv">3</span><span class="op">*</span>np.pi<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span><span class="op">*</span>np.pi],[<span class="st">"0"</span>, <span class="st">"π/2"</span>, <span class="st">"π"</span>, <span class="st">"3π/2"</span>, <span class="st">"2π"</span>])</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    plt.xlim(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi)</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity2_files/figure-html/cell-25-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="370265f4-d015-4559-ba07-ac86e9b0ad26" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>xs <span class="op">=</span> phase_fit.fourier_coef[<span class="dv">1</span>]</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>ys <span class="op">=</span> phase_fit.fourier_coef[<span class="dv">2</span>]</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.log10( np.sqrt(xs<span class="op">**</span><span class="dv">2</span><span class="op">+</span>ys<span class="op">**</span><span class="dv">2</span>) <span class="op">/</span> phase_fit.fourier_coef_sd[<span class="dv">1</span>:, :].<span class="bu">sum</span>(<span class="dv">0</span>) )</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>angle <span class="op">=</span> np.arctan2(xs, ys)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>angle <span class="op">=</span> (angle)<span class="op">%</span>(<span class="dv">2</span><span class="op">*</span>np.pi)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>phis_df <span class="op">=</span> pd.DataFrame([angle, r])</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>phis_df.columns <span class="op">=</span> data_to_fit.var.index</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>phase_data_frame <span class="op">=</span> pd.concat([phase_fit.cycle_pyro.means, phase_fit.cycle_pyro.stds, phis_df]).T</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>phase_data_frame.columns <span class="op">=</span> [<span class="st">"nu0 mean"</span>, <span class="st">"nu1sin mean"</span>, <span class="st">"nu1cos mean"</span>,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>                            <span class="st">"nu0 std"</span>, <span class="st">"nu1sin std"</span>, <span class="st">"nu1cos std"</span>, <span class="st">"peak_phase"</span>, <span class="st">"amplitude"</span>]</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a>phase_data_frame[<span class="st">"is_seurat_marker"</span>] <span class="op">=</span> [<span class="va">True</span> <span class="cf">if</span> i <span class="kw">in</span> <span class="bu">list</span>(utils.S_genes_human)<span class="op">+</span><span class="bu">list</span>(utils.G2M_genes_human) <span class="cf">else</span> <span class="va">False</span> <span class="cf">for</span> i <span class="kw">in</span> phase_data_frame.index]</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a>phase_data_frame.head()</span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>phis_df <span class="op">=</span> pd.DataFrame(phase_fit.phase_pyro.phis.numpy())</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>phis_df.index <span class="op">=</span> data_to_fit.obs.index</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a>phis_df.columns <span class="op">=</span> [<span class="st">"cell_cycle_phi"</span>]</span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a>phase_data_frame_cells <span class="op">=</span> data_to_fit.obs.merge(phis_df, left_index<span class="op">=</span><span class="va">True</span>, right_index<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="e588d8c4-38a2-43a9-93bf-3118eb54040e" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the number of bins</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>num_bins <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>bin_width <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">/</span> num_bins</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the bin index for each gene</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>phase_data_frame[<span class="st">'bin_index'</span>] <span class="op">=</span> ((phase_data_frame[<span class="st">'peak_phase'</span>] <span class="op">+</span> <span class="dv">2</span> <span class="op">*</span> np.pi) <span class="op">%</span> (<span class="dv">2</span> <span class="op">*</span> np.pi) <span class="op">/</span> bin_width).astype(<span class="bu">int</span>)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Group genes by bin index and find top 10 genes in each bin</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>top_genes_per_bin <span class="op">=</span> phase_data_frame.groupby(<span class="st">'bin_index'</span>, group_keys<span class="op">=</span><span class="va">False</span>).<span class="bu">apply</span>(<span class="kw">lambda</span> group: group.nlargest(<span class="dv">5</span>, <span class="st">'amplitude'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="3cdb5d9c-2538-493f-8b19-79a8dfb1bcc9" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>keep_genes <span class="op">=</span> [a.upper() <span class="cf">for</span> a <span class="kw">in</span> cycle_prior.means.columns]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> np.array(keep_genes)</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap, LinearSegmentedColormap</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.transforms <span class="im">as</span> mtransforms</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>keep_genes <span class="op">=</span> [a.upper() <span class="cf">for</span> a <span class="kw">in</span> cycle_prior.means.columns]</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> np.array(keep_genes)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>S_genes_human <span class="op">=</span> <span class="bu">list</span>(utils.S_genes_human)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>G2M_genes_human <span class="op">=</span> <span class="bu">list</span>(utils.G2M_genes_human)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>phases_list <span class="op">=</span> [S_genes_human, G2M_genes_human, [i.upper() <span class="cf">for</span> i <span class="kw">in</span> gene_names <span class="cf">if</span> i.upper() <span class="kw">not</span> <span class="kw">in</span> S_genes_human<span class="op">+</span>G2M_genes_human]]</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> []</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>gradient <span class="op">=</span> []</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(phases_list)):</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(phases_list[i])):</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>        g.append(phases_list[i][j])</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>        gradient.append(i)</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>color_gradient_map <span class="op">=</span> pd.DataFrame({<span class="st">'Gene'</span>: g,  <span class="st">'Color'</span>: gradient}).set_index(<span class="st">'Gene'</span>).to_dict()[<span class="st">'Color'</span>]</span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>colored_gradient <span class="op">=</span> pd.Series(gene_names).<span class="bu">map</span>(color_gradient_map)</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>xs <span class="op">=</span> phase_fit.fourier_coef[<span class="dv">1</span>]</span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>ys <span class="op">=</span> phase_fit.fourier_coef[<span class="dv">2</span>]</span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.log10( np.sqrt(xs<span class="op">**</span><span class="dv">2</span><span class="op">+</span>ys<span class="op">**</span><span class="dv">2</span>) <span class="op">/</span> phase_fit.fourier_coef_sd[<span class="dv">1</span>:, :].<span class="bu">sum</span>(<span class="dv">0</span>) )</span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a>angle <span class="op">=</span> np.arctan2(xs, ys)</span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>angle <span class="op">=</span> (angle)<span class="op">%</span>(<span class="dv">2</span><span class="op">*</span>np.pi)</span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a>N<span class="op">=</span><span class="dv">50</span></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>width <span class="op">=</span> (<span class="dv">2</span><span class="op">*</span>np.pi) <span class="op">/</span> N</span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure(figsize <span class="op">=</span> (<span class="dv">6</span>, <span class="dv">6</span>))</span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_subplot(projection<span class="op">=</span><span class="st">'polar'</span>)</span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a><span class="co"># First: only plot dots with a color assignment</span></span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a>angle_subset <span class="op">=</span> angle[<span class="op">~</span>np.isnan(colored_gradient.values)]</span>
+<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a>r_subset <span class="op">=</span> r[<span class="op">~</span>np.isnan(colored_gradient.values)]</span>
+<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a>color_subset <span class="op">=</span> colored_gradient.values[<span class="op">~</span>np.isnan(colored_gradient.values)]</span>
+<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-42"><a href="#cb32-42" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove genes with very low expression</span></span>
+<span id="cb32-43"><a href="#cb32-43" aria-hidden="true" tabindex="-1"></a>angle_subset <span class="op">=</span> angle_subset[r_subset<span class="op">&gt;=-</span><span class="dv">12</span>]</span>
+<span id="cb32-44"><a href="#cb32-44" aria-hidden="true" tabindex="-1"></a>color_subset <span class="op">=</span> color_subset[r_subset<span class="op">&gt;=-</span><span class="dv">12</span>]</span>
+<span id="cb32-45"><a href="#cb32-45" aria-hidden="true" tabindex="-1"></a>gene_names_subset <span class="op">=</span> gene_names[r_subset<span class="op">&gt;=-</span><span class="dv">12</span>]</span>
+<span id="cb32-46"><a href="#cb32-46" aria-hidden="true" tabindex="-1"></a>r_subset <span class="op">=</span> r_subset[r_subset<span class="op">&gt;=-</span><span class="dv">12</span>]</span>
+<span id="cb32-47"><a href="#cb32-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-48"><a href="#cb32-48" aria-hidden="true" tabindex="-1"></a>x<span class="op">=</span><span class="dv">100</span></span>
+<span id="cb32-49"><a href="#cb32-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Take a subset of most highly expressing genes to print the names </span></span>
+<span id="cb32-50"><a href="#cb32-50" aria-hidden="true" tabindex="-1"></a>angle_subset_best <span class="op">=</span> angle_subset[r_subset<span class="op">&gt;</span>np.percentile(r_subset, x)]</span>
+<span id="cb32-51"><a href="#cb32-51" aria-hidden="true" tabindex="-1"></a>color_subset_best <span class="op">=</span> color_subset[r_subset<span class="op">&gt;=</span>np.percentile(r_subset, x)]</span>
+<span id="cb32-52"><a href="#cb32-52" aria-hidden="true" tabindex="-1"></a>gene_names_subset_best <span class="op">=</span> gene_names_subset[r_subset<span class="op">&gt;=</span>np.percentile(r_subset, x)]</span>
+<span id="cb32-53"><a href="#cb32-53" aria-hidden="true" tabindex="-1"></a>r_subset_best <span class="op">=</span> r_subset[r_subset<span class="op">&gt;=</span>np.percentile(r_subset, x)]</span>
+<span id="cb32-54"><a href="#cb32-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-55"><a href="#cb32-55" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot all genes in phases list</span></span>
+<span id="cb32-56"><a href="#cb32-56" aria-hidden="true" tabindex="-1"></a>num2color <span class="op">=</span> {<span class="dv">0</span>:<span class="st">"tab:orange"</span>, <span class="dv">1</span>:<span class="st">"tab:green"</span>, <span class="dv">2</span>:<span class="st">"tab:grey"</span>, <span class="dv">3</span>:<span class="st">"tab:blue"</span>}</span>
+<span id="cb32-57"><a href="#cb32-57" aria-hidden="true" tabindex="-1"></a>ax.scatter(angle_subset, r_subset, c<span class="op">=</span>[num2color[i] <span class="cf">for</span> i <span class="kw">in</span> color_subset], s<span class="op">=</span><span class="dv">50</span>, alpha<span class="op">=</span><span class="fl">0.3</span>, edgecolor<span class="op">=</span><span class="st">'none'</span>, rasterized<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-58"><a href="#cb32-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-59"><a href="#cb32-59" aria-hidden="true" tabindex="-1"></a><span class="co"># Select and plot on top the genes marking S and G2M traditionally</span></span>
+<span id="cb32-60"><a href="#cb32-60" aria-hidden="true" tabindex="-1"></a>angle_subset <span class="op">=</span> angle_subset[color_subset<span class="op">!=</span><span class="dv">2</span>]</span>
+<span id="cb32-61"><a href="#cb32-61" aria-hidden="true" tabindex="-1"></a>r_subset <span class="op">=</span> r_subset[color_subset<span class="op">!=</span><span class="dv">2</span>]</span>
+<span id="cb32-62"><a href="#cb32-62" aria-hidden="true" tabindex="-1"></a>gene_names_subset <span class="op">=</span> gene_names_subset[color_subset<span class="op">!=</span><span class="dv">2</span>]</span>
+<span id="cb32-63"><a href="#cb32-63" aria-hidden="true" tabindex="-1"></a>color_subset <span class="op">=</span> color_subset[color_subset<span class="op">!=</span><span class="dv">2</span>]</span>
+<span id="cb32-64"><a href="#cb32-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-65"><a href="#cb32-65" aria-hidden="true" tabindex="-1"></a>ax.scatter(angle_subset, r_subset, c<span class="op">=</span>[num2color[i] <span class="cf">for</span> i <span class="kw">in</span> color_subset], s<span class="op">=</span><span class="dv">50</span>, alpha<span class="op">=</span><span class="dv">1</span>, edgecolor<span class="op">=</span><span class="st">'none'</span>,rasterized<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb32-66"><a href="#cb32-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-67"><a href="#cb32-67" aria-hidden="true" tabindex="-1"></a><span class="co"># Annotate genes</span></span>
+<span id="cb32-68"><a href="#cb32-68" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, txt), c <span class="kw">in</span> <span class="bu">zip</span>(<span class="bu">enumerate</span>(gene_names), colored_gradient.values):</span>
+<span id="cb32-69"><a href="#cb32-69" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> txt <span class="kw">in</span> top_genes_per_bin.index:</span>
+<span id="cb32-70"><a href="#cb32-70" aria-hidden="true" tabindex="-1"></a>        ix <span class="op">=</span> np.where(np.array(gene_names)<span class="op">==</span>txt)[<span class="dv">0</span>][<span class="dv">0</span>]</span>
+<span id="cb32-71"><a href="#cb32-71" aria-hidden="true" tabindex="-1"></a>        ax.annotate(txt[<span class="dv">0</span>]<span class="op">+</span>txt[<span class="dv">1</span>:].upper(), (angle[ix], r[ix]<span class="op">+</span><span class="fl">0.02</span>))</span>
+<span id="cb32-72"><a href="#cb32-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-73"><a href="#cb32-73" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi)</span>
+<span id="cb32-74"><a href="#cb32-74" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="op">-</span><span class="dv">1</span>, )</span>
+<span id="cb32-75"><a href="#cb32-75" aria-hidden="true" tabindex="-1"></a>plt.yticks([<span class="op">-</span><span class="dv">1</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="dv">0</span>, <span class="fl">0.5</span>, <span class="dv">1</span>], size<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb32-76"><a href="#cb32-76" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">0</span>, np.pi<span class="op">/</span><span class="dv">2</span>, np.pi, <span class="dv">3</span><span class="op">*</span>np.pi<span class="op">/</span><span class="dv">2</span>, <span class="dv">2</span><span class="op">*</span>np.pi],[<span class="st">"0"</span>, <span class="st">"π/2"</span>, <span class="st">"π"</span>, <span class="st">"3π/2"</span>, <span class="st">"2π"</span>], size<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb32-77"><a href="#cb32-77" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb32-78"><a href="#cb32-78" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity2_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="run-the-velocity-learning-module" class="level2">
+<h2 class="anchored" data-anchor-id="run-the-velocity-learning-module">Run the velocity-learning module</h2>
+<div id="0023588c-c822-4703-b8ad-8e8d62ed9d56" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>pyro.clear_param_store()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="5a425dc7-95a1-4261-84e0-ea7407b4f91f" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>condition_design_matrix <span class="op">=</span> copy.deepcopy(batch_design_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a53b3a62-f003-47bd-a880-bbcbb9c54cf5" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>n_velo_harmonics <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>speed_prior <span class="op">=</span> angularspeed.AngularSpeed.trivial_prior(condition_names<span class="op">=</span>[<span class="st">"pancreas_ductal"</span>], </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>                                                      harmonics<span class="op">=</span>n_velo_harmonics)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="ffd9cd5e-f97e-4e8d-8cb1-1e5592890352" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>condition_on_dict <span class="op">=</span> {<span class="st">"ϕxy"</span>:phase_pyro.phi_xy_tensor.T,</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"ν"</span>: cycle_pyro.means_tensor.T.unsqueeze(<span class="op">-</span><span class="dv">2</span>),</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Δν"</span>: torch.tensor(phase_fit.delta_nus),</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"shape_inv"</span>: torch.tensor(phase_fit.disp_pyro).unsqueeze(<span class="op">-</span><span class="dv">1</span>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="2ab7fe34-20d4-4e0a-ba2c-a323b962d3e0" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>metaparameters_velocity <span class="op">=</span> preprocessing.preprocess_for_velocity_estimation(data_to_fit, </span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                                                             cycle_pyro, </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                                                             phase_pyro, </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>                                                             speed_prior,</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>                                                             condition_design_matrix.<span class="bu">float</span>(), </span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>                                                             batch_design_matrix.<span class="bu">float</span>(), </span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>                                                             n_harmonics<span class="op">=</span>n_harm,</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>                                                             count_factor<span class="op">=</span>metapar.count_factor,</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>                                                             ω_n_harmonics<span class="op">=</span>n_velo_harmonics, </span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>                                                             μγ<span class="op">=</span>torch.tensor(<span class="fl">0.0</span>).detach().clone().<span class="bu">float</span>(),</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>                                                             σγ<span class="op">=</span>torch.tensor(<span class="fl">0.5</span>).detach().clone().<span class="bu">float</span>(),</span>
+<span id="cb37-12"><a href="#cb37-12" aria-hidden="true" tabindex="-1"></a>                                                             μβ<span class="op">=</span>torch.tensor(<span class="fl">2.0</span>).detach().clone().<span class="bu">float</span>(),</span>
+<span id="cb37-13"><a href="#cb37-13" aria-hidden="true" tabindex="-1"></a>                                                             σβ<span class="op">=</span>torch.tensor(<span class="fl">3.0</span>).detach().clone().<span class="bu">float</span>(),</span>
+<span id="cb37-14"><a href="#cb37-14" aria-hidden="true" tabindex="-1"></a>                                                             model_type<span class="op">=</span><span class="st">"lrmn"</span>,</span>
+<span id="cb37-15"><a href="#cb37-15" aria-hidden="true" tabindex="-1"></a>                                                             condition_on<span class="op">=</span>condition_on_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="2a18b40c-b8cc-4fd5-9a5a-40e0b63559cb" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>velocity_fit <span class="op">=</span> velocity_inference_model.VelocityFitModel(metaparams<span class="op">=</span>metaparameters_velocity, </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                                                         condition_on<span class="op">=</span>condition_on_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="43526726-88ab-4fbf-96a9-0b24fe027d0b" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>velocity_fit.check_model()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Trace Shapes:                              
+   Param Sites:                              
+  Sample Sites:                              
+     cells dist              |               
+          value          916 |               
+     genes dist              |               
+          value           61 |               
+ harmonics dist              |               
+          value            1 |               
+conditions dist              |               
+          value            1 |               
+   batches dist              |               
+          value            1 |               
+     logγg dist       61   1 |               
+          value       61   1 |               
+     logβg dist       61   1 |               
+          value       61   1 |               
+  rho_real dist       61   1 |               
+          value       61   1 |               
+        γg dist       61   1 |  61   1       
+          value              |  61   1       
+         ν dist       61   1 |   3           
+          value       61   1 |   3           
+        Δν dist 1 1 1 61   1 |               
+          value 1 1 1 61   1 |               
+       ϕxy dist          916 |   2           
+          value          916 |   2           
+         ϕ dist              | 916           
+          value              | 916           
+         ζ dist              | 916   3       
+          value              | 916   3       
+      ζ_dϕ dist              | 916   3       
+          value              | 916   3       
+        νω dist   1 1  1   1 |               
+          value   1 1  1   1 |               
+        ζω dist              |   1 916       
+          value              |   1 916       
+     ElogS dist              |   1   1 61 916
+          value              |   1   1 61 916
+         ω dist              |   1 916       
+          value              |   1 916       
+     ElogU dist              |   1   1 61 916
+          value              |   1   1 61 916
+ shape_inv dist       61   1 |               
+          value       61   1 |               
+         S dist   1 1 61 916 |               
+          value       61 916 |               
+         U dist   1 1 61 916 |               
+          value       61 916 |               </code></pre>
+</div>
+</div>
+<div id="75e909fc-a5ec-42ca-a7f3-1507d8c04a26" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>velocity_fit.check_guide()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Trace Shapes:              
+   Param Sites:              
+         ν_locs     61   1  3
+       ν_scales     61   1  3
+        Δν_locs 1 1  1  61  1
+       ϕxy_locs        916  2
+     logβg_locs         61  1
+   logβg_scales         61  1
+            loc            62
+     cov_factor         62  5
+       cov_diag            62
+   rho_real_loc            61
+ shape_inv_locs         61  1
+  Sample Sites:              
+     cells dist             |
+          value        916  |
+     genes dist             |
+          value         61  |
+ harmonics dist             |
+          value          1  |
+conditions dist             |
+          value          1  |
+   batches dist             |
+          value          1  |
+     logγg dist     61   1  |
+          value     61   1  |
+  rho_real dist     61   1  |
+          value     61   1  |
+     logβg dist     61   1  |
+          value     61   1  |
+        νω dist 1 1  1   1  |
+          value 1 1  1   1  |</code></pre>
+</div>
+</div>
+<div id="9af9fff6-12e2-4e4c-93e8-18d971af9e0b" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="dv">5000</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>initial_lr <span class="op">=</span> <span class="fl">0.03</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>final_lr <span class="op">=</span> <span class="fl">0.005</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>gamma <span class="op">=</span> final_lr <span class="op">/</span> initial_lr</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>lrd <span class="op">=</span> gamma <span class="op">**</span> (<span class="dv">1</span> <span class="op">/</span> num_steps)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>adam <span class="op">=</span> pyro.optim.ClippedAdam({<span class="st">'lr'</span>: initial_lr, <span class="st">'lrd'</span>: lrd, <span class="st">'betas'</span>: (<span class="fl">0.80</span>, <span class="fl">0.99</span>)})</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>velocity_fit.fit(optimizer<span class="op">=</span>adam, num_steps<span class="op">=</span>num_steps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity2_files/figure-html/cell-37-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="8bc505d6-f451-4647-81e1-b56890de59a1" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Put estimations in new objects</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>cycle_pyro <span class="op">=</span> velocity_fit.cycle_pyro</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>phase_pyro <span class="op">=</span> velocity_fit.phase_pyro</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>speed_pyro <span class="op">=</span> velocity_fit.speed_pyro</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>fit_ElogS <span class="op">=</span> velocity_fit.posterior[<span class="st">"ElogS"</span>].squeeze()</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>fit_ElogU <span class="op">=</span> velocity_fit.posterior[<span class="st">"ElogU"</span>].squeeze()</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>fit_ElogS2 <span class="op">=</span> velocity_fit.posterior[<span class="st">"ElogS2"</span>].squeeze()</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>fit_ElogU2 <span class="op">=</span> velocity_fit.posterior[<span class="st">"ElogU2"</span>].squeeze()</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>log_gammas <span class="op">=</span> velocity_fit.log_gammas</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>log_betas <span class="op">=</span> velocity_fit.log_betas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="81bc54ab-f935-4448-bac7-47cc5e2c82e7" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Store entire posterior sampling into an object</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>full_pps_velo <span class="op">=</span> velocity_fit.posterior</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="b17dca47-509e-46ac-b5e9-501fbef6af79" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>velocity <span class="op">=</span> full_pps_velo[<span class="st">"ω"</span>].squeeze().numpy() <span class="op">/</span> torch.exp(torch.mean(full_pps_velo[<span class="st">"logγg"</span>].squeeze().mean(<span class="dv">0</span>).detach())).numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="9c4755c0-1ffb-4e18-8554-5d83b3ead416" class="cell" data-execution_count="45">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>plt.hist(velocity.mean(<span class="dv">1</span>))</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Velocity Estimate"</span>)</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Frequency"</span>)</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Periodic Model Velocity Posterior"</span>)</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity2_files/figure-html/cell-41-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="5dac3b3f-0fa3-4ade-a4a1-23a8f1eaf0dc" class="cell" data-execution_count="47">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Cell cycle time in hours</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="dv">2</span><span class="op">*</span>np.pi<span class="op">/</span>velocity.mean())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>16.528259838181253</code></pre>
+</div>
+</div>
+<div id="7d6a1c91-87b7-40cb-8cd4-82c57592b535" class="cell" data-execution_count="48">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>velocity_fit0 <span class="op">=</span> velocity_fit</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="f38806a6-d596-4c3a-97a8-b02bf4d6a60a" class="cell" data-execution_count="49">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>pyro.clear_param_store()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="a0edd9b7-6007-4f3c-b934-09c445e31417" class="cell" data-execution_count="50">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>condition_design_matrix <span class="op">=</span> copy.deepcopy(batch_design_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="b2ab19b2-aac9-4bc3-996d-a7e6a61e40aa" class="cell" data-execution_count="51">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>n_velo_harmonics <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>speed_prior <span class="op">=</span> angularspeed.AngularSpeed.trivial_prior(condition_names<span class="op">=</span>[<span class="st">"pancreas_ductal"</span>], harmonics<span class="op">=</span>n_velo_harmonics, </span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>                                                means<span class="op">=</span><span class="fl">0.0</span>, stds<span class="op">=</span><span class="fl">3.0</span>)</span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>speed_prior.stds.loc[<span class="st">"nu1_cos"</span>] <span class="op">=</span> <span class="fl">0.01</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>speed_prior.stds.loc[<span class="st">"nu1_sin"</span>] <span class="op">=</span> <span class="fl">0.01</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="ffcb2730-285d-4e88-a3c8-8108add0e05e" class="cell" data-execution_count="53">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>condition_on_dict <span class="op">=</span> {<span class="st">"ϕxy"</span>:phase_pyro.phi_xy_tensor.T,</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"ν"</span>: cycle_pyro.means_tensor.T.unsqueeze(<span class="op">-</span><span class="dv">2</span>),</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"Δν"</span>: torch.tensor(phase_fit.delta_nus),</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"shape_inv"</span>: torch.tensor(phase_fit.disp_pyro).unsqueeze(<span class="op">-</span><span class="dv">1</span>)}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="3dce637e-e5fe-40b8-8ac5-6295727c5618" class="cell" data-execution_count="54">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>metaparameters_velocity <span class="op">=</span> preprocessing.preprocess_for_velocity_estimation(data_to_fit, </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>                                                             cycle_pyro, </span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>                                                             phase_pyro, </span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>                                                             speed_prior,</span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>                                                             condition_design_matrix.<span class="bu">float</span>(), </span>
+<span id="cb55-6"><a href="#cb55-6" aria-hidden="true" tabindex="-1"></a>                                                             batch_design_matrix.<span class="bu">float</span>(), </span>
+<span id="cb55-7"><a href="#cb55-7" aria-hidden="true" tabindex="-1"></a>                                                             n_harmonics<span class="op">=</span>n_harm,</span>
+<span id="cb55-8"><a href="#cb55-8" aria-hidden="true" tabindex="-1"></a>                                                             count_factor<span class="op">=</span>metapar.count_factor,</span>
+<span id="cb55-9"><a href="#cb55-9" aria-hidden="true" tabindex="-1"></a>                                                             ω_n_harmonics<span class="op">=</span>n_velo_harmonics,</span>
+<span id="cb55-10"><a href="#cb55-10" aria-hidden="true" tabindex="-1"></a>                                                             μγ<span class="op">=</span>torch.tensor(<span class="fl">0.0</span>).detach().clone().<span class="bu">float</span>(),</span>
+<span id="cb55-11"><a href="#cb55-11" aria-hidden="true" tabindex="-1"></a>                                                             σγ<span class="op">=</span>torch.tensor(<span class="fl">0.5</span>).detach().clone().<span class="bu">float</span>(),</span>
+<span id="cb55-12"><a href="#cb55-12" aria-hidden="true" tabindex="-1"></a>                                                             μβ<span class="op">=</span>torch.tensor(<span class="fl">2.0</span>).detach().clone().<span class="bu">float</span>(),</span>
+<span id="cb55-13"><a href="#cb55-13" aria-hidden="true" tabindex="-1"></a>                                                             σβ<span class="op">=</span>torch.tensor(<span class="fl">3.0</span>).detach().clone().<span class="bu">float</span>(),</span>
+<span id="cb55-14"><a href="#cb55-14" aria-hidden="true" tabindex="-1"></a>                                                             model_type<span class="op">=</span><span class="st">"lrmn"</span>,</span>
+<span id="cb55-15"><a href="#cb55-15" aria-hidden="true" tabindex="-1"></a>                                                             condition_on<span class="op">=</span>condition_on_dict)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="bd1ee0dd-89be-4100-80b3-a71c5d381a43" class="cell" data-execution_count="55">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>velocity_fit <span class="op">=</span> velocity_inference_model.VelocityFitModel(metaparams<span class="op">=</span>metaparameters_velocity, </span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>                                                         condition_on<span class="op">=</span>condition_on_dict, early_exit<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>                                                        num_samples<span class="op">=</span><span class="dv">500</span>, n_per_bin<span class="op">=</span><span class="dv">50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="58be52f3-f39c-4d5c-b3e6-659917b1c73c" class="cell" data-execution_count="56">
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>velocity_fit.check_model()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Trace Shapes:                              
+   Param Sites:                              
+  Sample Sites:                              
+     cells dist              |               
+          value          916 |               
+     genes dist              |               
+          value           61 |               
+ harmonics dist              |               
+          value            3 |               
+conditions dist              |               
+          value            1 |               
+   batches dist              |               
+          value            1 |               
+     logγg dist       61   1 |               
+          value       61   1 |               
+     logβg dist       61   1 |               
+          value       61   1 |               
+  rho_real dist       61   1 |               
+          value       61   1 |               
+        γg dist       61   1 |  61   1       
+          value              |  61   1       
+         ν dist       61   1 |   3           
+          value       61   1 |   3           
+        Δν dist 1 1 1 61   1 |               
+          value 1 1 1 61   1 |               
+       ϕxy dist          916 |   2           
+          value          916 |   2           
+         ϕ dist              | 916           
+          value              | 916           
+         ζ dist              | 916   3       
+          value              | 916   3       
+      ζ_dϕ dist              | 916   3       
+          value              | 916   3       
+        νω dist   1 3  1   1 |               
+          value   1 3  1   1 |               
+        ζω dist              |   3 916       
+          value              |   3 916       
+     ElogS dist              |   1   1 61 916
+          value              |   1   1 61 916
+         ω dist              |   1 916       
+          value              |   1 916       
+     ElogU dist              |   1   1 61 916
+          value              |   1   1 61 916
+ shape_inv dist       61   1 |               
+          value       61   1 |               
+         S dist   1 1 61 916 |               
+          value       61 916 |               
+         U dist   1 1 61 916 |               
+          value       61 916 |               </code></pre>
+</div>
+</div>
+<div id="d8e1a3e4-74d0-48bd-86cc-d55e60271f3f" class="cell" data-execution_count="57">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="dv">5000</span></span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>initial_lr <span class="op">=</span> <span class="fl">0.03</span></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>final_lr <span class="op">=</span> <span class="fl">0.005</span></span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>gamma <span class="op">=</span> final_lr <span class="op">/</span> initial_lr</span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>lrd <span class="op">=</span> gamma <span class="op">**</span> (<span class="dv">1</span> <span class="op">/</span> num_steps)</span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>adam <span class="op">=</span> pyro.optim.ClippedAdam({<span class="st">'lr'</span>: initial_lr, <span class="st">'lrd'</span>: lrd, <span class="st">'betas'</span>: (<span class="fl">0.80</span>, <span class="fl">0.99</span>)})</span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a>velocity_fit.fit(optimizer<span class="op">=</span>adam, num_steps<span class="op">=</span>num_steps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity2_files/figure-html/cell-51-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="786a079a-1ab3-4b2f-9539-e5502a85b91c" class="cell" data-execution_count="58">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Put estimations in new objects</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>cycle_pyro <span class="op">=</span> velocity_fit.cycle_pyro</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>phase_pyro <span class="op">=</span> velocity_fit.phase_pyro</span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>speed_pyro <span class="op">=</span> velocity_fit.speed_pyro</span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>fit_ElogS <span class="op">=</span> velocity_fit.posterior[<span class="st">"ElogS"</span>].squeeze()</span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a>fit_ElogU <span class="op">=</span> velocity_fit.posterior[<span class="st">"ElogU"</span>].squeeze()</span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>fit_ElogS2 <span class="op">=</span> velocity_fit.posterior[<span class="st">"ElogS2"</span>].squeeze()</span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>fit_ElogU2 <span class="op">=</span> velocity_fit.posterior[<span class="st">"ElogU2"</span>].squeeze()</span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>log_gammas <span class="op">=</span> velocity_fit.log_gammas</span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>log_betas <span class="op">=</span> velocity_fit.log_betas</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="2e64dca2-ee20-4992-8578-0dae0930d2e0" class="cell" data-execution_count="59">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Store entire posterior sampling into an object</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>full_pps_velo <span class="op">=</span> velocity_fit.posterior</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="446e7701-9475-4546-82f3-cd31261b536d" class="cell" data-execution_count="60">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># See the value of the mean gamma</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>torch.exp(torch.mean(full_pps_velo[<span class="st">"logγg"</span>].squeeze().mean(<span class="dv">0</span>).detach())).numpy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="60">
+<pre><code>array(0.9531931, dtype=float32)</code></pre>
+</div>
+</div>
+<div id="be06d40f-59a4-4e0b-b3b6-c6112b584d5e" class="cell" data-execution_count="62">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>omega <span class="op">=</span> full_pps_velo[<span class="st">"ω"</span>].squeeze().numpy() <span class="op">/</span> torch.exp(torch.mean(full_pps_velo[<span class="st">"logγg"</span>].squeeze().mean(<span class="dv">0</span>).detach())).numpy()</span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>phi <span class="op">=</span> phase_pyro.phis</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>omegas <span class="op">=</span> []</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>phis <span class="op">=</span> []</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>n2n <span class="op">=</span> {<span class="st">"pancreas_ductal"</span>:<span class="dv">0</span>}</span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a>ids <span class="op">=</span> np.array([n2n[i] <span class="cf">for</span> i <span class="kw">in</span> np.array(data_to_fit.obs[<span class="st">"batch"</span>])])</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(data_to_fit.obs[<span class="st">"batch"</span>].unique())):</span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a>    omega1 <span class="op">=</span> omega[:,np.where(ids <span class="op">==</span> i)]</span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a>    phi1 <span class="op">=</span> phi[np.where(ids <span class="op">==</span> i)]</span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a>    omegas.append(omega1)</span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a>    phis.append(phi1)</span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-13"><a href="#cb64-13" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.array(data_to_fit.obs[<span class="st">"batch"</span>].unique()) <span class="co">#list(adatas.keys())</span></span>
+<span id="cb64-14"><a href="#cb64-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-15"><a href="#cb64-15" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">"tab:blue"</span>]</span>
+<span id="cb64-16"><a href="#cb64-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(omegas)):</span>
+<span id="cb64-17"><a href="#cb64-17" aria-hidden="true" tabindex="-1"></a>    plt.plot(phis[i][np.argsort(phis[i])], omegas[i].mean(<span class="dv">0</span>)[<span class="dv">0</span>][np.argsort(phis[i])], c<span class="op">=</span><span class="st">"black"</span>, linestyle<span class="op">=</span><span class="st">'dashed'</span>)</span>
+<span id="cb64-18"><a href="#cb64-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb64-19"><a href="#cb64-19" aria-hidden="true" tabindex="-1"></a>    tmp5 <span class="op">=</span> np.percentile(omega[:, ids<span class="op">==</span>i], <span class="dv">5</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb64-20"><a href="#cb64-20" aria-hidden="true" tabindex="-1"></a>    tmp95 <span class="op">=</span> np.percentile(omega[:, ids<span class="op">==</span>i], <span class="dv">95</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb64-21"><a href="#cb64-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(((<span class="dv">2</span><span class="op">*</span>np.pi)<span class="op">/</span>omega[:, ids<span class="op">==</span>i]).mean(), ((<span class="dv">2</span><span class="op">*</span>np.pi)<span class="op">/</span>omega[:, ids<span class="op">==</span>i]).std())</span>
+<span id="cb64-22"><a href="#cb64-22" aria-hidden="true" tabindex="-1"></a>    phi_i <span class="op">=</span> phi[ids<span class="op">==</span>i] </span>
+<span id="cb64-23"><a href="#cb64-23" aria-hidden="true" tabindex="-1"></a>    plt.fill_between(x<span class="op">=</span>phi_i[np.argsort(phi_i)],</span>
+<span id="cb64-24"><a href="#cb64-24" aria-hidden="true" tabindex="-1"></a>                     y1<span class="op">=</span>tmp5[np.argsort(phi_i)], </span>
+<span id="cb64-25"><a href="#cb64-25" aria-hidden="true" tabindex="-1"></a>                     y2<span class="op">=</span>tmp95[np.argsort(phi_i)], </span>
+<span id="cb64-26"><a href="#cb64-26" aria-hidden="true" tabindex="-1"></a>                     alpha<span class="op">=</span><span class="fl">0.6</span>, color<span class="op">=</span>colors[i], label <span class="op">=</span> labels[i])</span>
+<span id="cb64-27"><a href="#cb64-27" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Cell Cycle Phase"</span>)</span>
+<span id="cb64-28"><a href="#cb64-28" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">2</span><span class="op">*</span>np.pi)</span>
+<span id="cb64-29"><a href="#cb64-29" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Scaled Velocity"</span>)</span>
+<span id="cb64-30"><a href="#cb64-30" aria-hidden="true" tabindex="-1"></a>plt.legend()</span>
+<span id="cb64-31"><a href="#cb64-31" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>17.340261 1.869181</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity2_files/figure-html/cell-55-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp("https:\/\/sib-swiss\.github\.io\/single-cell-python-training\/");
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
