@@ -34,7 +34,7 @@ website:
         menu:
           - href: "ipynb/day3-1_tf.ipynb"
           - href: "ipynb/day3-2_cc.ipynb"
-	  - href: "ipynb/day3-3_trajectory_analysis.ipynb"
+          - href: "ipynb/day3-3_trajectory_analysis.ipynb"
           - href: "ipynb/day3-4_velocity1.ipynb"
           - href: "ipynb/day3-4_velocity2.ipynb"
 
