@@ -8,7 +8,7 @@
 
 ## Attribution
 
-Parts of this course are inspired by the [Single Cell Best Practices Guide](https://www.sc-best-practices.org/preamble.html) and previous R courses from the SIB on [Single Cell Transcriptomics](https://sib-swiss.github.io/single-cell-training/) by Tania Wass, Rachel Marcone-Jeitziner, Geert van Geert, and Patricia Palagi.
+Parts of this course are inspired by the [Single Cell Best Practices Guide](https://www.sc-best-practices.org/preamble.html) and previous R courses from the SIB on [Single Cell Transcriptomics](https://sib-swiss.github.io/single-cell-training/) and from the BC2 Conference 2023 by Tania Wass, Rachel Marcone-Jeitziner, Geert van Geert, Patricia Palagi, Alex Lederer, and Alexandre Coudray.
 
 ## Overview
 Single-cell RNA sequencing (scRNA-seq) can measure the gene expression of complex biological systems at the level of individual cells, enabling scientists to generate detailed tissue atlases describing the transcriptomic profiles of thousands or even millions of cells. While scRNA-seq has become a popular technique in diverse fields of biological research, the required expertise for handling such datasets has restricted its use among the larger scientific community. The aim of this 3-day course is to empower researchers to start applying the fundamental scRNA-seq analysis pipeline to their own data. We will outline how to design and interpret results of a scRNA-seq dataset and explore the basics of preprocessing and analysis in Python on real data. We will discuss common concerns in the field, including preprocessing choices, dimensionality reduction, cell type clustering and identification, batch effect correction, pseudotime, and RNA velocity methods. The course will be taught in Python.
