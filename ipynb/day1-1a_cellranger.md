@@ -151,10 +151,9 @@ Plots showing the effect of decreased sequencing depth on observed library compl
 ![](Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.010.jpeg)
 
 
-
 For other situations like these two below, there is usually little you can do and you’d better contact 10X genomics support and/or the sequencing core facility at your institution
 
 ![](Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.011.jpeg)
 
-**Task 3: We provide you with some web\_summary.html files. Use what you have learned above to evaluate each one of the experiments and write a short evaluation of what you observe at least ~50 words per each file. When you write a short summary, imagine you are reporting to your supervisor about how the experiment went.**
+**Exercise 1: We provide you with some web\_summary.html files. Use what you have learned above to evaluate each one of the experiments and write a short evaluation of what you observe at least ~50 words per each file. When you write a short summary, imagine you are reporting to your supervisor about how the experiment went.**
 
