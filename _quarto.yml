@@ -8,7 +8,7 @@ project:
     - "!LICENSE.md"
 
 website:
-  title: "Spatial transcriptomics"
+  title: "Single-cell transcriptomics with Python"
   favicon: assets/SIB_logo.svg
   search: true
   page-navigation: true
