@@ -36,7 +36,7 @@ title: "Course schedule"
 
 | block   	| start    	| end      	| subject                             	|
 |---------	|----------	|----------	|-------------------------------------	|
-| block 1 	| 9:15 AM  	| 10:30 AM 	| [Transcription factor analysis](ipynb/day3-1_tf.ipynb) and [cell-cell communication](ipynb/day3-2_cc.ipynb)	|
+| block 1 	| 9:15 AM  	| 10:30 AM 	| [Transcription factor analysis](ipynb/day3-1_tf.ipynb)	|
 |         	| 10:30 AM 	| 11:00 AM 	| BREAK                               	|
 | block 2 	| 11:00 AM 	| 12:30 PM 	| [Trajectory Inference](day3/day3-3_trajectory_analysis.ipynb)            	|
 |         	| 12:30 PM 	| 1:30 PM  	| BREAK                               	|
