@@ -228,7 +228,7 @@
     "href": "index.html#attribution",
     "title": "Single Cell Transcriptomics with Python",
     "section": "Attribution",
-    "text": "Attribution\nParts of this course are inspired by the Single Cell Best Practices Guide and previous R courses from the SIB on Single Cell Transcriptomics by Tania Wyss, Rachel Marcone-Jeitziner, Geert van Geert, and Patricia Palagi."
+    "text": "Attribution\nParts of this course are inspired by the Single Cell Best Practices Guide, previous R courses from the SIB on Single Cell Transcriptomics, and from the BC2 Conference 2023 Workshop. These previous course materials were prepared by Tania Wass, Rachel Marcone-Jeitziner, Geert van Geert, Patricia Palagi, Alex Lederer, and Alexandre Coudray.\nThe current course material here is still under active development, for questions please contact Alex Lederer"
   },
   {
     "objectID": "index.html#overview",
