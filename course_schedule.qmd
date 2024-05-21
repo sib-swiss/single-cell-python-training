@@ -30,7 +30,7 @@ title: "Course schedule"
 |         	| 12:30 PM 	| 1:30 PM  	| BREAK                               	|
 | block 3 	| 1:30 PM  	| 3:00 PM  	| [Cell annotation](ipynb/day2-4_visualization.ipynb)     	|
 |         	| 3:00 PM  	| 3:30 PM  	| BREAK                               	|
-| block 4 	| 3:30 PM  	| 5:00 PM  	| [Visualization & further exercises](ipynb/day2-4.visualization.ipynb) 	|
+| block 4 	| 3:30 PM  	| 5:00 PM  	| [Visualization & further exercises](ipynb/day2-4_visualization.ipynb) 	|
 
 ## Day 3
 

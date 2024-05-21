@@ -29,7 +29,7 @@ website:
           - href: "ipynb/day2-1_dimensionality_reduction.ipynb"
           - href: "ipynb/day2-2_integration.ipynb"
           - href: "ipynb/day2-3_clustering.ipynb"
-          - href: "ipynb/day2-4.visualization.ipynb"
+          - href: "ipynb/day2-4_visualization.ipynb"
       - text: "day 3"
         menu:
           - href: "ipynb/day3-1_tf.ipynb"
