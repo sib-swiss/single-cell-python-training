@@ -5,7 +5,7 @@ title: "Pre-course preparations"
 
 ## Required competences
 
-Participants should already have a basic knowledge in Next Generation Sequencing (NGS) techniques, or have already followed the course [NGS - Quality control, Alignment, Visualisation](https://sib-swiss.github.io/NGS-introduction-training/2021.11/). Knowledge in RNA sequencing is a plus. A basic knowledge of the Python programming language is required. Test your R skills with the quiz [here](https://docs.google.com/forms/d/e/1FAIpQLSc3vvhtHoY0AeFk1ZJ3CBgQdRtCRf3JNNMfWxMaxYVsfljpcA/viewform), before registering.
+Participants should already have a basic knowledge in Next Generation Sequencing (NGS) techniques, or have already followed the course [NGS - Quality control, Alignment, Visualisation](https://sib-swiss.github.io/NGS-introduction-training/2021.11/). Knowledge in RNA sequencing is a plus. A basic knowledge of the Python programming language is required. Test your Python skills with the quiz [here](https://docs.google.com/forms/d/e/1FAIpQLSc3vvhtHoY0AeFk1ZJ3CBgQdRtCRf3JNNMfWxMaxYVsfljpcA/viewform), before registering.
 
 ## Software
 
