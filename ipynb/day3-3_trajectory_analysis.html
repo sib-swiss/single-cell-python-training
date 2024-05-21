@@ -278,6 +278,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<style>
+    .large-link {
+        font-size: 30px;
+        font-family: Arial, sans-serif;
+        color: #333;
+        text-decoration: none;
+    }
+</style>
+<p><a href="./Lecture_pseudotime_velocity.pdf" target="_blank" class="large-link">Presentation: Trajectory Inference and RNA velocity</a></p>
 <p>This notebook is partially adapted from the PAGA tutorial here: <a href="https://scanpy-tutorials.readthedocs.io/en/latest/paga-paul15.html">tutorial</a></p>
 <section id="loading-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="loading-libraries">Loading libraries</h2>
@@ -299,7 +308,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="reading-data" class="level2">
 <h2 class="anchored" data-anchor-id="reading-data">Reading data</h2>
-<p>We already have prepared a dataset of cells from very early embryonic development following the analysis steps in this course. The dataset is from the following study: <a href="https://pubmed.ncbi.nlm.nih.gov/24408435/">Single-cell RNA-seq reveals dynamic, random monoallelic gene expression in mammalian cells</a>.</p>
 <div id="9a26fe12-ca05-473a-b22f-8915dcc2a714" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> scv.datasets.pancreas()</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
