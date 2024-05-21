@@ -20,8 +20,8 @@ website:
       - href: course_schedule.qmd
       - text: "day 1"
         menu:
-          - href: "ipynb/day1-1_setup.md"
-          - href: "ipynb/day1-1a_cellranger.md"
+          - href: "ipynb/day1-1_setup.ipynb"
+          - href: "ipynb/day1-1a_cellranger.ipynb"
           - href: "ipynb/day1-2_analysis_tools_qc.ipynb"
           - href: "ipynb/day1-3_normalization_scaling.ipynb"
       - text: "day 2"
