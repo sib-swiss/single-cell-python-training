@@ -150,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day1-1_cellranger.html">
- <span class="dropdown-text">Introduction and Cell Ranger</span></a>
+ <span class="dropdown-text">Cell Ranger</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day1-2_analysis_tools_qc.html">
@@ -169,11 +169,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="dropdown-menu" aria-labelledby="nav-menu-day-2">    
         <li>
     <a class="dropdown-item" href="../ipynb/day2-1_dimensionality_reduction.html">
- <span class="dropdown-text">Principal component analysis</span></a>
+ <span class="dropdown-text">Dimensionality Reduction</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day2-2_integration.html">
- <span class="dropdown-text">Integration and batch effect correction</span></a>
+ <span class="dropdown-text">Data Integration</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day2-3_clustering.html">
@@ -249,7 +249,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#loading-scrnaseq-data" id="toc-loading-scrnaseq-data" class="nav-link active" data-scroll-target="#loading-scrnaseq-data">Loading scRNAseq data</a></li>
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link active" data-scroll-target="#learning-outcomes">Learning outcomes</a></li>
+  <li><a href="#loading-scrnaseq-data" id="toc-loading-scrnaseq-data" class="nav-link" data-scroll-target="#loading-scrnaseq-data">Loading scRNAseq data</a></li>
   <li><a href="#the-anndata-object" id="toc-the-anndata-object" class="nav-link" data-scroll-target="#the-anndata-object">The AnnData object</a></li>
   <li><a href="#quality-control" id="toc-quality-control" class="nav-link" data-scroll-target="#quality-control">Quality control</a></li>
   <li><a href="#doublet-detection" id="toc-doublet-detection" class="nav-link" data-scroll-target="#doublet-detection">Doublet detection</a></li>
@@ -283,7 +284,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>A useful overview on the current best practices is found in the articles below, which we also borrow from in this tutorial. We thank the authors for compiling such handy resources!</p>
 <p>Current best practices in single-cell RNA-seq analysis are explained in a recent Nature Review: https://www.nature.com/articles/s41576-023-00586-w</p>
 <p>Accompanying this review is an online webpage, which is still under development but can be quite handy nonetheless: https://www.sc-best-practices.org/preamble.html</p>
-<p>After having completed this chapter you will be able to:</p>
+<section id="learning-outcomes" class="level2">
+<h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes</h2>
+<p><strong>After having completed this chapter you will be able to:</strong></p>
 <ul>
 <li>Load single cell data into Python.</li>
 <li>Explain the basic structure of a AnnData object and extract count data and metadata.</li>
@@ -297,6 +300,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Interpret the above quality measures per cell.</li>
 <li>Perform cell filtering based on user-selected quality thresholds.</li>
 </ul>
+</section>
 <section id="loading-scrnaseq-data" class="level2">
 <h2 class="anchored" data-anchor-id="loading-scrnaseq-data">Loading scRNAseq data</h2>
 <p>After the generation of the count matrices with CellRanger, the next step is the data analysis. The scanpy package is currently the most popular software in Python to do this. To start working with scanpy, you must import the package into your Jupyter notebook as follows:</p>

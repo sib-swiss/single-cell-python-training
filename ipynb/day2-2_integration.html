@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Single-cell transcriptomics with Python</title>
+<title>Single-cell transcriptomics with Python - Data Integration</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -146,7 +146,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day1-1_cellranger.html">
- <span class="dropdown-text">Introduction and Cell Ranger</span></a>
+ <span class="dropdown-text">Cell Ranger</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day1-2_analysis_tools_qc.html">
@@ -165,11 +165,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="dropdown-menu" aria-labelledby="nav-menu-day-2">    
         <li>
     <a class="dropdown-item" href="../ipynb/day2-1_dimensionality_reduction.html">
- <span class="dropdown-text">Principal component analysis</span></a>
+ <span class="dropdown-text">Dimensionality Reduction</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day2-2_integration.html">
- <span class="dropdown-text">Integration and batch effect correction</span></a>
+ <span class="dropdown-text">Data Integration</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day2-3_clustering.html">
@@ -222,7 +222,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Data Integration</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -241,21 +241,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#integration-and-batch-effect-correction" id="toc-integration-and-batch-effect-correction" class="nav-link active" data-scroll-target="#integration-and-batch-effect-correction">Integration and batch effect correction</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Data Integration</h1>
+</div>
 
 
 
-<div id="4cd01774-f4da-461d-9ef2-fb73e3b30ccb" class="cell" data-execution_count="1">
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="cc34b3db-85ce-4642-b8f8-42d74b990aa8" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scanpy <span class="im">as</span> sc</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># for handling data frames (i.e. data tables)</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np <span class="co"># for handling numbers, arrays, and matrices</span></span>
@@ -263,22 +273,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns <span class="co"># plotting package</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Exercise 0</strong>: Before we continue in this notebook with the next steps of the analysis, we need to load our results from the previous notebook using the <code>sc.read_h5ad</code> function and assign them to the variable name <code>adata</code>. Give it a try!</p>
-<section id="integration-and-batch-effect-correction" class="level2">
-<h2 class="anchored" data-anchor-id="integration-and-batch-effect-correction">Integration and batch effect correction</h2>
-<div id="b17bec92-46e3-467e-bcc8-713121c1d21b" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial3.h5ad"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+<button onclick="toggleVisibility('answer0')">
+Click for Answer
+</button>
+<div id="answer0" style="display:none;">
+<strong>Answer:</strong> Load your data from the previous notebook into an h5ad object with <code>sc.read_h5ad</code>
+<pre>    adata = sc.read_h5ad("PBMC_analysis_SIB_tutorial3.h5ad")
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
 <p>For simple integration tasks, it is worth first trying the algorithm Harmony. The <code>harmonypy</code> package is a port of the original tool in R. Harmony uses a variant of singular value decomposition (SVD) to embed the data, then look for mutual nearest neighborhoods of similar cells across batches in the embedding, which it then uses to correct the batch effect in a locally adaptive (non-linear) manner.</p>
 <div id="50623662-5572-4e4e-969c-beda3962f60a" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> harmonypy <span class="im">as</span> hm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> harmonypy <span class="im">as</span> hm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Exercise 1</strong>: Harmonypy operates on the principal components you previous obtained using the command <code>sc.tl.pca</code>. These are stored in your <code>adata</code> object under the <code>.obsm</code> field as <code>X_pca</code>. Can you extract these and store them in a variable named <code>mat_PC</code> in order to provide them directly to harmonypy in the following code cell?</p>
 <div id="b9899d08-33b7-428a-97b9-1db5566bfba3" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mat_PC <span class="op">=</span> adata.obsm[<span class="st">"X_pca"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mat_PC <span class="op">=</span> adata.obsm[<span class="st">"X_pca"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, we run harmony on the data to correct for any batch effects. We must specify with <code>vars_use</code> the metadata column name in <code>adata.obs</code> that we would like to correct for.</p>
 <div id="c19ab850-6bb0-4ea6-87a3-f45d58640663" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ho <span class="op">=</span> hm.run_harmony(data_mat <span class="op">=</span> mat_PC, meta_data<span class="op">=</span>adata.obs, vars_use<span class="op">=</span>[<span class="st">"sample"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ho <span class="op">=</span> hm.run_harmony(data_mat <span class="op">=</span> mat_PC, meta_data<span class="op">=</span>adata.obs, vars_use<span class="op">=</span>[<span class="st">"sample"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>2024-05-20 14:39:55,993 - harmonypy - INFO - Computing initial centroids with sklearn.KMeans...
 2024-05-20 14:39:58,408 - harmonypy - INFO - sklearn.KMeans initialization complete.
@@ -297,30 +319,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>We can then visualize the extent to which each of the principal components was rescaled by harmonypy to correct for batch effects.</p>
 <div id="8323f4f1-5eed-439b-96a1-66d381a41e4e" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pc_std <span class="op">=</span> np.std(ho.Z_corr, axis<span class="op">=</span><span class="dv">1</span>).tolist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pc_std <span class="op">=</span> np.std(ho.Z_corr, axis<span class="op">=</span><span class="dv">1</span>).tolist()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="831962a2-8476-414a-be9b-5f467cba03b1" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(pc_std)), y<span class="op">=</span><span class="bu">sorted</span>(pc_std, reverse<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(x<span class="op">=</span><span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(pc_std)), y<span class="op">=</span><span class="bu">sorted</span>(pc_std, reverse<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-2_integration_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day2-2_integration_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Finally, we store the results in our <code>adata</code> as <code>X_pcahm</code> variable.</p>
 <div id="31c424df-327f-45e7-a0ce-43d2797d5671" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_pcahm"</span>] <span class="op">=</span> ho.Z_corr.transpose()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_pcahm"</span>] <span class="op">=</span> ho.Z_corr.transpose()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Exercise 2:</strong> Now that we have used harmony to correct for batch effects in our principal components, we want to rerun the <code>sc.pp.neighbors</code> and <code>sc.tl.umap</code> steps from our previous exercises, to obtain a new UMAP representation. Write those commands out below to obtain your new UMAP. Important: when running <code>sc.pp.neighbors</code>, you must specify that you would like to use the harmony-adjusted PCs and not the original, unadjusted ones. To do this, specify the optional argument <code>use_rep=X_pcahm</code>!</p>
 <div id="7b611e6d-f6a7-4f45-9527-b83ed0049904" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_pcs<span class="op">=</span><span class="dv">30</span>, use_rep<span class="op">=</span><span class="st">"X_pcahm"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_pcs<span class="op">=</span><span class="dv">30</span>, use_rep<span class="op">=</span><span class="st">"X_pcahm"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Exercise 3:</strong> Finally, visualize your UMAP with <code>sc.pl.umap</code>. How does the embedding compare to the one obtained prior to running harmony?</p>
 <div id="c9a9c610-3a63-4abe-8b6c-34880cf588da" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">"sample"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">"sample"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/scanpy/plotting/_tools/scatterplots.py:394: UserWarning: No data for colormapping provided via 'c'. Parameters 'cmap' will be ignored
   cax = scatter(</code></pre>
@@ -328,19 +350,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-2_integration_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="day2-2_integration_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <div id="697d4b33-b1db-453c-b6f1-24424567c921" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial4.h5ad"</span>) <span class="co"># save your results!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial4.h5ad"</span>) <span class="co"># save your results!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
-</section>
 
-</main> <!-- /main -->
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

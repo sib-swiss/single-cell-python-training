@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Single-cell transcriptomics with Python - Introduction and Cell Ranger</title>
+<title>Single-cell transcriptomics with Python - Cell Ranger</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -112,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day1-1_cellranger.html">
- <span class="dropdown-text">Introduction and Cell Ranger</span></a>
+ <span class="dropdown-text">Cell Ranger</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day1-2_analysis_tools_qc.html">
@@ -131,11 +131,11 @@ ul.task-list li input[type="checkbox"] {
     <ul class="dropdown-menu" aria-labelledby="nav-menu-day-2">    
         <li>
     <a class="dropdown-item" href="../ipynb/day2-1_dimensionality_reduction.html">
- <span class="dropdown-text">Principal component analysis</span></a>
+ <span class="dropdown-text">Dimensionality Reduction</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day2-2_integration.html">
- <span class="dropdown-text">Integration and batch effect correction</span></a>
+ <span class="dropdown-text">Data Integration</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day2-3_clustering.html">
@@ -188,7 +188,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Introduction and Cell Ranger</li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item">Cell Ranger</li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -214,14 +214,15 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link active" data-scroll-target="#learning-outcomes">Learning outcomes</a></li>
   <li><a href="#running-cellranger-count" id="toc-running-cellranger-count" class="nav-link" data-scroll-target="#running-cellranger-count">Running <code>cellranger count</code></a></li>
   <li><a href="#linuxmacoswsl" id="toc-linuxmacoswsl" class="nav-link" data-scroll-target="#linuxmacoswsl">Linux/MacOS/WSL</a></li>
-  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows">Windows</a>
+  <li><a href="#windows" id="toc-windows" class="nav-link" data-scroll-target="#windows">Windows</a></li>
+  <li><a href="#data-overview" id="toc-data-overview" class="nav-link" data-scroll-target="#data-overview">Data overview</a>
   <ul class="collapse">
   <li><a href="#this-will-take-a-while" id="toc-this-will-take-a-while" class="nav-link" data-scroll-target="#this-will-take-a-while">This will take a while…</a></li>
   </ul></li>
   <li><a href="#understanding-the-cellranger-output" id="toc-understanding-the-cellranger-output" class="nav-link" data-scroll-target="#understanding-the-cellranger-output">Understanding the CellRanger output</a></li>
-  <li><a href="#ranked-barcode-plot" id="toc-ranked-barcode-plot" class="nav-link" data-scroll-target="#ranked-barcode-plot"><strong>*Ranked Barcode Plot*</strong></a></li>
-  <li><a href="#analysis-view" id="toc-analysis-view" class="nav-link" data-scroll-target="#analysis-view"><strong>*Analysis view*</strong></a></li>
-  <li><a href="#troubleshooting-when-things-go-bad" id="toc-troubleshooting-when-things-go-bad" class="nav-link" data-scroll-target="#troubleshooting-when-things-go-bad"><strong>*Troubleshooting: when things go bad*</strong></a></li>
+  <li><a href="#ranked-barcode-plot" id="toc-ranked-barcode-plot" class="nav-link" data-scroll-target="#ranked-barcode-plot">Ranked Barcode Plot</a></li>
+  <li><a href="#analysis-view" id="toc-analysis-view" class="nav-link" data-scroll-target="#analysis-view">Analysis view</a></li>
+  <li><a href="#troubleshooting-when-things-go-bad" id="toc-troubleshooting-when-things-go-bad" class="nav-link" data-scroll-target="#troubleshooting-when-things-go-bad">Troubleshooting: when things go bad</a></li>
   </ul>
 </nav>
     </div>
@@ -230,7 +231,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Introduction and Cell Ranger</h1>
+<h1 class="title">Cell Ranger</h1>
 </div>
 
 
@@ -247,13 +248,31 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<style>
+    .large-link {
+        font-size: 30px;
+        font-family: Arial, sans-serif;
+        color: #333;
+        text-decoration: none;
+    }
+</style>
+<p><a href="../assets/pdf/01_introduction.pdf" target="_blank" class="large-link">Presentation: General introduction</a></p>
+<style>
+    .large-link {
+        font-size: 30px;
+        font-family: Arial, sans-serif;
+        color: #333;
+        text-decoration: none;
+    }
+</style>
+<p><a href="../assets/pdf/02_introduction_scRNAseq.pdf" target="_blank" class="large-link">Presentation: Introduction to scRNA-seq</a></p>
 <section id="learning-outcomes" class="level2">
 <h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes</h2>
 <p><strong>After having completed this chapter you will be able to:</strong></p>
 <ul>
-<li>Explain what kind of information single cell RNA-seq can give you to answer a biological question</li>
-<li>Describe essential considerations during the design of a single cell RNA-seq experiment</li>
-<li>Describe the pros and cons of different single cell sequencing methods</li>
+<li>Explain what kind of information single-cell RNA-seq (scRNA-seq) can give you to answer a biological question</li>
+<li>Describe essential considerations during the design of a single-cell RNA-seq experiment</li>
+<li>Describe the pros and cons of different single-cell sequencing methods</li>
 <li>Use cellranger to:
 <ul>
 <li>To align reads and generate count tables</li>
@@ -267,6 +286,7 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="linuxmacoswsl" class="level2">
 <h2 class="anchored" data-anchor-id="linuxmacoswsl">Linux/MacOS/WSL</h2>
+<p>Run the following commands in the terminal or other command line prompt application:</p>
 <pre><code>    wget https://single-cell-transcriptomics.s3.eu-central-1.amazonaws.com/cellranger_index.tar.gz
     tar -xvf cellranger_index.tar.gz
     rm cellranger_index.tar.gz</code></pre>
@@ -274,6 +294,9 @@ ul.task-list li input[type="checkbox"] {
 <section id="windows" class="level2">
 <h2 class="anchored" data-anchor-id="windows">Windows</h2>
 <p>Download using the <a href="https://single-cell-transcriptomics.s3.eu-central-1.amazonaws.com/cellranger_index.tar.gz">link</a>, and unpack in your working directory. This will download and extract the index in the current directory. Specify the path to this reference in the exercises accordingly.</p>
+</section>
+<section id="data-overview" class="level2">
+<h2 class="anchored" data-anchor-id="data-overview">Data overview</h2>
 <p>Have a look in the directory <code>course_data/reads</code> and <code>/data/cellranger_index</code>. In the <code>reads</code> directory you will find reads on one sample: <code>ETV6-RUNX1_1</code>. In the analysis part of the course we will work with six samples, but due to time and computational limitations we will run <code>cellranger count</code> on one of the samples, and only reads originating from chromsome 21 and 22.</p>
 <p>The input you need to run <code>cellranger count</code> are the sequence reads and a reference. Here, we have prepared a reference only with chromosome 21 and 22, but in ‘real life’ you would of course get the full reference genome of your species. The reference has a specific format. You can download precomputed human and mouse references from the <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest">10X website</a>. If your species of interest is not one of those, you will have to generate it yourself. For that, have a look <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/tutorial_mr">here</a>.</p>
 <p>To be able to run cellranger in the compute environment, first run:</p>
@@ -340,7 +363,7 @@ function toggleVisibility(id) {
 </section>
 <section id="understanding-the-cellranger-output" class="level2">
 <h2 class="anchored" data-anchor-id="understanding-the-cellranger-output">Understanding the CellRanger output</h2>
-<p>The run summary from cellranger count can be viewed by clicking “Summary” in the top left corner. The summary metrics describe sequencing quality and various characteristics of the detected cells. Similar web summaries are also output from the cellranger reanalyze and cellranger aggr pipelines.</p>
+<p>The run summary from cellranger count can be viewed by clicking “Summary” in the top left corner. The summary metrics describe sequencing quality and various characteristics of the detected cells. Similar web summaries are also output from the <code>cellranger reanalyze</code> and <code>cellranger aggr</code> pipelines.</p>
 <p>This report will serve you as first-line feedback on how the experiment went. It provides an easily accessible summary to scrutinize the success of the experiment.</p>
 <p>It will help answering the questions like:</p>
 <ul>
@@ -350,17 +373,33 @@ function toggleVisibility(id) {
 <li>Was the sample sequenced deep enough? Where the cells intact and well?</li>
 <li>Is the quality of the cells uniform?</li>
 </ul>
-<p>Note that some of these questions will be more definitively answered during a successive (more hands-on) part of QC process. Consider this just the beginning of the scrutiny.</p>
-<p><strong>*Basic QC metrics*</strong></p>
+<p>Note that some of these questions will be more definitively answered during a successive (more hands-on) part of quality control (QC) process. Consider this just the beginning of the scrutiny.</p>
+<p><strong>Basic QC metrics</strong></p>
 <p>The number of cells detected, the mean reads per cell, and the median genes detected per cell are prominently displayed near the top of the page.</p>
 <p><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.002.jpeg" class="img-fluid"></p>
-<p><em>Estimated Cell number -</em> is determined from the number of cell barcodes with ‘reasonable’ numbers of observations. This number is an <em>estimate</em> because there is no binary flag “full/empty” that tell us if a droplet had or not a cell inside. Every droplet will enter in contact with some free-floating RNA, therefore some threshold needs to be set to cell associated barcodes vs noise from empty GEMs. However, this threshold cannot be a fixed number as it will depend on the overall quality of the experiment, size of the cells and depth of the sequences and mis-called sequences. So, this number automatically estimated from the “Barcode Rank Plot” that we will see below.</p>
-<p>Note: this number is estimated using the thresholds to cellranger count as a bias, if the threshold is changed the count can give different predictions, and in some cases it will be necessary to do so. For example. to account for a not-so-successful experiment with high level of free-floating mRNA in the input cell suspension or a lysis caused mixing the RT mix with the cell suspension.</p>
-<p><em>Mean Read per cell</em> - This is the mean of sequencing reads that is obtained on average to the cells. Note that this refers only to the ones counted in “Estimated number of cells” and therefore:</p>
+<p><em>Estimated Cell number:</em> This is determined from the number of cell barcodes with a ‘reasonable’ numbers of observations. This number is an <em>estimate</em> because there is no binary flag “full/empty” that tell us if a droplet had a cell inside or not. Every droplet will enter in contact with some free-floating RNA, therefore some threshold needs to be set to cell-associated barcodes vs noise from empty GEMs. However, this threshold cannot be a fixed number as it will depend on the overall quality of the experiment, size of the cells and depth of the sequences and mis-called sequences. So, this number automatically estimated from the “Barcode Rank Plot” that we will see below.</p>
+<p>Note: this number is estimated using the thresholds to <code>cellranger count</code> as a bias, if the threshold is changed the count can give different predictions, and in some cases it will be necessary to do so. For example: to account for a not-so-successful experiment with high level of free-floating mRNA in the input cell suspension or a lysis caused mixing the RT mix with the cell suspension.</p>
+<p><em>Mean Read per cell:</em> This is the mean of sequencing reads that is obtained on average to the cells. Note that this refers only to the ones counted in “Estimated number of cells” and therefore:</p>
 <p><em>Estimated_Cell_number * Mean_Read_per_cell ≠ Illumina_Reads</em>.</p>
 <p>Also note that this number DOES NOT correspond to the number of UMI per cells (the value that is actually used for the analysis).</p>
-<p>On the basis of what learned in the lectures can you explain how Mean Reads per cell and UMI count are related? How is UMI count obtained by the pipeline? Will doubling the number of reads double the number of UMIs?</p>
-<p><strong>*Diagnostic QC metrics – Sequencing*</strong></p>
+<p><strong>Exercise 3</strong>: On the basis of what learned in the lectures and above, can you explain how “Mean Reads per cell” and “UMI count” are related? How is “UMI count” obtained by the pipeline? Will doubling the number of reads double the number of UMIs?</p>
+<button onclick="toggleVisibility('answer3')">
+Click for Answer
+</button>
+<div id="answer3" style="display:none;">
+<p>The mean reads per cell is the number of FASTQ READS containing a cell barcode assigned to a particular cell. The UMI count is the number of unique RNA MOLECULES that were sequenced assigned to a particular gene and cell. The cellranger pipeline determines the UMI count using the UMI barcode, which is different from the cell barcode. The UMI barcode is unique to each distinct RNA molecule in a cell. So, there is a possibility of multiple reads containing the same UMI barcode and being “collapsed” into a single count for the UMI count.</p>
+Doubling the number of reads will likely increase the number of UMIs, due to the detection of new RNA molecules with increased sequencing depth, but it will not double the number of UMIs because many additional reads will be assigned to the same RNA/UMI barcode.
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
+<p><strong>Diagnostic QC metrics – Sequencing</strong></p>
 <p><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.003.jpeg" class="img-fluid"></p>
 <p><strong>Number of Reads</strong></p>
 <p>Total number of read pairs that were assigned to this library in demultiplexing.</p>
@@ -392,9 +431,9 @@ function toggleVisibility(id) {
 <p>Fraction of reads that mapped to a unique gene in the transcriptome. The read must be consistent with annotated splice junctions. These reads are considered for UMI counting.</p>
 <p><strong>Reads Mapped Antisense to Gene</strong></p>
 <p>Fraction of reads confidently mapped to the transcriptome, but on the opposite strand of their annotated gene. A read is counted as antisense if it has any alignments that are consistent with an exon of a transcript but antisense to it, and has no sense alignments.</p>
-</section>
+</div></section>
 <section id="ranked-barcode-plot" class="level2">
-<h2 class="anchored" data-anchor-id="ranked-barcode-plot"><strong>*Ranked Barcode Plot*</strong></h2>
+<h2 class="anchored" data-anchor-id="ranked-barcode-plot">Ranked Barcode Plot</h2>
 <p>The Barcode Rank Plot under the “Cells” dashboard shows the distribution of barcode counts and which barcodes were inferred to be associated with cells. It is one of the most informative QC plots, it enables one to assess sample quality and to formulate hypothesis of what might have gone wrong if the experiment was not perfectly successful.</p>
 <p>To obtain this plot, reads are grouped by barcode, the number of UMI is counted, resulting in a vector of UMI count per barcode (note: one barcode - one GEM!). The counts are then sorted and the vector is displayed in rank vs counts plot:</p>
 <p>The y-axis is the number of UMI counts mapped to each barcode and the x-axis is the number of barcodes below that value.</p>
@@ -409,13 +448,13 @@ function toggleVisibility(id) {
 <li>It uses a cutoff based on total UMI counts of each barcode to identify cells. This step identifies the primary mode of high RNA content cells.</li>
 <li><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.005.jpeg" class="img-fluid">Then the algorithm uses the RNA profile of each remaining barcode to determine if it is an “empty” or a cell containing partition. This second step captures low RNA content cells, whose total UMI counts may be similar to empty GEMs.</li>
 </ul>
-<p><strong>*Saturation - is there a gain in sequencing more?*</strong></p>
+<p><strong>Saturation - is there a gain in sequencing more?</strong></p>
 <p>The sequencing saturation plot allows the user to assess the relative tradeoffs of sequencing deeper or shallower. As sequencing saturation increases, the total number of molecules detected in the library increases, but with diminishing returns as saturation is approached.</p>
 <p>A good rule of thumb for most cell types is that: An average of 40k reads per cell is a minimal sufficient that with 80k reads being usually an excellent depth. There is certainly gain in sequencing more but it is not cost-effective in general. So, it is important to evaluate if going deeper has a value to your scientific question.</p>
 <p><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.006.jpeg" class="img-fluid"><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.007.jpeg" class="img-fluid"></p>
 </section>
 <section id="analysis-view" class="level2">
-<h2 class="anchored" data-anchor-id="analysis-view"><strong>*Analysis view*</strong></h2>
+<h2 class="anchored" data-anchor-id="analysis-view">Analysis view</h2>
 <p>The automated secondary analysis results can be viewed by clicking “Analysis” in the top left corner. The secondary analysis provides the following:</p>
 <p>A dimensional reduction analysis which projects the cells into a 2-D space (t-SNE), including an automated clustering analysis which groups together cells that have similar expression profiles.</p>
 <p><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.008.jpeg" class="img-fluid"></p>
@@ -423,12 +462,12 @@ function toggleVisibility(id) {
 <p>Plots showing the effect of decreased sequencing depth on observed library complexity and on median genes per cell detected</p>
 </section>
 <section id="troubleshooting-when-things-go-bad" class="level2">
-<h2 class="anchored" data-anchor-id="troubleshooting-when-things-go-bad"><strong>*Troubleshooting: when things go bad*</strong></h2>
+<h2 class="anchored" data-anchor-id="troubleshooting-when-things-go-bad">Troubleshooting: when things go bad</h2>
 <p><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.009.jpeg" class="img-fluid"></p>
 <p><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.010.jpeg" class="img-fluid"></p>
 <p>For other situations like these two below, there is usually little you can do and you’d better contact 10X genomics support and/or the sequencing core facility at your institution</p>
 <p><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.011.jpeg" class="img-fluid"></p>
-<p><strong>Exercise 3</strong>: We provide you with some <code>web_summary.html</code> files. Use what you have learned above to evaluate each one of the experiments and write a short evaluation of what you observe at least ~50 words per each file. When you write a short summary, imagine you are reporting to your supervisor about how the experiment went.</p>
+<p><strong>Exercise 4</strong>: We provide you with some <code>web_summary.html</code> files. Use what you have learned above to evaluate each one of the experiments and write a short evaluation of what you observe at least ~50 words per each file. When you write a short summary, imagine you are reporting to your supervisor about how the experiment went.</p>
 <ul>
 <li>
 <a href="https://raw.githubusercontent.com/sib-swiss/single-cell-python-training/main/exp1.html" download="exp1.html">Experiment 1</a>
