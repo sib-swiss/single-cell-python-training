@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 # run this commands in the admin container
-# e.g. docker run ubuntu -it --rm -v data:/data ubuntu
 
 sudo su
-cd /home/rstudio/data
-wget -O cellranger-7.1.0.tar.gz "https://cf.10xgenomics.com/releases/cell-exp/cellranger-7.1.0.tar.gz?Expires=1677264067&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9jZi4xMHhnZW5vbWljcy5jb20vcmVsZWFzZXMvY2VsbC1leHAvY2VsbHJhbmdlci03LjEuMC50YXIuZ3oiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE2NzcyNjQwNjd9fX1dfQ__&Signature=L45--zcMjqMTYgW4KS7ClV5CGlZjBc24lZ9ft-KC0xlH3NtHCTfLAnhT0gT30ptsJG52kE2cwBQkXO~THLW7RJP8eUyELXY25PnUdWXw5IUnd9EK5THWbooA8Wdb77SVq3Sd3cCffuRCaIU2YsY~ej--Ba8uU8y8aW8w9OnuUEgaPSbuxH9mMArp5Jc7nDMfmIyZn~1mRFhNNTC5ucVvX5JLcYKukIN71pXlVnNoEt9AJ6UcCGUXteCts6NYeAdSVFL1blVb6d~uOpjk7TwzehJFfURO7dDtYHFaOP0F6tSqcVnXoYiMH8DHDIe2FK9nYjplFz8Wds20Ozf3irvQ6Q__&Key-Pair-Id=APKAI7S6A5RYOXBWRPDA"
-tar -xzvf cellranger-7.1.0.tar.gz
+cd /data
+curl -o cellranger-8.0.1.tar.gz "https://cf.10xgenomics.com/releases/cell-exp/cellranger-8.0.1.tar.gz?Expires=1716495988&Key-Pair-Id=APKAI7S6A5RYOXBWRPDA&Signature=VybkkGYqqJR3YdhlnD3P7q7X12BDu93rda5Y~4Jb8hIQWHo7lc9mYHT-S1Py72bIMTHDRttzrbQ0U6pdSdWt9HmoZwoeARIVhM~J1dXIR8rN1at90cwdkOm73M2HG1EuNk0TmLGQZr9LFO~2W3wPXKSW3643ctDvbUfqg5ecmAut22mmWcVB43bMSwjPkkUjrOLU9~w2bmaKqbHE5isAC3KkcmSQwsBf0T59JvwiByYrHpTf3cU3MDPbN8BXzuhSwCujqE6CHyeZllb3D9D6-OJ15BkhLDvwoTwAmoznkxDUKa9ObrBYUmSk0XjD9snig0LolgY1MVyNpclRrOaBQA__"
+tar -xzvf cellranger-8.0.1.tar.gz
 
 # now users need to add the cellranger directory to their path with
-# export PATH=$PATH:/data/cellranger-7.1.0
+# export PATH=$PATH:/data/cellranger-8.0.1
 # for users data is mounted to the root directory
 
 # also download the reference data
