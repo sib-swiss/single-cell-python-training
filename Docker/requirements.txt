@@ -11,3 +11,6 @@ pyro-api
 pyro-ppl
 torch
 velocycle
+doubletdetection==4.2
+celltypist==1.6.2
+pyscenic==0.12.1
