@@ -213,7 +213,10 @@ ul.task-list li input[type="checkbox"] {
   <ul>
   <li><a href="#login-and-set-up" id="toc-login-and-set-up" class="nav-link active" data-scroll-target="#login-and-set-up">Login and set up</a></li>
   <li><a href="#create-a-project" id="toc-create-a-project" class="nav-link" data-scroll-target="#create-a-project">Create a project</a></li>
-  <li><a href="#downloading-the-course-data" id="toc-downloading-the-course-data" class="nav-link" data-scroll-target="#downloading-the-course-data">Downloading the course data</a></li>
+  <li><a href="#downloading-the-course-data" id="toc-downloading-the-course-data" class="nav-link" data-scroll-target="#downloading-the-course-data">Downloading the course data</a>
+  <ul class="collapse">
+  <li><a href="#if-on-windows" id="toc-if-on-windows" class="nav-link" data-scroll-target="#if-on-windows">If on Windows</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -241,14 +244,14 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="login-and-set-up" class="level3">
 <h3 class="anchored" data-anchor-id="login-and-set-up">Login and set up</h3>
-<p>If you are enrolled in the course, log in the Jupyter notebook server with the provided link, username and password. The environment on the server contains all the necessary software pre-installed.</p>
+<p>If you are enrolled in the course, log on the server with the provided link, username, and password. The environment on the server contains all the necessary software pre-installed.</p>
 </section>
 <section id="create-a-project" class="level3">
 <h3 class="anchored" data-anchor-id="create-a-project">Create a project</h3>
 <p>Now that you have access to an environment with the required installations, we will set up a project in a new directory. On the top right choose the “+” button.</p>
 <p><img src="setup_img1.png" class="img-fluid"></p>
 <p>A new tab will open that allows you to choose between many options. The two most important ones are: 1. Other =&gt; Terminal 2. “Notebook =&gt; Python 3 (ipykernel)</p>
-<p>Option (1) opens a command line prompt, which will be necessary for downloading the data and running cellranger. For the other exercises in Python, you will write your code in a Jupyter Lab notebook. This can be opened with the option (2). A Jupyter notebook is like a virtual laboratory notebook: you enter code into different “cells” and run those lines of code to read/write data, perform analyses, and make data visualizations. Also, a Jupyter notebook can be re-run multiple times to produce the same (reproducible) output!</p>
+<p>Option (1) opens a command line prompt, which will be necessary for downloading the data and running cellranger. For the other exercises in Python, you will write your code in a Jupyter Lab notebook, which can be opened with the option (2). A Jupyter notebook is like a virtual laboratory notebook: you enter code into different “cells” and run those lines of code to read/write data, perform analyses, and make data visualizations. Also, a Jupyter notebook can be re-run multiple times to produce the same (reproducible) output!</p>
 <p><img src="setup_img3.png" class="img-fluid"></p>
 <p>When you open the terminal window, it will look like this:</p>
 <p><img src="setup_img4.png" class="img-fluid"></p>
@@ -260,30 +263,19 @@ ul.task-list li input[type="checkbox"] {
 <p>At the top of the Jupyter notebook, there are various buttons that allow you to interact with the notebook.</p>
 <p><img src="setup_img7.png" class="img-fluid"></p>
 <p>From left to right: - “SAVE” button (saves the notebook) - “ADD new code cell” button (adds a new cell where you can write code) - “CUT currently selected code cell” - “COPY currently selected code cell” - “RUN currently selected code cell” - “STOP running currently selected code cell” - “RESTART notebook” - “RUN ALL code cells in notebook”</p>
-<p>You can also run a selected code cell by clicking on it and entering SHIFT + RETURN/ENTER.</p>
-<p>On the left hand side of the page, you will send your current directory containing various notebooks, data files, and folders that you create throughout the course. For example:</p>
+<p>You can also run a selected code cell by clicking on it and entering SHIFT + RETURN (SHIFT + ENTER on a PC).</p>
+<p>On the left hand side of the page, you will see your current directory containing various notebooks, data files, and folders that you create throughout the course. For example:</p>
 <p><img src="setup_img8.png" class="img-fluid"></p>
 </section>
-<section id="downloading-the-course-data" class="level3">
-<h3 class="anchored" data-anchor-id="downloading-the-course-data">Downloading the course data</h3>
+<section id="downloading-the-course-data" class="level2">
+<h2 class="anchored" data-anchor-id="downloading-the-course-data">Downloading the course data</h2>
 <p>To download and extract the dataset, copy-paste these commands inside the terminal tab:</p>
-<pre class="{bash}"><code>#| output: false
-wget https://single-cell-transcriptomics-python.s3.eu-central-1.amazonaws.com/course_data.tar.gz
+<pre class="{bash}"><code>wget https://single-cell-transcriptomics-python.s3.eu-central-1.amazonaws.com/course_data.tar.gz
 tar -xvf course_data.tar.gz
 rm course_data.tar.gz</code></pre>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-If on Windows
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<section id="if-on-windows" class="level3">
+<h3 class="anchored" data-anchor-id="if-on-windows">If on Windows</h3>
 <p>If you’re using Windows, you can directly open the <a href="https://single-cell-transcriptomics-python.s3.eu-central-1.amazonaws.com/course_data.tar.gz">link</a> in your browser, and downloading will start automatically. Unpack the tar.gz file in the directory where you want to work in during the course.</p>
-</div>
-</div>
 <p>Have a look at the data directory you have downloaded. It should contain the following:</p>
 <pre><code>course_data
 ├── count_matrices
@@ -334,6 +326,7 @@ If on Windows
 <p>We will use the reads to showcase the use of <code>cellranger count</code>. The directory contains only reads from chromosome 21 and 22 of one sample (<code>ETV6-RUNX1_1</code>). The count matrices are output of <code>cellranger count</code>, and we will use those for the other exercises in <code>R</code>.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
