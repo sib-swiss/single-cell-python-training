@@ -38,7 +38,7 @@ title: "Course schedule"
 |---------	|----------	|----------	|-------------------------------------	|
 | block 1 	| 9:15 AM  	| 10:30 AM 	| [Transcription factor analysis](ipynb/day3-1_tf.ipynb)	|
 |         	| 10:30 AM 	| 11:00 AM 	| BREAK                               	|
-| block 2 	| 11:00 AM 	| 12:30 PM 	| [Trajectory Inference](day3/day3-3_trajectory_analysis.ipynb)            	|
+| block 2 	| 11:00 AM 	| 12:30 PM 	| [Trajectory Inference](ipynb/day3-3_trajectory_analysis.ipynb)            	|
 |         	| 12:30 PM 	| 1:30 PM  	| BREAK                               	|
 | block 3 	| 1:30 PM  	| 3:00 PM  	| [RNA velocity](ipynb/day3-4_velocity1.ipynb)  |
 |         	| 3:00 PM  	| 3:30 PM  	| BREAK                               	|
