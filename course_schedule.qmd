@@ -11,7 +11,7 @@ title: "Course schedule"
 | block   	| start    	| end      	| subject                        	|
 |---------	|----------	|----------	|--------------------------------	|
 | introduction 	| 9:15 AM  	| 9:30 AM 	| [Introduction](ipynb/day1-1_setup.ipynb) |
-| block 1 	| 9:30 AM  	| 10:15 AM 	| [Introduction scRNAseq](ipynb/day1-0_setup.ipynb) |
+| block 1 	| 9:30 AM  	| 10:15 AM 	| [Introduction scRNAseq](ipynb/day1-1_setup.ipynb) |
 |         	| 10:15 AM 	| 10:45 AM 	| BREAK                          	|
 | block 2 	| 10:45 AM 	| 12:00 PM 	| Presentation: Andreia Gouvêa, 10X Field Application Scientist 	     |
 |         	| 12:00 PM 	| 1:00 PM  	| BREAK                          	|
