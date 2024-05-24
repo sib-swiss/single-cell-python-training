@@ -220,9 +220,9 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#this-will-take-a-while" id="toc-this-will-take-a-while" class="nav-link" data-scroll-target="#this-will-take-a-while">This will take a while…</a></li>
   </ul></li>
   <li><a href="#opening-cellranger-output" id="toc-opening-cellranger-output" class="nav-link" data-scroll-target="#opening-cellranger-output">Opening <code>cellranger</code> output</a></li>
-  <li><a href="#understanding-the-cellranger-output" id="toc-understanding-the-cellranger-output" class="nav-link" data-scroll-target="#understanding-the-cellranger-output">Understanding the CellRanger output</a>
+  <li><a href="#understanding-the-cellranger-output" id="toc-understanding-the-cellranger-output" class="nav-link" data-scroll-target="#understanding-the-cellranger-output">Understanding the CellRanger output</a></li>
+  <li><a href="#diagnostic-qc-metrics-sequencing" id="toc-diagnostic-qc-metrics-sequencing" class="nav-link" data-scroll-target="#diagnostic-qc-metrics-sequencing">Diagnostic QC metrics – Sequencing</a>
   <ul class="collapse">
-  <li><a href="#diagnostic-qc-metrics-sequencing" id="toc-diagnostic-qc-metrics-sequencing" class="nav-link" data-scroll-target="#diagnostic-qc-metrics-sequencing">Diagnostic QC metrics – Sequencing</a></li>
   <li><a href="#diagnostic-qc-metrics-mapping" id="toc-diagnostic-qc-metrics-mapping" class="nav-link" data-scroll-target="#diagnostic-qc-metrics-mapping">Diagnostic QC metrics – Mapping</a></li>
   </ul></li>
   <li><a href="#ranked-barcode-plot" id="toc-ranked-barcode-plot" class="nav-link" data-scroll-target="#ranked-barcode-plot">Ranked Barcode Plot</a></li>
@@ -303,15 +303,15 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="data-overview" class="level2">
 <h2 class="anchored" data-anchor-id="data-overview">Data overview</h2>
-<p>Have a look in the directory <code>course_data/reads</code> and <code>/data/cellranger_index</code>. In the <code>reads</code> directory you will find reads on one sample: <code>ETV6-RUNX1_1</code>. In the analysis part of the course we will work with six samples, but due to time and computational limitations we will run <code>cellranger count</code> on one of the samples, and only reads originating from chromsome 21 and 22.</p>
+<p>Have a look in the directory <code>course_data/reads</code> and <code>cellranger_index</code>. In the <code>reads</code> directory you will find reads on one sample: <code>ETV6-RUNX1_1</code>. In the analysis part of the course we will work with six samples, but due to time and computational limitations we will run <code>cellranger count</code> on one of the samples, and only reads originating from chromsome 21 and 22.</p>
 <p>The input you need to run <code>cellranger count</code> are the sequence reads and a reference. Here, we have prepared a reference only with chromosome 21 and 22, but in ‘real life’ you would of course get the full reference genome of your species. The reference has a specific format. You can download precomputed human and mouse references from the <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest">10X website</a>. If your species of interest is not one of those, you will have to generate it yourself. For that, have a look <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/tutorial_mr">here</a>.</p>
 <p>To be able to run cellranger in the compute environment, first run:</p>
-<pre><code>export PATH=/data/cellranger-8.0.0:$PATH</code></pre>
+<pre><code>export PATH=/data/cellranger-8.0.1:$PATH</code></pre>
 <p>Have a look at the documentation of <a href="https://support.10xgenomics.com/single-cell-gene-expression/software/pipelines/latest/using/count"><code>cellranger count</code></a> (scroll down to <em>Command-line argument reference</em>).</p>
 <p>You can find the input files here:</p>
 <ul>
-<li>reads: <code>single_cell_course/course_data/reads/</code> (from the downloaded tar package in your home directory)</li>
-<li>pre-indexed reference: <code>/data/cellranger_index</code></li>
+<li>reads: <code>course_data/reads/</code> (from the downloaded tar package in your home directory)</li>
+<li>pre-indexed reference: <code>cellranger_index</code></li>
 </ul>
 <p><strong>Exercise 1</strong>: Fill out the missing arguments (at <code>FIXME</code>) in the script below, and run it:</p>
 <pre><code>cellranger count \
@@ -331,8 +331,8 @@ Click for Answer
 <pre>    cellranger count \
     --id=ETV6-RUNX1_1 \
     --sample=ETV6-RUNX1_1 \
-    --transcriptome=/data/cellranger_index \
-    --fastqs=single_cell_course/course_data/reads \
+    --transcriptome=cellranger_index \
+    --fastqs=course_data/reads \
     --localcores=4 \
     --create-bam=true
 </pre>
@@ -408,8 +408,9 @@ function toggleVisibility(id) {
    }
 }
 </script>
-<section id="diagnostic-qc-metrics-sequencing" class="level3">
-<h3 class="anchored" data-anchor-id="diagnostic-qc-metrics-sequencing">Diagnostic QC metrics – Sequencing</h3>
+</div></section>
+<section id="diagnostic-qc-metrics-sequencing" class="level2">
+<h2 class="anchored" data-anchor-id="diagnostic-qc-metrics-sequencing">Diagnostic QC metrics – Sequencing</h2>
 <p><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.003.jpeg" class="img-fluid"></p>
 <section id="number-of-reads" class="level4">
 <h4 class="anchored" data-anchor-id="number-of-reads">Number of Reads</h4>
@@ -438,7 +439,6 @@ function toggleVisibility(id) {
 <section id="q30-bases-in-umi" class="level4">
 <h4 class="anchored" data-anchor-id="q30-bases-in-umi">Q30 Bases in UMI</h4>
 <p>Fraction of UMI bases with Q-score &gt;= 30, excluding very low quality/no-call (Q &lt;= 2) bases from the denominator.</p>
-</section>
 </section>
 <section id="diagnostic-qc-metrics-mapping" class="level3">
 <h3 class="anchored" data-anchor-id="diagnostic-qc-metrics-mapping">Diagnostic QC metrics – Mapping</h3>
@@ -472,7 +472,7 @@ function toggleVisibility(id) {
 <p>Fraction of reads confidently mapped to the transcriptome, but on the opposite strand of their annotated gene. A read is counted as antisense if it has any alignments that are consistent with an exon of a transcript but antisense to it, and has no sense alignments.</p>
 </section>
 </section>
-</div></section>
+</section>
 <section id="ranked-barcode-plot" class="level2">
 <h2 class="anchored" data-anchor-id="ranked-barcode-plot">Ranked Barcode Plot</h2>
 <p>The Barcode Rank Plot under the “Cells” dashboard shows the distribution of barcode counts and which barcodes were inferred to be associated with cells. It is one of the most informative QC plots, it enables one to assess sample quality and to formulate hypothesis of what might have gone wrong if the experiment was not perfectly successful.</p>
