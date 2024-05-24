@@ -278,6 +278,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#shift-logarithm-normalization" id="toc-shift-logarithm-normalization" class="nav-link" data-scroll-target="#shift-logarithm-normalization">Shift logarithm normalization</a></li>
   </ul></li>
+  <li><a href="#visualize-results-and-compare-to-scanpy-normalization" id="toc-visualize-results-and-compare-to-scanpy-normalization" class="nav-link" data-scroll-target="#visualize-results-and-compare-to-scanpy-normalization">Visualize results and compare to scanpy normalization</a></li>
   <li><a href="#variable-feature-selection" id="toc-variable-feature-selection" class="nav-link" data-scroll-target="#variable-feature-selection">Variable feature selection</a></li>
   <li><a href="#scaling" id="toc-scaling" class="nav-link" data-scroll-target="#scaling">Scaling</a></li>
   </ul>
@@ -340,10 +341,10 @@ function toggleVisibility(id) {
    }
 }
 </script>
-<p>Each count in a count matrix represents the successful capture, reverse transcription and sequencing of a molecule of cellular mRNA. Count depths for identical cells can differ due to the variability inherent in each of these steps. Thus, when gene expression is compared between cells based on count data, any difference may have arisen solely due to sampling effects. Normalization addresses this issue by e.g.&nbsp;scaling count data to obtain correct relative gene expression abundances between cells.</p>
-<p>A recent benchmark published by <a href="https://www.nature.com/articles/s41592-023-01814-1">Ahlmann-Eltze and Huber (2023)</a> compared 22 different transformations for single-cell data, which surprisingly showed that a seemingly simple shifted logarithm transformation outperformed gold-standard SCTransform (the default method in analysis package’s such as Seurat in R).</p>
 <section id="shift-logarithm-normalization" class="level3">
 <h3 class="anchored" data-anchor-id="shift-logarithm-normalization">Shift logarithm normalization</h3>
+<p>Each count in a count matrix represents the successful capture, reverse transcription and sequencing of a molecule of cellular mRNA. Count depths for identical cells can differ due to the variability inherent in each of these steps. Thus, when gene expression is compared between cells based on count data, any difference may have arisen solely due to sampling effects. Normalization addresses this issue by e.g.&nbsp;scaling count data to obtain correct relative gene expression abundances between cells.</p>
+<p>A recent benchmark published by <a href="https://www.nature.com/articles/s41592-023-01814-1">Ahlmann-Eltze and Huber (2023)</a> compared 22 different transformations for single-cell data, which surprisingly showed that a seemingly simple shifted logarithm transformation outperformed gold-standard SCTransform (the default method in analysis package’s such as Seurat in R).</p>
 <p>We will thus use the shifted logarithm for normalizing our data, which is based on the delta method v</p>
 <p><span class="math display">\[f(y) = \log \left( \frac{y}{s} + y_0 \right) \]</span></p>
 <p>with <span class="math inline">\(y\)</span> being the raw counts, <span class="math inline">\(s\)</span> being a so-called size factor and <span class="math inline">\(y_0\)</span> describing a pseudo-count. The size factors are determined for each cell to account for variations in sampling effects and different cell sizes. The size factor for a cell <span class="math inline">\(c\)</span> can be calculated by:</p>
@@ -370,6 +371,10 @@ function toggleVisibility(id) {
    }
 }
 </script>
+</div></section>
+</div></section>
+<section id="visualize-results-and-compare-to-scanpy-normalization" class="level2">
+<h2 class="anchored" data-anchor-id="visualize-results-and-compare-to-scanpy-normalization">Visualize results and compare to scanpy normalization</h2>
 <div id="66dd96ea-9ea8-4dd3-b93c-275c97a6675a" class="cell" data-executioninfo="{&quot;elapsed&quot;:2093,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694433352872,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="dd758b72-48af-48b2-f723-4e88b4afc6d1" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>median_raw_counts <span class="op">=</span> np.median(adata.obs[<span class="st">'n_counts'</span>])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -426,6 +431,7 @@ function toggleVisibility(id) {
 </div>
 </div>
 <p>We then run the <code>normalized_total</code> and <code>log1p</code> functions it again so that the normalized data is set as our default matrix in <code>.X</code> emplacement.</p>
+<p>Of course, in your own analysis, you can just use the two scanpy commands in the code cell above. However, this exercise aims as giving you a better understanding of the transformation being applied to your data! Some more complex machine learning based algorithms actually work more optimally on the raw, untransformed counts!</p>
 <p><strong>Exercise 2</strong>: Perform normalization and log transformation using the built in <code>scanpy</code> functions, as hinted at above.</p>
 <button onclick="toggleVisibility('answer2')">
 Click for Answer
@@ -446,8 +452,6 @@ function toggleVisibility(id) {
    }
 }
 </script>
-<p>Of course, in your own analysis, you can just use the two scanpy commands in the code cell above. However, this exercise aims as giving you a better understanding of the transformation being applied to your data! Some more complex machine learning based algorithms (i.e.&nbsp;batch integration with scVI, coming up in a later exercise during this course) actually work more optimally on the raw, untransformed counts!</p>
-</div></div></section>
 </div></section>
 <section id="variable-feature-selection" class="level2">
 <h2 class="anchored" data-anchor-id="variable-feature-selection">Variable feature selection</h2>
@@ -501,7 +505,8 @@ Click for Answer
     S       1400
     G2M     940
     Name: count, dtype: int64
-</pre>
+  </pre>
+</div>
 <script>
 function toggleVisibility(id) {
    var element = document.getElementById(id);
@@ -541,7 +546,7 @@ function toggleVisibility(id) {
 <div id="62874e67-9645-4d45-a7e5-5afe1dd40792" class="cell" data-executioninfo="{&quot;elapsed&quot;:13064,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340215551,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="3e75a2f8-ace2-46ae-ec5f-ae601e7c2b08" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sc.pp.regress_out(adata, <span class="st">'phase'</span>) <span class="co"># specify which feature from adata.obs you want to regress out</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div></div></section>
+</div></section>
 <section id="scaling" class="level2">
 <h2 class="anchored" data-anchor-id="scaling">Scaling</h2>
 <p>Next, we apply scaling, a linear transformation that is a standard pre-processing step prior to dimensional reduction techniques like PCA. The <code>sc.pp.scale</code> function:</p>
