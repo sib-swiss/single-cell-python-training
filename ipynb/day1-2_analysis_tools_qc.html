@@ -145,8 +145,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-day-1">    
         <li>
-    <a class="dropdown-item" href="../ipynb/day1-0_setup.ipynb">
- <span class="dropdown-text"></span></a>
+    <a class="dropdown-item" href="../ipynb/day1-1_setup.html">
+ <span class="dropdown-text">Setup</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day1-1_cellranger.html">
@@ -177,7 +177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day2-3_clustering.html">
- <span class="dropdown-text">Clustering</span></a>
+ <span class="dropdown-text">Clustering and cell annotation</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day2-4_visualization.html">
@@ -253,6 +253,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#loading-scrnaseq-data" id="toc-loading-scrnaseq-data" class="nav-link" data-scroll-target="#loading-scrnaseq-data">Loading scRNAseq data</a></li>
   <li><a href="#the-anndata-object" id="toc-the-anndata-object" class="nav-link" data-scroll-target="#the-anndata-object">The AnnData object</a></li>
   <li><a href="#quality-control" id="toc-quality-control" class="nav-link" data-scroll-target="#quality-control">Quality control</a></li>
+  <li><a href="#plotting-experiment-metadata" id="toc-plotting-experiment-metadata" class="nav-link" data-scroll-target="#plotting-experiment-metadata">Plotting experiment metadata</a></li>
+  <li><a href="#plotting-genes-express-as-a-function-of-total-counts" id="toc-plotting-genes-express-as-a-function-of-total-counts" class="nav-link" data-scroll-target="#plotting-genes-express-as-a-function-of-total-counts">Plotting genes express as a function of total counts</a></li>
   <li><a href="#doublet-detection" id="toc-doublet-detection" class="nav-link" data-scroll-target="#doublet-detection">Doublet detection</a></li>
   <li><a href="#cell-filtering" id="toc-cell-filtering" class="nav-link" data-scroll-target="#cell-filtering">Cell Filtering</a></li>
   </ul>
@@ -582,6 +584,9 @@ function toggleVisibility(id) {
    }
 }
 </script>
+</div></section>
+<section id="plotting-experiment-metadata" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-experiment-metadata">Plotting experiment metadata</h2>
 <p><strong>Exercise 6</strong>: Using scanpy’s <code>sc.pl.violin</code> function, create a violin plot of the percent of reads corresponding to mitochondrial, ribosomal, and hemoglobin genes per cell. Choose an upper boundary to filter out poor quality cells with high mitochondrial reads. Note that we might want to view the results as a separate violin plot for each of our six samples. To do this, please use the optional <code>groupby="sample"</code> argument.</p>
 <p>Please note that depending on your experimental setup, it might not make sense to filter on all these criteria.</p>
 <div id="fdf45da7-8a43-4182-be69-a6be9c7a77d1" class="cell" data-execution_count="13">
@@ -668,6 +673,9 @@ function toggleVisibility(id) {
    }
 }
 </script>
+</div></section>
+<section id="plotting-genes-express-as-a-function-of-total-counts" class="level2">
+<h2 class="anchored" data-anchor-id="plotting-genes-express-as-a-function-of-total-counts">Plotting genes express as a function of total counts</h2>
 <p>We can also evaluate the relative expression of other genes in our dataset, for example, the ones that are most highly expressed. Some very highly expressed genes might point to a technical cause, and we might consider to remove them. Below you will find a simple function to generate a boxplot of relative counts per gene per cell:</p>
 <div id="1ba96efb-61d8-4ac4-8431-21b62341b90f" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>sc.pl.highest_expr_genes(adata, n_top<span class="op">=</span><span class="dv">20</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -679,7 +687,7 @@ function toggleVisibility(id) {
 </div>
 </div>
 </div>
-</div></div></section>
+</section>
 <section id="doublet-detection" class="level2">
 <h2 class="anchored" data-anchor-id="doublet-detection">Doublet detection</h2>
 <p>There are several tools for identifying doublets (i.e.&nbsp;two cells that were encapsulated with the same gel bead, obtaining the same cell barcode). Recently a benchmarking study was conducted comparing approaches: https://www.sciencedirect.com/science/article/pii/S2405471220304592</p>
