@@ -216,8 +216,8 @@ window.Quarto = {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-day-3">    
         <li>
-    <a class="dropdown-item" href="../ipynb/day3-1_tf.ipynb">
- <span class="dropdown-text"></span></a>
+    <a class="dropdown-item" href="../ipynb/day3-1_tf.html">
+ <span class="dropdown-text">Gene regulatory analysis with pySCENIC</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day3-3_trajectory_analysis.html">
@@ -274,10 +274,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link active" data-scroll-target="#learning-outcomes">Learning outcomes</a>
-  <ul class="collapse">
+  <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link active" data-scroll-target="#learning-outcomes">Learning outcomes</a></li>
   <li><a href="#shift-logarithm-normalization" id="toc-shift-logarithm-normalization" class="nav-link" data-scroll-target="#shift-logarithm-normalization">Shift logarithm normalization</a></li>
-  </ul></li>
   <li><a href="#visualize-results-and-compare-to-scanpy-normalization" id="toc-visualize-results-and-compare-to-scanpy-normalization" class="nav-link" data-scroll-target="#visualize-results-and-compare-to-scanpy-normalization">Visualize results and compare to scanpy normalization</a></li>
   <li><a href="#variable-feature-selection" id="toc-variable-feature-selection" class="nav-link" data-scroll-target="#variable-feature-selection">Variable feature selection</a></li>
   <li><a href="#scaling" id="toc-scaling" class="nav-link" data-scroll-target="#scaling">Scaling</a></li>
@@ -342,8 +340,9 @@ function toggleVisibility(id) {
 }
 </script>
 </div>
-<section id="shift-logarithm-normalization" class="level3">
-<h3 class="anchored" data-anchor-id="shift-logarithm-normalization">Shift logarithm normalization</h3>
+</section>
+<section id="shift-logarithm-normalization" class="level2">
+<h2 class="anchored" data-anchor-id="shift-logarithm-normalization">Shift logarithm normalization</h2>
 <p>Each count in a count matrix represents the successful capture, reverse transcription and sequencing of a molecule of cellular mRNA. Count depths for identical cells can differ due to the variability inherent in each of these steps. Thus, when gene expression is compared between cells based on count data, any difference may have arisen solely due to sampling effects. Normalization addresses this issue by e.g.&nbsp;scaling count data to obtain correct relative gene expression abundances between cells.</p>
 <p>A recent benchmark published by <a href="https://www.nature.com/articles/s41592-023-01814-1">Ahlmann-Eltze and Huber (2023)</a> compared 22 different transformations for single-cell data, which surprisingly showed that a seemingly simple shifted logarithm transformation outperformed gold-standard SCTransform (the default method in analysis package’s such as Seurat in R).</p>
 <p>We will thus use the shifted logarithm for normalizing our data, which is based on the delta method v</p>
@@ -372,7 +371,7 @@ function toggleVisibility(id) {
    }
 }
 </script>
-</div></section>
+</div>
 </section>
 <section id="visualize-results-and-compare-to-scanpy-normalization" class="level2">
 <h2 class="anchored" data-anchor-id="visualize-results-and-compare-to-scanpy-normalization">Visualize results and compare to scanpy normalization</h2>
@@ -453,7 +452,8 @@ function toggleVisibility(id) {
    }
 }
 </script>
-</div></section>
+</div>
+</section>
 <section id="variable-feature-selection" class="level2">
 <h2 class="anchored" data-anchor-id="variable-feature-selection">Variable feature selection</h2>
 <p>Now, we begin with dimensionality reduction, i.e.&nbsp;reducing the number of variables in the data by removing features (genes) with little variability among the cells and by combining highly similar features. This is important because normally you start with tens of thousands of genes and it is difficult to represent their patterns in a two-dimensional visualization.</p>
@@ -518,6 +518,7 @@ function toggleVisibility(id) {
    }
 }
 </script>
+</section></main></div>
 <p>We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in some cells, and lowly expressed in others). Genes that are similarly expressed in all cells will not assist with discriminating different cell types from each other.</p>
 <p>The procedure in scanpy models the mean-variance relationship inherent in single-cell data, and is implemented in the <code>sc.pp.highly_variable_genes</code> function. By default, 2,000 genes (features) per dataset are returned and these will be used in downstream analysis, like PCA.</p>
 <div id="3312370c-c144-430e-878e-b6c0e9dfdaca" class="cell" data-executioninfo="{&quot;elapsed&quot;:1658,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340197384,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="7ba9ec09-688b-4aa8-8655-157cf33e06f9" data-execution_count="11">
@@ -544,12 +545,13 @@ function toggleVisibility(id) {
    }
 }
 </script>
+</div>
 <div id="62874e67-9645-4d45-a7e5-5afe1dd40792" class="cell" data-executioninfo="{&quot;elapsed&quot;:13064,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340215551,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="3e75a2f8-ace2-46ae-ec5f-ae601e7c2b08" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sc.pp.regress_out(adata, <span class="st">'phase'</span>) <span class="co"># specify which feature from adata.obs you want to regress out</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</div></section>
+
 <section id="scaling" class="level2">
-<h2 class="anchored" data-anchor-id="scaling">Scaling</h2>
+<h2 data-anchor-id="scaling">Scaling</h2>
 <p>Next, we apply scaling, a linear transformation that is a standard pre-processing step prior to dimensional reduction techniques like PCA. The <code>sc.pp.scale</code> function:</p>
 <ul>
 <li>shifts the expression of each gene, so that the mean expression across cells is 0</li>
@@ -584,6 +586,7 @@ function toggleVisibility(id) {
    }
 }
 </script>
+</div>
 <div id="7c0ae048-9055-4c7e-a4d7-491e9561bdfb" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -592,9 +595,9 @@ function toggleVisibility(id) {
 </div>
 
 
-</div></section>
+</section>
 
-</main> <!-- /main -->
+ <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1004,7 +1007,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-</div> <!-- /content -->
+ <!-- /content -->
 
 
 

@@ -191,8 +191,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-day-3">    
         <li>
-    <a class="dropdown-item" href="../ipynb/day3-1_tf.ipynb">
- <span class="dropdown-text"></span></a>
+    <a class="dropdown-item" href="../ipynb/day3-1_tf.html">
+ <span class="dropdown-text">Gene regulatory analysis with pySCENIC</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day3-3_trajectory_analysis.html">
@@ -284,8 +284,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>In this exercise, you will begin to learn about the standard workflow for analyzing scRNA-seq count data in Python. As single cell data is complex and often tailored to the particular experimental design, so there is not one “correct” approach to analyzing these data. However, certain steps have become accepted as a sort of standard “best practice.”</p>
 <p>A useful overview on the current best practices is found in the articles below, which we also borrow from in this tutorial. We thank the authors for compiling such handy resources!</p>
-<p>Current best practices in single-cell RNA-seq analysis are explained in a recent Nature Review: https://www.nature.com/articles/s41576-023-00586-w</p>
-<p>Accompanying this review is an online webpage, which is still under development but can be quite handy nonetheless: https://www.sc-best-practices.org/preamble.html</p>
+<p>Current best practices in single-cell RNA-seq analysis are explained in a recent <a href="https://www.nature.com/articles/s41576-023-00586-w">Nature Review</a></p>
+<p>Accompanying this review is an <a href="https://www.sc-best-practices.org/preamble.html">online webpage</a>, which is still under development but can be quite handy nonetheless:</p>
 <section id="learning-outcomes" class="level2">
 <h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes</h2>
 <p><strong>After having completed this chapter you will be able to:</strong></p>
@@ -305,11 +305,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="loading-scrnaseq-data" class="level2">
 <h2 class="anchored" data-anchor-id="loading-scrnaseq-data">Loading scRNAseq data</h2>
-<p>After the generation of the count matrices with CellRanger, the next step is the data analysis. The scanpy package is currently the most popular software in Python to do this. To start working with scanpy, you must import the package into your Jupyter notebook as follows:</p>
+<p>After the generation of the count matrices with cellranger, the next step is the data analysis. The scanpy package is currently the most popular software in Python to do this. To start working with scanpy, you must import the package into your Jupyter notebook as follows:</p>
 <div id="50fd024b-1eed-484c-8389-adb5ac26c15e" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scanpy <span class="im">as</span> sc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>An excellent resource for documentation on scanpy can be found on the software page at the following link: https://scanpy.readthedocs.io/en/stable/</p>
+<p>An excellent resource for documentation on scanpy can be found on the software page at the following <a href="https://scanpy.readthedocs.io/en/stable/">link</a>.</p>
 <p>There are some supplemental packages for data handling and visualization that are also very useful to import into your notebook as well.</p>
 <div id="65f99226-ebb1-4070-a03a-51981c9e7390" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># for handling data frames (i.e. data tables)</span></span>
@@ -318,12 +318,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>First, we will load a file specifying the different samples, and create a dictionary “datadirs” specifying the location of the count data:</p>
 <div id="ad98ecc0-0cb2-4df0-8a13-c53bdf760284" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sample_info <span class="op">=</span> pd.read_csv(<span class="st">"../course_data/sample_info_course.csv"</span>)</span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sample_info <span class="op">=</span> pd.read_csv(<span class="st">"course_data/sample_info_course.csv"</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>datadirs <span class="op">=</span> {}</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sample_name <span class="kw">in</span> sample_info[<span class="st">"SampleName"</span>]:</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"PBMMC"</span> <span class="kw">in</span> sample_name:</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        datadirs[sample_name] <span class="op">=</span> <span class="st">"../course_data/count_matrices/"</span> <span class="op">+</span> sample_name <span class="op">+</span> <span class="st">"/outs/filtered_feature_bc_matrix"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        datadirs[sample_name] <span class="op">=</span> <span class="st">"course_data/count_matrices/"</span> <span class="op">+</span> sample_name <span class="op">+</span> <span class="st">"/outs/filtered_feature_bc_matrix"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>To run through a typical scanpy analysis, we will use the files that are in the directory outs/filtered_feature_bc_matrix. This directory is part of the output generated by CellRanger.</p>
 <p>We will use the list of file paths generated in the previous step to load each sample into a separate AnnData object. We will then store all six of those samples in a list called adatas, and combine them into a single AnnData object for our analysis.</p>

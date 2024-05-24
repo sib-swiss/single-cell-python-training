@@ -153,8 +153,8 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-day-3">    
         <li>
-    <a class="dropdown-item" href="../ipynb/day3-1_tf.ipynb">
- <span class="dropdown-text"></span></a>
+    <a class="dropdown-item" href="../ipynb/day3-1_tf.html">
+ <span class="dropdown-text">Gene regulatory analysis with pySCENIC</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day3-3_trajectory_analysis.html">
@@ -221,9 +221,10 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#opening-cellranger-output" id="toc-opening-cellranger-output" class="nav-link" data-scroll-target="#opening-cellranger-output">Opening <code>cellranger</code> output</a></li>
   <li><a href="#understanding-the-cellranger-output" id="toc-understanding-the-cellranger-output" class="nav-link" data-scroll-target="#understanding-the-cellranger-output">Understanding the CellRanger output</a></li>
-  <li><a href="#diagnostic-qc-metrics-sequencing" id="toc-diagnostic-qc-metrics-sequencing" class="nav-link" data-scroll-target="#diagnostic-qc-metrics-sequencing">Diagnostic QC metrics – Sequencing</a>
+  <li><a href="#diagnostics" id="toc-diagnostics" class="nav-link" data-scroll-target="#diagnostics">Diagnostics</a>
   <ul class="collapse">
-  <li><a href="#diagnostic-qc-metrics-mapping" id="toc-diagnostic-qc-metrics-mapping" class="nav-link" data-scroll-target="#diagnostic-qc-metrics-mapping">Diagnostic QC metrics – Mapping</a></li>
+  <li><a href="#qc-metrics-sequencing" id="toc-qc-metrics-sequencing" class="nav-link" data-scroll-target="#qc-metrics-sequencing">QC metrics – Sequencing</a></li>
+  <li><a href="#qc-metrics-mapping" id="toc-qc-metrics-mapping" class="nav-link" data-scroll-target="#qc-metrics-mapping">QC metrics – Mapping</a></li>
   </ul></li>
   <li><a href="#ranked-barcode-plot" id="toc-ranked-barcode-plot" class="nav-link" data-scroll-target="#ranked-barcode-plot">Ranked Barcode Plot</a></li>
   <li><a href="#saturation---is-there-a-gain-in-sequencing-more" id="toc-saturation---is-there-a-gain-in-sequencing-more" class="nav-link" data-scroll-target="#saturation---is-there-a-gain-in-sequencing-more">Saturation - is there a gain in sequencing more?</a></li>
@@ -409,8 +410,10 @@ function toggleVisibility(id) {
 }
 </script>
 </div></section>
-<section id="diagnostic-qc-metrics-sequencing" class="level2">
-<h2 class="anchored" data-anchor-id="diagnostic-qc-metrics-sequencing">Diagnostic QC metrics – Sequencing</h2>
+<section id="diagnostics" class="level2">
+<h2 class="anchored" data-anchor-id="diagnostics">Diagnostics</h2>
+<section id="qc-metrics-sequencing" class="level3">
+<h3 class="anchored" data-anchor-id="qc-metrics-sequencing">QC metrics – Sequencing</h3>
 <p><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.003.jpeg" class="img-fluid"></p>
 <section id="number-of-reads" class="level4">
 <h4 class="anchored" data-anchor-id="number-of-reads">Number of Reads</h4>
@@ -440,8 +443,9 @@ function toggleVisibility(id) {
 <h4 class="anchored" data-anchor-id="q30-bases-in-umi">Q30 Bases in UMI</h4>
 <p>Fraction of UMI bases with Q-score &gt;= 30, excluding very low quality/no-call (Q &lt;= 2) bases from the denominator.</p>
 </section>
-<section id="diagnostic-qc-metrics-mapping" class="level3">
-<h3 class="anchored" data-anchor-id="diagnostic-qc-metrics-mapping">Diagnostic QC metrics – Mapping</h3>
+</section>
+<section id="qc-metrics-mapping" class="level3">
+<h3 class="anchored" data-anchor-id="qc-metrics-mapping">QC metrics – Mapping</h3>
 <p><img src="Aspose.Words.2e953e9a-44c0-496e-9758-25b7bd47b079.004.jpeg" class="img-fluid"></p>
 <section id="reads-mapped-to-genome" class="level4">
 <h4 class="anchored" data-anchor-id="reads-mapped-to-genome">Reads Mapped to Genome</h4>

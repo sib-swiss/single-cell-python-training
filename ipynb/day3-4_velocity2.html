@@ -187,8 +187,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-day-3">    
         <li>
-    <a class="dropdown-item" href="../ipynb/day3-1_tf.ipynb">
- <span class="dropdown-text"></span></a>
+    <a class="dropdown-item" href="../ipynb/day3-1_tf.html">
+ <span class="dropdown-text">Gene regulatory analysis with pySCENIC</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../ipynb/day3-3_trajectory_analysis.html">
@@ -245,17 +245,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#generic-ml" id="toc-generic-ml" class="nav-link active" data-scroll-target="#generic-ml">generic &amp; ml</a></li>
-  <li><a href="#scrna-seq" id="toc-scrna-seq" class="nav-link" data-scroll-target="#scrna-seq">scRNA-seq</a>
-  <ul class="collapse">
-  <li><a href="#load-and-filter-dataset" id="toc-load-and-filter-dataset" class="nav-link" data-scroll-target="#load-and-filter-dataset">Load and filter dataset</a></li>
-  </ul></li>
-  <li><a href="#initialize-cycle-and-phase-objects-with-priors" id="toc-initialize-cycle-and-phase-objects-with-priors" class="nav-link" data-scroll-target="#initialize-cycle-and-phase-objects-with-priors">Initialize cycle and phase objects with priors</a>
-  <ul class="collapse">
+  <li><a href="#load-and-filter-dataset" id="toc-load-and-filter-dataset" class="nav-link active" data-scroll-target="#load-and-filter-dataset">Load and filter dataset</a></li>
+  <li><a href="#initialize-cycle-and-phase-objects-with-priors" id="toc-initialize-cycle-and-phase-objects-with-priors" class="nav-link" data-scroll-target="#initialize-cycle-and-phase-objects-with-priors">Initialize cycle and phase objects with priors</a></li>
   <li><a href="#run-the-manifold-learning-module" id="toc-run-the-manifold-learning-module" class="nav-link" data-scroll-target="#run-the-manifold-learning-module">Run the manifold-learning module</a></li>
   <li><a href="#visualize-the-results" id="toc-visualize-the-results" class="nav-link" data-scroll-target="#visualize-the-results">Visualize the results</a></li>
   <li><a href="#run-the-velocity-learning-module" id="toc-run-the-velocity-learning-module" class="nav-link" data-scroll-target="#run-the-velocity-learning-module">Run the velocity-learning module</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -313,17 +307,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     obsp: 'distances', 'connectivities'</code></pre>
 </div>
 </div>
-<p>import velocycle as vc from velocycle import *</p>
-<section id="generic-ml" class="level1">
-<h1>generic &amp; ml</h1>
-<p>import numpy as np import pandas as pd import matplotlib.pyplot as plt import torch import pyro import copy import scipy import pycircstat import pickle</p>
-</section>
-<section id="scrna-seq" class="level1">
-<h1>scRNA-seq</h1>
-<p>import scanpy as sc import anndata</p>
-<p>from threadpoolctl import threadpool_limits threadpool_limits(limits=8)</p>
-<p>import matplotlib as mpl mpl.rcParams[‘pdf.fonttype’] = 42</p>
-<p>USE_GPU = True if USE_GPU and torch.cuda.is_available(): print(“Will use GPU”) device = torch.device(“cuda:0”) else: print(“Will use CPU”) device = torch.device(“cpu”)</p>
 <section id="load-and-filter-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="load-and-filter-dataset">Load and filter dataset</h2>
 <div id="836243a2-7a44-43c5-ab6f-96c4598e3f45" class="cell" data-execution_count="3">
@@ -391,9 +374,8 @@ WARNING: genes are not in var_names and ignored: ['ANLN', 'AURKA', 'AURKB', 'BIR
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>full_keep_genes <span class="op">=</span> utils.get_cycling_gene_set(size<span class="op">=</span><span class="st">"Medium"</span>, species<span class="op">=</span><span class="st">"Human"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-</section>
-<section id="initialize-cycle-and-phase-objects-with-priors" class="level1">
-<h1>Initialize cycle and phase objects with priors</h1>
+<section id="initialize-cycle-and-phase-objects-with-priors" class="level2">
+<h2 class="anchored" data-anchor-id="initialize-cycle-and-phase-objects-with-priors">Initialize cycle and phase objects with priors</h2>
 <div id="feb74573-96ce-4936-88df-f7696266b5f7" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>n_harm <span class="op">=</span> <span class="dv">1</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>cycle_prior <span class="op">=</span> cycle.Cycle.trivial_prior(gene_names<span class="op">=</span>full_keep_genes, harmonics<span class="op">=</span>n_harm)</span>
@@ -445,6 +427,7 @@ WARNING: genes are not in var_names and ignored: ['ANLN', 'AURKA', 'AURKB', 'BIR
 </div>
 </div>
 </div>
+</section>
 <section id="run-the-manifold-learning-module" class="level2">
 <h2 class="anchored" data-anchor-id="run-the-manifold-learning-module">Run the manifold-learning module</h2>
 <div id="11a4d936-6088-464a-b55e-661ac52c9066" class="cell" data-execution_count="17">
@@ -496,7 +479,7 @@ shape_inv dist     61   1 |
 </div>
 </div>
 <div id="b1635511-89d7-4097-98cf-e1ddefdd3aea" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="dv">2000</span></span>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>initial_lr <span class="op">=</span> <span class="fl">0.03</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>final_lr <span class="op">=</span> <span class="fl">0.005</span></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>gamma <span class="op">=</span> final_lr <span class="op">/</span> initial_lr</span>
@@ -807,7 +790,7 @@ conditions dist             |
 </div>
 </div>
 <div id="9af9fff6-12e2-4e4c-93e8-18d971af9e0b" class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="dv">5000</span></span>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="dv">3000</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>initial_lr <span class="op">=</span> <span class="fl">0.03</span></span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>final_lr <span class="op">=</span> <span class="fl">0.005</span></span>
 <span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>gamma <span class="op">=</span> final_lr <span class="op">/</span> initial_lr</span>
@@ -966,7 +949,7 @@ conditions dist              |
 </div>
 </div>
 <div id="d8e1a3e4-74d0-48bd-86cc-d55e60271f3f" class="cell" data-execution_count="57">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="dv">5000</span></span>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>num_steps <span class="op">=</span> <span class="dv">3000</span></span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>initial_lr <span class="op">=</span> <span class="fl">0.03</span></span>
 <span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>final_lr <span class="op">=</span> <span class="fl">0.005</span></span>
 <span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>gamma <span class="op">=</span> final_lr <span class="op">/</span> initial_lr</span>
@@ -1053,7 +1036,6 @@ conditions dist              |
 </div>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
