@@ -1,6 +1,6 @@
 scanpy
 pandas
-numpy
+numpy==1.23.4
 matplotlib
 seaborn
 harmonypy
