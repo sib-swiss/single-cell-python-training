@@ -24,7 +24,7 @@ title: "Course schedule"
 
 | block   	| start    	| end      	| subject                             	|
 |---------	|----------	|----------	|-------------------------------------	|
-| block 1 	| 9:15 AM  	| 10:30 AM 	| [Dimensionality Reduction](ipynb/day2-1_dimensionality_reduction.ipynb) and [Integration](ipynb/day2-2.integration.ipynb)	|
+| block 1 	| 9:15 AM  	| 10:30 AM 	| [Dimensionality Reduction](ipynb/day2-1_dimensionality_reduction.ipynb) and [Integration](ipynb/day2-2_integration.ipynb)	|
 |         	| 10:30 AM 	| 11:00 AM 	| BREAK                               	|
 | block 2 	| 11:00 AM 	| 12:30 PM 	| [Clustering](ipynb/day2-3_clustering.ipynb)  |
 |         	| 12:30 PM 	| 1:30 PM  	| BREAK                               	|
