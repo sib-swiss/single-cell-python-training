@@ -368,7 +368,7 @@
     "href": "ipynb/day1-1_cellranger.html",
     "title": "Cell Ranger",
     "section": "",
-    "text": "Presentation: General introduction\nPresentation: Introduction to scRNA-seq"
+    "text": "Download Presentation: General introduction\nDownload Presentation: Introduction to scRNA-seq\nDownload Presentation: Introduction to Cell Ranger"
   },
   {
     "objectID": "ipynb/day1-1_cellranger.html#learning-outcomes",
@@ -459,7 +459,7 @@
     "href": "ipynb/day1-2_analysis_tools_qc.html",
     "title": "Analysis tools and quality control (QC)",
     "section": "",
-    "text": "In this exercise, you will begin to learn about the standard workflow for analyzing scRNA-seq count data in Python. As single cell data is complex and often tailored to the particular experimental design, so there is not one “correct” approach to analyzing these data. However, certain steps have become accepted as a sort of standard “best practice.”\nA useful overview on the current best practices is found in the articles below, which we also borrow from in this tutorial. We thank the authors for compiling such handy resources!\nCurrent best practices in single-cell RNA-seq analysis are explained in a recent Nature Review\nAccompanying this review is an online webpage, which is still under development but can be quite handy nonetheless:"
+    "text": "Download Presentation: Introduction to scanpy\nIn this exercise, you will begin to learn about the standard workflow for analyzing scRNA-seq count data in Python. As single cell data is complex and often tailored to the particular experimental design, so there is not one “correct” approach to analyzing these data. However, certain steps have become accepted as a sort of standard “best practice.”\nA useful overview on the current best practices is found in the articles below, which we also borrow from in this tutorial. We thank the authors for compiling such handy resources!\nCurrent best practices in single-cell RNA-seq analysis are explained in a recent Nature Review\nAccompanying this review is an online webpage, which is still under development but can be quite handy nonetheless:"
   },
   {
     "objectID": "ipynb/day1-2_analysis_tools_qc.html#learning-outcomes",
