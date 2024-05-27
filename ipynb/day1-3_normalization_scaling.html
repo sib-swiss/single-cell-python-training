@@ -341,9 +341,6 @@ function toggleVisibility(id) {
 }
 </script>
 </div>
-<div id="3ddb229f-2243-433a-acd6-ab11c5acec46" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial.h5ad"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 <section id="shift-logarithm-normalization" class="level2">
 <h2 class="anchored" data-anchor-id="shift-logarithm-normalization">Shift logarithm normalization</h2>
@@ -381,48 +378,48 @@ function toggleVisibility(id) {
 <h2 class="anchored" data-anchor-id="visualize-results-and-compare-to-scanpy-normalization">Visualize results and compare to scanpy normalization</h2>
 <p>Once you have performed the log-normalization shift, you can visualize your results here to see how the counts at <code>adata.X</code> have changed:</p>
 <div id="04b617e2-bfb1-47c1-a79a-2bf5d1f58732" class="cell" data-executioninfo="{&quot;elapsed&quot;:1414,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694433355898,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="bbd92bd1-ed0f-43e9-d6cb-f78caec1ed84" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> sns.histplot(adata.obs[<span class="st">"n_counts"</span>], bins<span class="op">=</span><span class="dv">100</span>, kde<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Total counts"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> sns.histplot(log_shifted_matrix.<span class="bu">sum</span>(<span class="dv">1</span>), bins<span class="op">=</span><span class="dv">100</span>, kde<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Shifted logarithm"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> sns.histplot(adata.obs[<span class="st">"n_counts"</span>], bins<span class="op">=</span><span class="dv">100</span>, kde<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Total counts"</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> sns.histplot(log_shifted_matrix.<span class="bu">sum</span>(<span class="dv">1</span>), bins<span class="op">=</span><span class="dv">100</span>, kde<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Shifted logarithm"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day1-3_normalization_scaling_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day1-3_normalization_scaling_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>The shifted logarithm can be conveniently called with scanpy by running <code>pp.normalized_total</code> with <code>target_sum=None</code>. We then apply a log transformation with a pseudo-count of 1, which can be easily done with the function <code>sc.pp.log1p</code>.</p>
 <div id="faa32e4f-24f8-448e-9826-217140a96ba6" class="cell" data-executioninfo="{&quot;elapsed&quot;:1564,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694433359778,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="a01ac0af-5f3c-4972-c9f9-c2abc124c6a4" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This can be easily done with scanpy normalize_total and log1p functions</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>scales_counts <span class="op">=</span> sc.pp.normalize_total(adata, target_sum<span class="op">=</span><span class="va">None</span>, inplace<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># log1p transform - log the data and adds a pseudo-count of 1</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>scales_counts <span class="op">=</span> sc.pp.log1p(scales_counts[<span class="st">"X"</span>], copy<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This can be easily done with scanpy normalize_total and log1p functions</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>scales_counts <span class="op">=</span> sc.pp.normalize_total(adata, target_sum<span class="op">=</span><span class="va">None</span>, inplace<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># log1p transform - log the data and adds a pseudo-count of 1</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>scales_counts <span class="op">=</span> sc.pp.log1p(scales_counts[<span class="st">"X"</span>], copy<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="8d49d189-f342-487b-b8d3-399ce992df70" class="cell" data-executioninfo="{&quot;elapsed&quot;:1418,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694433361194,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="a0893f0f-945e-4b58-bbed-52d138f2e6eb" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> sns.histplot(adata.obs[<span class="st">"n_counts"</span>], bins<span class="op">=</span><span class="dv">100</span>, kde<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Total counts"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> sns.histplot(scales_counts.<span class="bu">sum</span>(<span class="dv">1</span>), bins<span class="op">=</span><span class="dv">100</span>, kde<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Shifted logarithm"</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">5</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="op">=</span> sns.histplot(adata.obs[<span class="st">"n_counts"</span>], bins<span class="op">=</span><span class="dv">100</span>, kde<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>axes[<span class="dv">0</span>])</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">0</span>].set_title(<span class="st">"Total counts"</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>p2 <span class="op">=</span> sns.histplot(scales_counts.<span class="bu">sum</span>(<span class="dv">1</span>), bins<span class="op">=</span><span class="dv">100</span>, kde<span class="op">=</span><span class="va">False</span>, ax<span class="op">=</span>axes[<span class="dv">1</span>])</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>axes[<span class="dv">1</span>].set_title(<span class="st">"Shifted logarithm"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day1-3_normalization_scaling_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day1-3_normalization_scaling_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>We verify that our normalization is the same as the one implemented in scanpy. You should have a corelation above 0.999999. The reason why we are not reaching a corelation of 1.0 comes from the precision in float number used by scanpy.</p>
 <div id="2130251f-1795-4586-a67c-379e1b77c4d0" class="cell" data-executioninfo="{&quot;elapsed&quot;:9170,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694433371144,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="c4df483c-f6db-482b-f9b8-e3ed068f8aa2" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> pearsonr</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pearsonr(np.array(scales_counts).flatten(),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>         np.array(log_shifted_matrix).flatten())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> pearsonr</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>pearsonr(np.array(scales_counts).flatten(),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>         np.array(log_shifted_matrix).flatten())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>PearsonRResult(statistic=0.999998708385195, pvalue=0.0)</code></pre>
 </div>
@@ -450,10 +447,6 @@ function toggleVisibility(id) {
 }
 </script>
 </div>
-<div id="2f3a4d84-4f32-4618-95d5-07db990c5f77" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>    sc.pp.normalize_total(adata, target_sum<span class="op">=</span><span class="va">None</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    sc.pp.log1p(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </section>
 <section id="cell-cycle-characterization-and-regression" class="level2">
 <h2 class="anchored" data-anchor-id="cell-cycle-characterization-and-regression">Cell cycle characterization and regression</h2>
@@ -461,37 +454,37 @@ function toggleVisibility(id) {
 <p>One useful (but optional) step is to perform cell cycle characterization, as the cell cycle signature is often a strong convoluting factor with cell type signatures.</p>
 <p><strong>Exercise 3</strong>: Perform cell cycle characterization on your dataset. Plot a scatter plot of the S_score and G2M_score metadata created and stored in your AnnData object. Color the points by the assigned cell cycle phase. What percentage of your cells are in a proliferative state (S or G2M phases)?</p>
 <div id="d6770886-5be1-4122-a649-2178113df906" class="cell" data-executioninfo="{&quot;elapsed&quot;:725,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340191118,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="415d1442-0b8b-42a0-e0c3-12526227b685" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>S_genes_mouse <span class="op">=</span> np.array([<span class="st">'MCM5'</span>, <span class="st">'PCNA'</span>, <span class="st">'TYMS'</span>, <span class="st">'FEN1'</span>, <span class="st">'MCM2'</span>, <span class="st">'MCM4'</span>, <span class="st">'RRM1'</span>, <span class="st">'UNG'</span>,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">'GINS2'</span>, <span class="st">'MCM6'</span>, <span class="st">'CDCA7'</span>, <span class="st">'DTL'</span>, <span class="st">'PRIM1'</span>, <span class="st">'UHRF1'</span>, <span class="st">'CENPU'</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>       <span class="st">'HELLS'</span>, <span class="st">'RFC2'</span>, <span class="st">'RPA2'</span>, <span class="st">'NASP'</span>, <span class="st">'RAD51AP1'</span>, <span class="st">'GMNN'</span>, <span class="st">'WDR76'</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>       <span class="st">'SLBP'</span>, <span class="st">'CCNE2'</span>, <span class="st">'UBR7'</span>, <span class="st">'POLD3'</span>, <span class="st">'MSH2'</span>, <span class="st">'ATAD2'</span>, <span class="st">'RAD51'</span>, <span class="st">'RRM2'</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>       <span class="st">'CDC45'</span>, <span class="st">'CDC6'</span>, <span class="st">'EXO1'</span>, <span class="st">'TIPIN'</span>, <span class="st">'DSCC1'</span>, <span class="st">'BLM'</span>, <span class="st">'CASP8AP2'</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>       <span class="st">'USP1'</span>, <span class="st">'CLSPN'</span>, <span class="st">'POLA1'</span>, <span class="st">'CHAF1B'</span>, <span class="st">'BRIP1'</span>, <span class="st">'E2F8'</span>])</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>G2M_genes_mouse <span class="op">=</span> np.array([<span class="st">'HMGB2'</span>, <span class="st">'CDK1'</span>, <span class="st">'NUSAP1'</span>, <span class="st">'UBE2C'</span>, <span class="st">'BIRC5'</span>, <span class="st">'TPX2'</span>, <span class="st">'TOP2A'</span>,</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>       <span class="st">'NDC80'</span>, <span class="st">'CKS2'</span>, <span class="st">'NUF2'</span>, <span class="st">'CKS1B'</span>, <span class="st">'MKI67'</span>, <span class="st">'TMPO'</span>, <span class="st">'CENPF'</span>,</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>       <span class="st">'TACC3'</span>, <span class="st">'PIMREG'</span>, <span class="st">'SMC4'</span>, <span class="st">'CCNB2'</span>, <span class="st">'CKAP2L'</span>, <span class="st">'CKAP2'</span>, <span class="st">'AURKB'</span>,</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>       <span class="st">'BUB1'</span>, <span class="st">'KIF11'</span>, <span class="st">'ANP32E'</span>, <span class="st">'TUBB4B'</span>, <span class="st">'GTSE1'</span>, <span class="st">'KIF20B'</span>, <span class="st">'HJURP'</span>,</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>       <span class="st">'CDCA3'</span>, <span class="st">'JPT1'</span>, <span class="st">'CDC20'</span>, <span class="st">'TTK'</span>, <span class="st">'CDC25C'</span>, <span class="st">'KIF2C'</span>, <span class="st">'RANGAP1'</span>,</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>       <span class="st">'NCAPD2'</span>, <span class="st">'DLGAP5'</span>, <span class="st">'CDCA2'</span>, <span class="st">'CDCA8'</span>, <span class="st">'ECT2'</span>, <span class="st">'KIF23'</span>, <span class="st">'HMMR'</span>,</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>       <span class="st">'AURKA'</span>, <span class="st">'PSRC1'</span>, <span class="st">'ANLN'</span>, <span class="st">'LBR'</span>, <span class="st">'CKAP5'</span>, <span class="st">'CENPE'</span>, <span class="st">'CTCF'</span>, <span class="st">'NEK2'</span>,</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>       <span class="st">'G2E3'</span>, <span class="st">'GAS2L3'</span>, <span class="st">'CBX5'</span>, <span class="st">'CENPA'</span>])</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>sc.tl.score_genes_cell_cycle(adata, s_genes<span class="op">=</span>S_genes_mouse, g2m_genes<span class="op">=</span>G2M_genes_mouse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>S_genes_mouse <span class="op">=</span> np.array([<span class="st">'MCM5'</span>, <span class="st">'PCNA'</span>, <span class="st">'TYMS'</span>, <span class="st">'FEN1'</span>, <span class="st">'MCM2'</span>, <span class="st">'MCM4'</span>, <span class="st">'RRM1'</span>, <span class="st">'UNG'</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">'GINS2'</span>, <span class="st">'MCM6'</span>, <span class="st">'CDCA7'</span>, <span class="st">'DTL'</span>, <span class="st">'PRIM1'</span>, <span class="st">'UHRF1'</span>, <span class="st">'CENPU'</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>       <span class="st">'HELLS'</span>, <span class="st">'RFC2'</span>, <span class="st">'RPA2'</span>, <span class="st">'NASP'</span>, <span class="st">'RAD51AP1'</span>, <span class="st">'GMNN'</span>, <span class="st">'WDR76'</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       <span class="st">'SLBP'</span>, <span class="st">'CCNE2'</span>, <span class="st">'UBR7'</span>, <span class="st">'POLD3'</span>, <span class="st">'MSH2'</span>, <span class="st">'ATAD2'</span>, <span class="st">'RAD51'</span>, <span class="st">'RRM2'</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>       <span class="st">'CDC45'</span>, <span class="st">'CDC6'</span>, <span class="st">'EXO1'</span>, <span class="st">'TIPIN'</span>, <span class="st">'DSCC1'</span>, <span class="st">'BLM'</span>, <span class="st">'CASP8AP2'</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>       <span class="st">'USP1'</span>, <span class="st">'CLSPN'</span>, <span class="st">'POLA1'</span>, <span class="st">'CHAF1B'</span>, <span class="st">'BRIP1'</span>, <span class="st">'E2F8'</span>])</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>G2M_genes_mouse <span class="op">=</span> np.array([<span class="st">'HMGB2'</span>, <span class="st">'CDK1'</span>, <span class="st">'NUSAP1'</span>, <span class="st">'UBE2C'</span>, <span class="st">'BIRC5'</span>, <span class="st">'TPX2'</span>, <span class="st">'TOP2A'</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>       <span class="st">'NDC80'</span>, <span class="st">'CKS2'</span>, <span class="st">'NUF2'</span>, <span class="st">'CKS1B'</span>, <span class="st">'MKI67'</span>, <span class="st">'TMPO'</span>, <span class="st">'CENPF'</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>       <span class="st">'TACC3'</span>, <span class="st">'PIMREG'</span>, <span class="st">'SMC4'</span>, <span class="st">'CCNB2'</span>, <span class="st">'CKAP2L'</span>, <span class="st">'CKAP2'</span>, <span class="st">'AURKB'</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>       <span class="st">'BUB1'</span>, <span class="st">'KIF11'</span>, <span class="st">'ANP32E'</span>, <span class="st">'TUBB4B'</span>, <span class="st">'GTSE1'</span>, <span class="st">'KIF20B'</span>, <span class="st">'HJURP'</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>       <span class="st">'CDCA3'</span>, <span class="st">'JPT1'</span>, <span class="st">'CDC20'</span>, <span class="st">'TTK'</span>, <span class="st">'CDC25C'</span>, <span class="st">'KIF2C'</span>, <span class="st">'RANGAP1'</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>       <span class="st">'NCAPD2'</span>, <span class="st">'DLGAP5'</span>, <span class="st">'CDCA2'</span>, <span class="st">'CDCA8'</span>, <span class="st">'ECT2'</span>, <span class="st">'KIF23'</span>, <span class="st">'HMMR'</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>       <span class="st">'AURKA'</span>, <span class="st">'PSRC1'</span>, <span class="st">'ANLN'</span>, <span class="st">'LBR'</span>, <span class="st">'CKAP5'</span>, <span class="st">'CENPE'</span>, <span class="st">'CTCF'</span>, <span class="st">'NEK2'</span>,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>       <span class="st">'G2E3'</span>, <span class="st">'GAS2L3'</span>, <span class="st">'CBX5'</span>, <span class="st">'CENPA'</span>])</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>sc.tl.score_genes_cell_cycle(adata, s_genes<span class="op">=</span>S_genes_mouse, g2m_genes<span class="op">=</span>G2M_genes_mouse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>WARNING: genes are not in var_names and ignored: ['PIMREG', 'JPT1']</code></pre>
 </div>
 </div>
 <p>The gene lists provided here are the “standard” in single cell analysis as come from the two papers: - <a href="https://pubmed.ncbi.nlm.nih.gov/25599176/">Buettner et al (2015)</a> - <a href="https://www.nature.com/articles/nbt.3192">Satija et al (2015)</a></p>
 <div id="0344041a-f5fa-4023-8bb8-b6bd7349b701" class="cell" data-executioninfo="{&quot;elapsed&quot;:807,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340193319,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="bbab5279-526d-4c78-e255-4621a000f271" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n2c <span class="op">=</span> {<span class="st">"G1"</span>:<span class="st">"red"</span>, <span class="st">"S"</span>:<span class="st">"green"</span>, <span class="st">"G2M"</span>:<span class="st">"blue"</span>} <span class="co"># use to assign each cell a color based on phase in the scatter plot</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(adata.obs[<span class="st">'S_score'</span>], adata.obs[<span class="st">'G2M_score'</span>], c<span class="op">=</span>[n2c[k] <span class="cf">for</span> k <span class="kw">in</span> adata.obs[<span class="st">'phase'</span>]])</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'S score'</span>) <span class="op">;</span> plt.ylabel(<span class="st">'G2M score'</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>n2c <span class="op">=</span> {<span class="st">"G1"</span>:<span class="st">"red"</span>, <span class="st">"S"</span>:<span class="st">"green"</span>, <span class="st">"G2M"</span>:<span class="st">"blue"</span>} <span class="co"># use to assign each cell a color based on phase in the scatter plot</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(adata.obs[<span class="st">'S_score'</span>], adata.obs[<span class="st">'G2M_score'</span>], c<span class="op">=</span>[n2c[k] <span class="cf">for</span> k <span class="kw">in</span> adata.obs[<span class="st">'phase'</span>]])</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'S score'</span>) <span class="op">;</span> plt.ylabel(<span class="st">'G2M score'</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day1-3_normalization_scaling_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day1-3_normalization_scaling_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -508,13 +501,12 @@ Click for Answer
     G2M     940
     Name: count, dtype: int64
   </pre>
-<pre><code>You can then use &lt;code&gt;adata.n_obs&lt;/code&gt; to divide the estimates by the total. You should get about:</code></pre>
+You can then use <code>adata.n_obs</code> to divide the estimates by the total. You should get about:
 <pre>    phase
     G1     0.592796
     S      0.249954
     G2M    0.157250
   </pre>
-</div>
 <script>
 function toggleVisibility(id) {
    var element = document.getElementById(id);
@@ -525,18 +517,18 @@ function toggleVisibility(id) {
    }
 }
 </script>
-</section></main></div>
-
+</div>
+</section>
 <section id="highly-variable-gene-selection" class="level2">
-<h2 data-anchor-id="highly-variable-gene-selection">Highly variable gene selection</h2>
+<h2 class="anchored" data-anchor-id="highly-variable-gene-selection">Highly variable gene selection</h2>
 <p>We next calculate a subset of features that exhibit high cell-to-cell variation in the dataset (i.e, they are highly expressed in some cells, and lowly expressed in others). Genes that are similarly expressed in all cells will not assist with discriminating different cell types from each other.</p>
 <p>The procedure in scanpy models the mean-variance relationship inherent in single-cell data, and is implemented in the <code>sc.pp.highly_variable_genes</code> function. By default, 2,000 genes (features) per dataset are returned and these will be used in downstream analysis, like PCA.</p>
 <div id="3312370c-c144-430e-878e-b6c0e9dfdaca" class="cell" data-executioninfo="{&quot;elapsed&quot;:1658,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340197384,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="7ba9ec09-688b-4aa8-8655-157cf33e06f9" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># suggestion: start with 3000 highly variable genes</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(adata, n_top_genes<span class="op">=</span><span class="dv">3000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># suggestion: start with 2000 or 3000 highly variable genes</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(adata, n_top_genes<span class="op">=</span><span class="dv">3000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cef66fd7-677a-4753-b2e8-74dd2a90161d" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, adata.var[<span class="st">"highly_variable"</span>]].copy() <span class="co"># actually do the filtering</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, adata.var[<span class="st">"highly_variable"</span>]].copy() <span class="co"># actually do the filtering</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>While correcting for technical covariates may be crucial to uncovering the underlying biological signal, correction for biological covariates serves to single out particular biological signals of interest. The most common biological data correction is to remove the effects of the cell cycle on the transcriptome, the number of raw counts that existed per cell, or the percentage of mitochondrial reads present. This data correction can be performed by a simple linear regression against a cell cycle score as implemented in scanpy.</p>
 <p><strong>Exercise 5</strong>: Use scanpy’s <code>regress_out</code> function to remove the effect of the cell cycle <code>phase</code> metadata from your downstream analyses steps.</p>
@@ -558,7 +550,7 @@ function toggleVisibility(id) {
 </div>
 </section>
 <section id="scaling" class="level2">
-<h2 data-anchor-id="scaling">Scaling</h2>
+<h2 class="anchored" data-anchor-id="scaling">Scaling</h2>
 <p>Next, we apply scaling, a linear transformation that is a standard pre-processing step prior to dimensional reduction techniques like PCA. The <code>sc.pp.scale</code> function:</p>
 <ul>
 <li>shifts the expression of each gene, so that the mean expression across cells is 0</li>
@@ -566,7 +558,7 @@ function toggleVisibility(id) {
 <li>This step gives equal weight in downstream analyses, so that highly-expressed genes do not dominate. The results of this are stored as the updated count matrix at <code>adata.X</code>, and the original means and standard deviations for each gene are stored as metadata variables in <code>adata.var["mean"]</code> and <code>adata.var["std"]</code>.</li>
 </ul>
 <div id="bf94f67b-d1c7-44af-bc65-7bee0279b355" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sc.pp.scale(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sc.pp.scale(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Exercise 6</strong>: Can you use the commands adata.X.mean() to check whether this method is successfully scaling the mean of each gene to be equal to 0, and adata.X.std() to check whether this method is successfully scaling the standard deviation of each gene to be equal to 1? Important: don’t forget to take the mean for each <strong>gene</strong> by specifying <code>axis=0</code>!</p>
 <button onclick="toggleVisibility('answer6')">
@@ -595,16 +587,16 @@ function toggleVisibility(id) {
 </script>
 </div>
 <div id="7c0ae048-9055-4c7e-a4d7-491e9561bdfb" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the dataset</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="4ba2b132-a2af-443e-9d00-be72849bc24e" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial2.h5ad"</span>) <span class="co"># feel free to choose whichever file name you prefer!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial2.h5ad"</span>) <span class="co"># feel free to choose whichever file name you prefer!</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
 </section>
 
- <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -1014,7 +1006,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
- <!-- /content -->
+</div> <!-- /content -->
 
 
 
