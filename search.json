@@ -186,7 +186,7 @@
     "href": "course_schedule.html#day-1",
     "title": "Course schedule",
     "section": "Day 1",
-    "text": "Day 1\n\n\n\nblock\nstart\nend\nsubject\n\n\n\n\nintroduction\n9:15 AM\n9:30 AM\nIntroduction\n\n\nblock 1\n9:30 AM\n10:15 AM\nIntroduction scRNAseq\n\n\n\n10:15 AM\n10:45 AM\nBREAK\n\n\nblock 2\n10:45 AM\n12:00 PM\nPresentation: Andreia Gouvêa, 10X Field Application Scientist\n\n\n\n12:00 PM\n1:00 PM\nBREAK\n\n\nblock 3\n1:00 PM\n3:00 PM\nCell Ranger and Quality Control\n\n\n\n3:00 PM\n3:30 PM\nBREAK\n\n\nblock 4\n3:30 PM\n5:00 PM\nNormalization and Scaling"
+    "text": "Day 1\n\n\n\nblock\nstart\nend\nsubject\n\n\n\n\nintroduction\n9:15 AM\n9:30 AM\nIntroduction\n\n\nblock 1\n9:30 AM\n10:15 AM\nIntroduction scRNAseq\n\n\n\n10:15 AM\n10:45 AM\nBREAK\n\n\nblock 2\n10:45 AM\n12:00 PM\nPresentation: Andreia Gouvêa, 10X Field Application Scientist\n\n\n\n12:00 PM\n1:00 PM\nBREAK\n\n\nblock 3\n1:00 PM\n3:00 PM\nCell Ranger\n\n\n\n3:00 PM\n3:30 PM\nBREAK\n\n\nblock 4\n3:30 PM\n5:00 PM\nQuality Control and Normalization and Scaling"
   },
   {
     "objectID": "course_schedule.html#day-2",
