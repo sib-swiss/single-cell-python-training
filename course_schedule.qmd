@@ -15,7 +15,7 @@ title: "Course schedule"
 |         	| 10:15 AM 	| 10:45 AM 	| BREAK                          	|
 | block 2 	| 10:45 AM 	| 12:00 PM 	| Presentation: Andreia Gouvêa, 10X Field Application Scientist 	     |
 |         	| 12:00 PM 	| 1:00 PM  	| BREAK                          	|
-| block 3 	| 1:00 PM  	| 3:00 PM  	| [Cell Ranger](iypnb/day1-1_cellranger.ipynb) and [Quality Control](ipynb/day1-2_analysis_tools_qc.ipynb)             	 |
+| block 3 	| 1:00 PM  	| 3:00 PM  	| [Cell Ranger](ipynb/day1-1_cellranger.ipynb) and [Quality Control](ipynb/day1-2_analysis_tools_qc.ipynb)             	 |
 |         	| 3:00 PM  	| 3:30 PM  	| BREAK                          	|
 | block 4 	| 3:30 PM  	| 5:00 PM  	| [Normalization and Scaling](ipynb/day1-3_normalization_scaling.ipynb)                  
 
