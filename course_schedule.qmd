@@ -15,16 +15,16 @@ title: "Course schedule"
 |         	| 10:15 AM 	| 10:45 AM 	| BREAK                          	|
 | block 2 	| 10:45 AM 	| 12:00 PM 	| Presentation: Andreia Gouvêa, 10X Field Application Scientist 	     |
 |         	| 12:00 PM 	| 1:00 PM  	| BREAK                          	|
-| block 3 	| 1:00 PM  	| 3:00 PM  	| [Cell Ranger](iypnb/day1-1_cellranger.ipynb) and [Quality Control](ipynb/day1-2_analysis_tools_qc.ipynb)             	 |
+| block 3 	| 1:00 PM  	| 3:00 PM  	| [Cell Ranger](ipynb/day1-1_cellranger.ipynb)             	 |
 |         	| 3:00 PM  	| 3:30 PM  	| BREAK                          	|
-| block 4 	| 3:30 PM  	| 5:00 PM  	| [Normalization and Scaling](ipynb/day1-3_normalization_scaling.ipynb)                  
+| block 4 	| 3:30 PM  	| 5:00 PM  	| [Quality Control](ipynb/day1-2_analysis_tools_qc.ipynb) and [Normalization and Scaling](ipynb/day1-3_normalization_scaling.ipynb)                  
 
 
 ## Day 2
 
 | block   	| start    	| end      	| subject                             	|
 |---------	|----------	|----------	|-------------------------------------	|
-| block 1 	| 9:15 AM  	| 10:30 AM 	| [Dimensionality Reduction](ipynb/day2-1_dimensionality_reduction.ipynb) and [Integration](ipynb/day2-2.integration.ipynb)	|
+| block 1 	| 9:15 AM  	| 10:30 AM 	| [Dimensionality Reduction](ipynb/day2-1_dimensionality_reduction.ipynb) and [Integration](ipynb/day2-2_integration.ipynb)	|
 |         	| 10:30 AM 	| 11:00 AM 	| BREAK                               	|
 | block 2 	| 11:00 AM 	| 12:30 PM 	| [Clustering](ipynb/day2-3_clustering.ipynb)  |
 |         	| 12:30 PM 	| 1:30 PM  	| BREAK                               	|
@@ -38,7 +38,7 @@ title: "Course schedule"
 |---------	|----------	|----------	|-------------------------------------	|
 | block 1 	| 9:15 AM  	| 10:30 AM 	| [Transcription factor analysis](ipynb/day3-1_tf.ipynb)	|
 |         	| 10:30 AM 	| 11:00 AM 	| BREAK                               	|
-| block 2 	| 11:00 AM 	| 12:30 PM 	| [Trajectory Inference](day3/day3-3_trajectory_analysis.ipynb)            	|
+| block 2 	| 11:00 AM 	| 12:30 PM 	| [Trajectory Inference](ipynb/day3-3_trajectory_analysis.ipynb)            	|
 |         	| 12:30 PM 	| 1:30 PM  	| BREAK                               	|
 | block 3 	| 1:30 PM  	| 3:00 PM  	| [RNA velocity](ipynb/day3-4_velocity1.ipynb)  |
 |         	| 3:00 PM  	| 3:30 PM  	| BREAK                               	|
