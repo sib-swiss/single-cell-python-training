@@ -319,8 +319,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div id="3b89a3ee-0f8b-4c68-b9c8-2d837eff5e41" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"leiden"</span>] <span class="op">=</span> adata.obs[<span class="st">"leiden_res1"</span>]</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obsm[<span class="st">"X_pca"</span>] <span class="op">=</span> adata.obsm[<span class="st">"X_pcahm"</span>]</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> adata.obsm[<span class="st">"X_umap"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obsm[<span class="st">"X_pca"</span>] <span class="op">=</span> adata.obsm[<span class="st">"X_pca"</span>]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obsm[<span class="st">"X_pcahm"</span>] <span class="op">=</span> adata.obsm[<span class="st">"X_pcahm"</span>]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> adata.obsm[<span class="st">"X_umap"</span>]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obsp[<span class="st">"connectivities"</span>] <span class="op">=</span> adata.obsp[<span class="st">"connectivities"</span>]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obsp[<span class="st">"distances"</span>] <span class="op">=</span> adata.obsp[<span class="st">"distances"</span>]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.uns[<span class="st">"neighbors"</span>] <span class="op">=</span> adata.uns[<span class="st">"neighbors"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s use a simple method implemented by scanpy to find marker genes by the Leiden cluster.</p>
 <div id="5dec4127-2d0d-419a-9335-9bd045129336" class="cell" data-executioninfo="{&quot;elapsed&quot;:15954,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340476850,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="a83e0455-6ecf-4363-d635-cd20d00a6549" data-execution_count="6">
@@ -416,7 +420,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p><strong>Exercise 6</strong>: Visualize marker genes on the UMAP or tSNE representation. Try to find 3-4 marker genes that are indeed specific to a particular cluster. Are there any clusters that do not seem to have unique marker genes? Are there any clusters containing markers that are only specific to a portion of the cluster? Marker genes should uniformly define cells “everywhere” in a cluster in UMAP space, otherwise the cluster might actually be two!</p>
+<p><strong>Exercise 1</strong>: Visualize marker genes on the UMAP or tSNE representation. Try to find 3-4 marker genes that are indeed specific to a particular cluster. Are there any clusters that do not seem to have unique marker genes? Are there any clusters containing markers that are only specific to a portion of the cluster? Marker genes should uniformly define cells “everywhere” in a cluster in UMAP space, otherwise the cluster might actually be two!</p>
 <div id="4804f79d-960f-4431-87d6-ae6920130d24" class="cell" data-executioninfo="{&quot;elapsed&quot;:1510,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340543187,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="3650a62f-a65a-46d5-d377-86ef2246d66a" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    adata,</span>
@@ -438,12 +442,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p><strong>Exercise 7 (optional)</strong>: Let’s take a few steps back to understand all of the previous steps a little bit better! The number of genes selected by the highly_variable_genes function can significantly impact your ability to cluster. Too few genes and you cannot discriminate between different cell types, too many genes and you capture lots of noisy clusters! Try repeating the previous analysis with either 200 or 5000 highly variable genes, naming the AnnData object differently (i.e.&nbsp;adata_200genes) to avoid overwriting your previous results. Transfer the metadata for the new cluster labels to the original AnnData object’s metadata at adata.obs and compare on the UMAP. Are the clusters different?</p>
+<p><strong>Exercise 2 (optional)</strong>: Let’s take a few steps back to understand all of the previous steps a little bit better! The number of genes selected by the highly_variable_genes function can significantly impact your ability to cluster. Too few genes and you cannot discriminate between different cell types, too many genes and you capture lots of noisy clusters! Try repeating the previous analysis with either 200 or 5000 highly variable genes, naming the AnnData object differently (i.e.&nbsp;adata_200genes) to avoid overwriting your previous results. Transfer the metadata for the new cluster labels to the original AnnData object’s metadata at adata.obs and compare on the UMAP. Are the clusters different?</p>
 <p>Once you have settled on the parameters for the dimensionality reduction and clustering steps, it is time to begin annotating your clusters with cell types. This is normally a challenging step! When you are not too familiar with the marker genes for a particular cluster, a good starting point is simply to Google a strong marker gene and understand its function. Other tools that might be useful include EnrichR and GSEAPy. - https://maayanlab.cloud/Enrichr/ - https://gseapy.readthedocs.io/en/latest/gseapy_example.html#2.-Enrichr-Example</p>
 <p>Fortunately in our case, we will try automated cell type annotations!</p>
 <section id="automated-cell-type-annotation" class="level1">
 <h1>Automated cell type annotation</h1>
-<p><strong>Exercise 8</strong> The methods discussed here focus on automated data annotation, distinct from manual methods. Unlike the previously detailed approach, these methods automate data annotation. They operate on different principles, using predefined markers or trained on comprehensive scRNA-seq datasets. It’s vital to note that automated annotations can vary in quality. Thus, they should be seen as a starting point rather than a final solution. <a href="https://www.csbj.org/article/S2001-03702100019-2/fulltext">Pasquini et al., 2021</a> and <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1795-z">Abdelaal et al., 2019</a> offer extensive discussions on automated annotation methods.</p>
+<p><strong>Exercise 3:</strong> The methods discussed here focus on automated data annotation, distinct from manual methods. Unlike the previously detailed approach, these methods automate data annotation. They operate on different principles, using predefined markers or trained on comprehensive scRNA-seq datasets. It’s vital to note that automated annotations can vary in quality. Thus, they should be seen as a starting point rather than a final solution. <a href="https://www.csbj.org/article/S2001-03702100019-2/fulltext">Pasquini et al., 2021</a> and <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1795-z">Abdelaal et al., 2019</a> offer extensive discussions on automated annotation methods.</p>
 <p>Quality depends on:</p>
 <ul>
 <li><p>Classifier Choice: Various classifier types perform similarly, with neural networks <strong>not</strong> necessarily outperforming linear models [<a href="https://www.csbj.org/article/S2001-03702100019-2/fulltext">1</a>, <a href="https://genomebiology.biomedcentral.com/articles/10.1186/s13059-019-1795-z">2</a>, <a href="https://academic.oup.com/bib/article/22/5/bbab035/6145135?login=false">3</a>].</p></li>
@@ -578,29 +582,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">CAACCTCCATACTACG-1</td>
-<td>Erythroid</td>
-<td>0.923852</td>
+<td data-quarto-table-cell-role="th">TTCCCAGCAGACAAAT-1</td>
+<td>B-cell lineage</td>
+<td>0.990278</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">CGTCCATTCTGAAAGA-1</td>
-<td>Erythroid</td>
-<td>0.981308</td>
+<td data-quarto-table-cell-role="th">GTGTGCGGTGTTTGGT-1</td>
+<td>B-cell lineage</td>
+<td>0.986694</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">CGGACTGTCTGTCCGT-1</td>
+<td data-quarto-table-cell-role="th">GATCAGTTCTTTAGTC-1</td>
 <td>Erythroid</td>
-<td>0.986510</td>
+<td>0.984309</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">CTGATCCGTCTAGCCG-1</td>
-<td>T cells</td>
-<td>0.999813</td>
+<td data-quarto-table-cell-role="th">GTCTTCGAGAAGATTC-1</td>
+<td>Monocytes</td>
+<td>0.999283</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">TGTGGTAAGTGATCGG-1</td>
-<td>T cells</td>
-<td>0.954788</td>
+<td data-quarto-table-cell-role="th">TGCTACCTCGTTACAG-1</td>
+<td>pDC</td>
+<td>0.996167</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -608,29 +612,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">GACTGCGGTAGAAGGA-1</td>
-<td>T cells</td>
-<td>0.953285</td>
+<td data-quarto-table-cell-role="th">TCATTACCAAGCGTAG-1</td>
+<td>Monocytes</td>
+<td>0.938815</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">CGACTTCAGTTGAGAT-1</td>
-<td>DC</td>
-<td>0.959309</td>
+<td data-quarto-table-cell-role="th">CAGATCAAGATGCGAC-1</td>
+<td>Monocytes</td>
+<td>0.717744</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">AACCATGCAATCTACG-1</td>
-<td>T cells</td>
-<td>0.992116</td>
+<td data-quarto-table-cell-role="th">CGTCAGGAGTGCTGCC-1</td>
+<td>Erythroid</td>
+<td>0.992524</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">AACTCAGTCGTCTGCT-1</td>
-<td>Monocytes</td>
-<td>0.966532</td>
+<td data-quarto-table-cell-role="th">ACACTGAGTTGATTCG-1</td>
+<td>Erythroid</td>
+<td>0.933983</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">ATTGGTGTCTACTCAT-1</td>
-<td>Monocytes</td>
-<td>0.999224</td>
+<td data-quarto-table-cell-role="th">GAAGCAGTCGAACTGT-1</td>
+<td>T cells</td>
+<td>0.997989</td>
 </tr>
 </tbody>
 </table>
@@ -680,29 +684,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">CAACCTCCATACTACG-1</td>
-<td>Late erythroid</td>
-<td>0.969943</td>
+<td data-quarto-table-cell-role="th">TTCCCAGCAGACAAAT-1</td>
+<td>Large pre-B cells</td>
+<td>0.501054</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">CGTCCATTCTGAAAGA-1</td>
-<td>Late erythroid</td>
-<td>0.981763</td>
+<td data-quarto-table-cell-role="th">GTGTGCGGTGTTTGGT-1</td>
+<td>Large pre-B cells</td>
+<td>0.827030</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">CGGACTGTCTGTCCGT-1</td>
+<td data-quarto-table-cell-role="th">GATCAGTTCTTTAGTC-1</td>
 <td>Late erythroid</td>
-<td>0.993632</td>
+<td>0.897641</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">CTGATCCGTCTAGCCG-1</td>
-<td>Tcm/Naive cytotoxic T cells</td>
-<td>0.725759</td>
+<td data-quarto-table-cell-role="th">GTCTTCGAGAAGATTC-1</td>
+<td>Monocytes</td>
+<td>0.982690</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">TGTGGTAAGTGATCGG-1</td>
-<td>Tcm/Naive helper T cells</td>
-<td>0.878998</td>
+<td data-quarto-table-cell-role="th">TGCTACCTCGTTACAG-1</td>
+<td>pDC</td>
+<td>0.996716</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">...</td>
@@ -710,29 +714,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">GACTGCGGTAGAAGGA-1</td>
-<td>Tcm/Naive cytotoxic T cells</td>
-<td>0.827536</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">CGACTTCAGTTGAGAT-1</td>
-<td>DC2</td>
-<td>0.125286</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">AACCATGCAATCTACG-1</td>
-<td>Tcm/Naive cytotoxic T cells</td>
-<td>0.270089</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">AACTCAGTCGTCTGCT-1</td>
-<td>Monocytes</td>
-<td>0.882287</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">ATTGGTGTCTACTCAT-1</td>
+<td data-quarto-table-cell-role="th">TCATTACCAAGCGTAG-1</td>
 <td>Classical monocytes</td>
-<td>0.986496</td>
+<td>0.871458</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">CAGATCAAGATGCGAC-1</td>
+<td>Classical monocytes</td>
+<td>0.318097</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">CGTCAGGAGTGCTGCC-1</td>
+<td>Mid erythroid</td>
+<td>0.361174</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">ACACTGAGTTGATTCG-1</td>
+<td>Late erythroid</td>
+<td>0.935759</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">GAAGCAGTCGAACTGT-1</td>
+<td>Tcm/Naive helper T cells</td>
+<td>0.155408</td>
 </tr>
 </tbody>
 </table>
@@ -799,15 +803,127 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="another-way-to-annotate-with-label-transfer-from-a-reference-dataset" class="level1">
 <h1>Another way to annotate: with label transfer from a reference dataset!</h1>
-<div id="cf24c8f5-93ec-478e-b1b8-322401e591e8" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># To be added for the diseased conditions...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In addition to automated label transfer methods using machine learning, it is possible to transfer cell type labels acquired (either automatically or manually) from a reference dataset to a new, unannotated dataset, using the <code>sc.tl.ingest</code> function.</p>
+<p>The <a href="https://scanpy.readthedocs.io/en/latest/api/scanpy.tl.ingest.html">ingest</a> function assumes an annotated reference dataset that captures the biological variability of interest. The rational is to fit a model on the reference data and use it to project new data. For the time being, this model is a PCA combined with a neighbor lookup search tree, for which we use UMAP’s implementation <a href="https://arxiv.org/abs/1802.03426">[McInnes18]</a>. Similar PCA-based integrations have been used before, for instance, in <a href="https://doi.org/10.1101/467886">[Weinreb18]</a>.</p>
+<ul>
+<li>As <code>ingest</code> is simple and the procedure clear, the workflow is transparent and fast.</li>
+<li>The function leaves the data matrix itself invariant, unlike harmony integration.</li>
+<li>The function also solves the label mapping problem and maintains an embedding that might have desired properties like specific clusters or trajectories.</li>
+</ul>
+<p>We refer to this <em>asymmetric</em> dataset integration as <em>ingesting</em> annotations from an annotated reference <code>adata_ref</code> into an <code>adata</code> that still lacks this annotation. It is different from learning a joint representation that integrates datasets in a symmetric way as in CCA (e.g.&nbsp;from Seurat).</p>
+<p>Take a look at tools in the <a href="https://scanpy.readthedocs.io/en/latest/external/#data-integration">external API</a> or at the <a href="https://scanpy.readthedocs.io/en/latest/ecosystem/#data-integration">ecoystem page</a> for scanpy to read about other related data integration and label transfer tools.</p>
+<p>Let’s evaluate the role of the <code>ingest</code> function by considering the case where we only use celltypist to annotate cells from one sample: PBMMC_1. We can use <code>ingest</code> to then transfer the labels to another sample, PBMMC_3.</p>
+<div id="ec7e9d3c-f148-4197-b9b3-4170510f2e68" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reference dataset</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>sample1_adata <span class="op">=</span> adata_raw_norm[adata_raw_norm.obs[<span class="st">"sample"</span>]<span class="op">==</span><span class="st">"PBMMC_1"</span>].copy()</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Unlabeled dataset to transfer cell type labels to</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>sample3_adata <span class="op">=</span> adata_raw_norm[adata_raw_norm.obs[<span class="st">"sample"</span>]<span class="op">==</span><span class="st">"PBMMC_3"</span>].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="f0d4313c-c121-446c-b012-883853ed7c92" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> adata_raw_norm.uns[<span class="st">"dea_leiden_filtered"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In order for <code>ingest</code> to transfer the labels, we need to first remove the labels obtained with celltypist from our <code>sample3_adata</code> object. In the meantime, we can store them in a variable <code>old_annotations_sample3</code>:</p>
+<div id="636b0db3-09fc-4907-9937-368569959cb8" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>old_annotations_sample3 <span class="op">=</span> np.array(sample3_adata.obs[<span class="st">"celltypist_annotations_high"</span>])</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> sample3_adata.obs[<span class="st">"celltypist_annotations_high"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="0a4d1f4d-ac62-402a-86ae-c7de68b8bac7" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.write_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial6.h5ad"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We need to quickly repeat the analysis steps we have previously performed before, but this time on the two samples (PBMMC_1; i.e.&nbsp;<code>sample1_adata</code> and PBMMC_3; i.e.&nbsp;<code>sample3_adata</code>) independently:</p>
+<p><strong>Exercise 4:</strong> Repeat the following steps, once with <code>sample1_adata</code> and once with <code>sample3_adata</code>:</p>
+<p><code>sc.pp.highly_variable_genes</code> with <code>subset=True</code> and <code>n_top_genes=3000</code></p>
+<p><code>sc.pp.pca</code></p>
+<p><code>sc.pp.neighbors</code></p>
+<p><code>sc.tl.umap</code></p>
+<button onclick="toggleVisibility('answer4')">
+Click for Answer
+</button>
+<div id="answer4" style="display:none;">
+<strong>Answer:</strong> You should write the following code:
+<pre>    sc.pp.highly_variable_genes(sample1_adata, subset=True, n_top_genes=3000)
+    sc.pp.pca(sample1_adata)
+    sc.pp.neighbors(sample1_adata)
+    sc.tl.umap(sample1_adata)
+
+
+    sc.pp.highly_variable_genes(sample3_adata, subset=True, n_top_genes=3000)
+    sc.pp.pca(sample3_adata)
+    sc.pp.neighbors(sample3_adata)
+    sc.tl.umap(sample3_adata)
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
 </div>
+<p>Visualize your generated UMAPs for each individual sample:</p>
+<div id="b66b0e31-633f-4d3e-b92f-e55046771451" class="cell" data-execution_count="39">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(sample1_adata, color<span class="op">=</span><span class="st">"celltypist_annotations_high"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day2-4_visualization_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="bbf6ba87-f57f-4526-9884-11284ede855f" class="cell" data-execution_count="40">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(sample3_adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day2-4_visualization_files/figure-html/cell-30-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>To use <code>sc.tl.ingest</code>, the datasets need to be defined on the same variables.</p>
+<div id="8b55b5ad-1a00-4f67-b3df-9ff1e378b3a3" class="cell" data-execution_count="41">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>var_names <span class="op">=</span> sample1_adata.var_names.intersection(sample3_adata.var_names)</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>sample1_adata <span class="op">=</span> sample1_adata[:, var_names]</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>sample3_adata <span class="op">=</span> sample3_adata[:, var_names]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can finally map labels and embeddings from <code>sample1_adata</code> (our reference) to <code>sample3_adata</code> (our unannotated new dataset) based on a chosen representation.</p>
+<p><strong>Exercise 5:</strong> Run the <code>sc.tl.ingest</code> command, with <code>sample3_adata</code> as your unlabeled dataset and <code>sample1_adata</code> as your reference dataset. Transfer the label <code>celltypist_annotations_high</code> using the <code>pca</code> as the embedding method.</p>
+<button onclick="toggleVisibility('answer5')">
+Click for Answer
+</button>
+<div id="answer5" style="display:none;">
+<strong>Answer:</strong> You should write the following code:
+<pre>    sc.tl.ingest(adata=sample3_adata, 
+                 adata_ref=sample1_adata, 
+                 obs="celltypist_annotations_high",
+                 embedding_method='pca')
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
+</div>
+<p>Finally, we want to rename the labels obtained for <code>sample3_adata</code> from <code>celltypist</code> and <code>ingest</code>, and compare them to each other on the UMAP space:</p>
+<div id="ce241c06-f52c-4e4e-93c0-ca43ba146cab" class="cell" data-execution_count="43">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>sample3_adata.obs[<span class="st">"celltypist_labels"</span>] <span class="op">=</span> old_annotations_sample3</span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>sample3_adata.obs[<span class="st">"ingest_labels"</span>] <span class="op">=</span> sample3_adata.obs[<span class="st">"celltypist_annotations_high"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="60b73b7a-22d5-4d7f-bdc6-824fe24c39ed" class="cell" data-execution_count="46">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(sample3_adata, color<span class="op">=</span>[<span class="st">'celltypist_labels'</span>, <span class="st">'ingest_labels'</span>], wspace<span class="op">=</span><span class="fl">0.50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day2-4_visualization_files/figure-html/cell-33-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>By comparing the <code>ingest_labels</code> annotation with <code>celltypist_labels</code>, we see that the data has been reasonably mapped.</p>
 
 
 </section>
