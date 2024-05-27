@@ -311,14 +311,14 @@ function toggleVisibility(id) {
 <section id="principal-component-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="principal-component-analysis">Principal component analysis</h2>
 <p>Dimensionality reduction methods seek to take a large set of variables and return a smaller set of components that still contain most of the information in the original dataset. One of the simplest forms of dimensionality reduction is PCA. Principal component analysis (PCA) is a mathematical procedure that transforms a number of possibly correlated (e.g., expression of genes in a network) variables into a (smaller) number of uncorrelated variables called principal components (“PCs”).</p>
-<p><strong>Exercise 1</strong>: Run PCA analysis using <code>sc.pp.pca</code> in scanpy using <code>n_comps=50</code>. Plot a scatter plot of the first two principal components with <code>sc.pl.pca_scatter</code>.</p>
+<p><strong>Exercise 1</strong>: Run PCA analysis using <code>sc.pp.pca</code> in scanpy using <code>n_comps=50</code>. Plot a scatter plot of the first two principal components with <code>sc.pl.pca</code>, which should capture the largest axes of variability in the data.</p>
 <button onclick="toggleVisibility('answer1')">
 Click for Answer
 </button>
 <div id="answer1" style="display:none;">
 <strong>Answer:</strong>
 <pre>    sc.pp.pca(adata, svd_solver="arpack", n_comps=50)
-    sc.pl.pca_scatter(adata, color="sample")
+    sc.pl.pca(adata, color="sample")
 </pre>
 <script>
 function toggleVisibility(id) {
@@ -331,7 +331,6 @@ function toggleVisibility(id) {
 }
 </script>
 </div>
-<p>We can then visualize the first two components of the PCA as a scatter plot using <code>ss.pl.pca</code>. The first two components capture the largest axes of variability in the data.</p>
 <p><strong>Exercise 2:</strong> We can color the PCA plot according to any factor that is present in <code>adata.obs</code>, or for any gene’s expression. Can you <code>color</code> by the column <code>n_counts</code> and <code>phase</code>? What about by the genes <code>HBA1</code> (an alpha subunit of hemoglobin) <code>IGKC</code> (one of the most highly variable genes)?</p>
 <button onclick="toggleVisibility('answer2')">
 Click for Answer
@@ -340,6 +339,7 @@ Click for Answer
 <strong>Answer:</strong>
 <pre>    # visualize the first PCs, color by cell cycle phase and n_counts (unnormalized)
     sc.pl.pca_scatter(adata, color=["n_counts", "phase"])
+    sc.pl.pca_scatter(adata, color=["HBA1", "IGKC"])
 </pre>
 <script>
 function toggleVisibility(id) {
@@ -352,70 +352,55 @@ function toggleVisibility(id) {
 }
 </script>
 </div>
-<div id="cd75388d-6264-476b-a4f1-0e72b942ebb7" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># visualize the first PCs, color by cell cycle phase and n_counts (unnormalized)</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>sc.pl.pca_scatter(adata, color<span class="op">=</span>[<span class="st">"n_counts"</span>, <span class="st">"phase"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/scanpy/plotting/_tools/scatterplots.py:394: UserWarning: No data for colormapping provided via 'c'. Parameters 'cmap' will be ignored
-  cax = scatter(</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-3-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
 <p>Each principal component scores the contribution of each gene to that component. Therefore, we can see which genes are more highly correlated to one component compared to the others. You can see that there are certain biases in the data due to the cell cycle phase and n_counts.</p>
 <div id="a1f54c79-3f48-45d5-acf6-8b674480ab1f" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sc.pl.pca_loadings(adata, components <span class="op">=</span> <span class="st">'1,2,3'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sc.pl.pca_loadings(adata, components <span class="op">=</span> <span class="st">'1,2,3'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-4-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-3-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Since PCA is a geometric form of dimensionality reduction, we can visualize the specific genes that most strongly contribute to each principal component. This allows us to get an idea of which components discriminate which cells from each other.</p>
 <div id="01a3635e-1d10-4e71-bcc8-f4be29ca42e5" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pca_heatmap(adata, component, groupby, use_raw<span class="op">=</span><span class="va">False</span>, layer<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    attr <span class="op">=</span> <span class="st">'varm'</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    keys <span class="op">=</span> <span class="st">'PCs'</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> <span class="bu">getattr</span>(adata, attr)[keys][:, component]</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    dd <span class="op">=</span> pd.DataFrame(scores, index<span class="op">=</span>adata.var_names)</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    var_names_pos <span class="op">=</span> dd.sort_values(<span class="dv">0</span>, ascending<span class="op">=</span><span class="va">False</span>).index[:<span class="dv">20</span>]</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    var_names_neg <span class="op">=</span> dd.sort_values(<span class="dv">0</span>, ascending<span class="op">=</span><span class="va">True</span>).index[:<span class="dv">20</span>]</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    pd2 <span class="op">=</span> pd.DataFrame(adata.obsm[<span class="st">'X_pca'</span>][:, component], index<span class="op">=</span>adata.obs.index)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    bottom_cells <span class="op">=</span> pd2.sort_values(<span class="dv">0</span>).index[:<span class="dv">300</span>].tolist()</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    top_cells <span class="op">=</span> pd2.sort_values(<span class="dv">0</span>, ascending<span class="op">=</span><span class="va">False</span>).index[:<span class="dv">300</span>].tolist()</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    sc.pl.heatmap(adata[top_cells<span class="op">+</span>bottom_cells], <span class="bu">list</span>(var_names_pos) <span class="op">+</span> <span class="bu">list</span>(var_names_neg), </span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>                        show_gene_labels<span class="op">=</span><span class="va">True</span>, groupby<span class="op">=</span>groupby,</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>                        swap_axes<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>, </span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>                        use_raw<span class="op">=</span>use_raw, layer<span class="op">=</span>layer, figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> pca_heatmap(adata, component, groupby, use_raw<span class="op">=</span><span class="va">False</span>, layer<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    attr <span class="op">=</span> <span class="st">'varm'</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    keys <span class="op">=</span> <span class="st">'PCs'</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> <span class="bu">getattr</span>(adata, attr)[keys][:, component]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    dd <span class="op">=</span> pd.DataFrame(scores, index<span class="op">=</span>adata.var_names)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    var_names_pos <span class="op">=</span> dd.sort_values(<span class="dv">0</span>, ascending<span class="op">=</span><span class="va">False</span>).index[:<span class="dv">20</span>]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    var_names_neg <span class="op">=</span> dd.sort_values(<span class="dv">0</span>, ascending<span class="op">=</span><span class="va">True</span>).index[:<span class="dv">20</span>]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    pd2 <span class="op">=</span> pd.DataFrame(adata.obsm[<span class="st">'X_pca'</span>][:, component], index<span class="op">=</span>adata.obs.index)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    bottom_cells <span class="op">=</span> pd2.sort_values(<span class="dv">0</span>).index[:<span class="dv">300</span>].tolist()</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    top_cells <span class="op">=</span> pd2.sort_values(<span class="dv">0</span>, ascending<span class="op">=</span><span class="va">False</span>).index[:<span class="dv">300</span>].tolist()</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    sc.pl.heatmap(adata[top_cells<span class="op">+</span>bottom_cells], <span class="bu">list</span>(var_names_pos) <span class="op">+</span> <span class="bu">list</span>(var_names_neg), </span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                        show_gene_labels<span class="op">=</span><span class="va">True</span>, groupby<span class="op">=</span>groupby,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                        swap_axes<span class="op">=</span><span class="va">True</span>, cmap<span class="op">=</span><span class="st">'viridis'</span>, </span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                        use_raw<span class="op">=</span>use_raw, layer<span class="op">=</span>layer, figsize<span class="op">=</span>(<span class="dv">6</span>,<span class="dv">4</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><strong>Exercise 3:</strong> Use the <code>pca_heatmap</code> function defined above to plot the PC1 and PC2 components. Group the top/bottom cells by their <code>sample</code> identifier?</p>
 <div id="1c0550ac-e54a-43f5-8c66-ca15b30f53f5" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pca_heatmap(adata, component<span class="op">=</span><span class="dv">0</span>, groupby<span class="op">=</span><span class="st">"sample"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pca_heatmap(adata, component<span class="op">=</span><span class="dv">0</span>, groupby<span class="op">=</span><span class="st">"sample"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <div id="77994d9f-66c0-4656-96c2-843808e7100c" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pca_heatmap(adata, component<span class="op">=</span><span class="dv">1</span>, groupby<span class="op">=</span><span class="st">"sample"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pca_heatmap(adata, component<span class="op">=</span><span class="dv">1</span>, groupby<span class="op">=</span><span class="st">"sample"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -425,7 +410,7 @@ function toggleVisibility(id) {
 Click for Answer
 </button>
 <div id="answer4" style="display:none;">
-<strong>Answer:</strong> Yes! The first principal component (PC1) seems to separate cells according to their sample, which may not be biological but rather a batch effect. For example, the genes most commonly associated with a positive value for PC1 are most highly expressed in PBMMC-3 and not PBMMC-1 or PBMMC-2. Conversely, the genes most commonly associated with a negative value for PC1 are most highly expressed in PBMMC-1 and PBMMC-2 but not PBMMC-3.
+<p><strong>Answer:</strong> Yes! The first principal component (PC1) seems to separate cells according to their sample, which may not be biological but rather a batch effect. For example, the genes most commonly associated with a positive value for PC1 are most highly expressed in PBMMC-3 and not PBMMC-1 or PBMMC-2. Conversely, the genes most commonly associated with a negative value for PC1 are most highly expressed in PBMMC-1 and PBMMC-2 but not PBMMC-3.</p>
 <script>
 function toggleVisibility(id) {
    var element = document.getElementById(id);
@@ -438,12 +423,12 @@ function toggleVisibility(id) {
 </script>
 </div>
 <p>For further dimensionality reduction, we need to select a number of PCs to use (the rest are excluded). Ideally, we want to capture as much data variance as possible in as few PCs as possible. The plot generated with <code>pca_variance_ratio</code> can help you in determining how many PCs to use for downstream analysis such as UMAP:</p>
-<div id="633fb798-f82b-44dc-ac74-4b1c19129cc2" class="cell" data-executioninfo="{&quot;elapsed&quot;:974,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340228584,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="e4e63bae-a00f-4688-daad-5e77f44f3990" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sc.pl.pca_variance_ratio(adata, log<span class="op">=</span><span class="va">False</span>) <span class="co"># see contribution of each PC to variance</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="633fb798-f82b-44dc-ac74-4b1c19129cc2" class="cell" data-executioninfo="{&quot;elapsed&quot;:974,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340228584,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="e4e63bae-a00f-4688-daad-5e77f44f3990" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>sc.pl.pca_variance_ratio(adata, log<span class="op">=</span><span class="va">False</span>) <span class="co"># see contribution of each PC to variance</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-7-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -452,15 +437,15 @@ function toggleVisibility(id) {
 <p>Including too many PCs usually does not affect much the result, while including too few PCs can affect the results very much</p>
 <p>Another - maybe more intuitive - way to see it, is to use a cumulative sum to show the % unexplained variance in function of the number of PCs. If we look at the first PCs, we can see that we passed the elbow with 30 to 50 PCs, which should ensure that we capture the major part of the variability in our dataset to be shown on a 2D representation like UMAP or tSNE.</p>
 <div id="f55db278-ac3a-4af2-930c-04d45cb0412c" class="cell" data-executioninfo="{&quot;elapsed&quot;:1242,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340231278,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="de2c559f-1a4f-43d8-b8e9-6d7249166b79" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="dv">100</span> <span class="op">-</span> (np.cumsum(adata.uns[<span class="st">"pca"</span>][<span class="st">"variance_ratio"</span>])<span class="op">*</span><span class="dv">100</span>)<span class="op">/</span><span class="bu">sum</span>(adata.uns[<span class="st">"pca"</span>][<span class="st">"variance_ratio"</span>]))</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'</span><span class="sc">% u</span><span class="st">nexplained variance'</span>) <span class="op">;</span> plt.xlabel(<span class="st">'N PCs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>plt.plot(<span class="dv">100</span> <span class="op">-</span> (np.cumsum(adata.uns[<span class="st">"pca"</span>][<span class="st">"variance_ratio"</span>])<span class="op">*</span><span class="dv">100</span>)<span class="op">/</span><span class="bu">sum</span>(adata.uns[<span class="st">"pca"</span>][<span class="st">"variance_ratio"</span>]))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'</span><span class="sc">% u</span><span class="st">nexplained variance'</span>) <span class="op">;</span> plt.xlabel(<span class="st">'N PCs'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>Text(0.5, 0, 'N PCs')</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-9-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-8-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -509,8 +494,22 @@ function toggleVisibility(id) {
 </script>
 </div>
 <p>To view the UMAP plot:</p>
-<div id="fd0c5ee5-35b8-42db-bb56-428613d0c136" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sc.pl.tsne(adata, color<span class="op">=</span>[<span class="st">"sample"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="fd0c5ee5-35b8-42db-bb56-428613d0c136" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sc.pl.tsne(adata, color<span class="op">=</span>[<span class="st">"sample"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/scanpy/plotting/_tools/scatterplots.py:394: UserWarning: No data for colormapping provided via 'c'. Parameters 'cmap' will be ignored
+  cax = scatter(</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-9-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="a4b0f1c5-0412-4158-9e6a-610e4598d644" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">"sample"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/scanpy/plotting/_tools/scatterplots.py:394: UserWarning: No data for colormapping provided via 'c'. Parameters 'cmap' will be ignored
   cax = scatter(</code></pre>
@@ -523,30 +522,16 @@ function toggleVisibility(id) {
 </div>
 </div>
 </div>
-<div id="a4b0f1c5-0412-4158-9e6a-610e4598d644" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">"sample"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/scanpy/plotting/_tools/scatterplots.py:394: UserWarning: No data for colormapping provided via 'c'. Parameters 'cmap' will be ignored
-  cax = scatter(</code></pre>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><strong>Exercise 7</strong>: Try to change:</p>
+<p><strong>Exercise 7</strong>: Try out the following:</p>
 <p>A. Color the dots in the UMAP according to a variable (e.g.&nbsp;<code>n_counts</code> or <code>HBA1</code>). Any idea where the erythrocytes probably are in the UMAP?</p>
-<p>B. The number of neighbors used for the calculation of the UMAP. Which is the parameter to change and how did it affect the output. What is the default? In which situation would you lower/increase this?</p>
-<p>C. The number of principal components (n_pcs) to extremely few (5) or many (50). How does this it affect the output? In your opinion, it is better with fewer or more PCs? Why does n_pcs=150 not work? When would more precision be needed?</p>
+<p>B. Change the number of neighbors used for the calculation of the UMAP. Which is the parameter to change and how did it affect the output. What is the default? In which situation would you lower/increase this?</p>
+<p>C. Change the number of principal components (n_pcs) to extremely few (5) or many (50). How does this it affect the output? In your opinion, it is better with fewer or more PCs? Why does n_pcs=150 not work? When would more precision be needed?</p>
 <div id="f6a628db-c558-47bb-8857-09d5ec225579" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">"n_counts"</span>, <span class="st">"HBA1"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">"n_counts"</span>, <span class="st">"HBA1"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day2-1_dimensionality_reduction_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -556,7 +541,7 @@ function toggleVisibility(id) {
 Click for Answer
 </button>
 <div id="answer8" style="display:none;">
-<strong>Answer:</strong> The biggest problem appears to be that there is a strong batch effect. Different regions of the UMAP and tSNE are both occupied by cells belonging to a single sample.
+<p><strong>Answer:</strong> The biggest problem appears to be that there is a strong batch effect. Different regions of the UMAP and tSNE are both occupied by cells belonging to a single sample.</p>
 <script>
 function toggleVisibility(id) {
    var element = document.getElementById(id);
@@ -570,7 +555,7 @@ function toggleVisibility(id) {
 </div>
 <p>Save your results!</p>
 <div id="864bd6bc-6a20-4660-95ad-3988ed435fd8" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial3.h5ad"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>adata.write_h5ad(<span class="st">"PBMC_analysis_SIB_tutorial3.h5ad"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
