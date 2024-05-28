@@ -4,8 +4,8 @@ on:
   pull_request:
     branches: main
     paths: 
-      - "*.qmd"
-      - "*.ipynb"
+      - '*.qmd'
+      - '*.ipynb'
       - custom.scss
       - _quarto.yml
       - .github/workflows/publish.yml
@@ -13,8 +13,8 @@ on:
   push:
     branches: main
     paths: 
-      - "*.qmd"
-      - "*.ipynb"
+      - '*.qmd'
+      - '*.ipynb'
       - custom.scss
       - _quarto.yml
       - .github/workflows/publish.yml
