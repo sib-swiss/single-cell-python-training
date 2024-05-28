@@ -1,6 +1,14 @@
 on:
   # manually trigger
   workflow_dispatch:
+  pull_request:
+    branches: main
+    paths: 
+      - "*.qmd"
+      - "*.ipynb"
+      - custom.scss
+      - _quarto.yml
+      - .github/workflows/publish.yml
   # pushing to main
   push:
     branches: main
