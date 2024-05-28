@@ -280,18 +280,18 @@
     "text": "Running cellranger count\nThe exercises below assume that you are enrolled in the course, and have access to the server. These exercises are not essential to run for the rest of the course, so you can skip them. If you want to do them anyway, you can try to install cellranger locally (only on Linux or WSL). In addition, you will need to download the references. You can get it by with this code (choose your OS):"
   },
   {
-    "objectID": "ipynb/day1-1_cellranger.html#linuxmacoswsl",
-    "href": "ipynb/day1-1_cellranger.html#linuxmacoswsl",
+    "objectID": "ipynb/day1-1_cellranger.html#cloud-serverlinuxmacoswsl",
+    "href": "ipynb/day1-1_cellranger.html#cloud-serverlinuxmacoswsl",
     "title": "Cell Ranger",
-    "section": "Linux/MacOS/WSL",
-    "text": "Linux/MacOS/WSL\nRun the following commands in the terminal or other command line prompt application:\n    wget https://single-cell-transcriptomics.s3.eu-central-1.amazonaws.com/cellranger_index.tar.gz\n    tar -xvf cellranger_index.tar.gz\n    rm cellranger_index.tar.gz"
+    "section": "Cloud server/Linux/MacOS/WSL",
+    "text": "Cloud server/Linux/MacOS/WSL\nRun the following commands in the terminal or other command line prompt application:\n    wget https://single-cell-transcriptomics.s3.eu-central-1.amazonaws.com/cellranger_index.tar.gz\n    tar -xvf cellranger_index.tar.gz\n    rm cellranger_index.tar.gz"
   },
   {
-    "objectID": "ipynb/day1-1_cellranger.html#windows",
-    "href": "ipynb/day1-1_cellranger.html#windows",
+    "objectID": "ipynb/day1-1_cellranger.html#windows-only-relevant-if-working-locally",
+    "href": "ipynb/day1-1_cellranger.html#windows-only-relevant-if-working-locally",
     "title": "Cell Ranger",
-    "section": "Windows",
-    "text": "Windows\nDownload using the link, and unpack in your working directory. This will download and extract the index in the current directory. Specify the path to this reference in the exercises accordingly."
+    "section": "Windows (only relevant if working locally)",
+    "text": "Windows (only relevant if working locally)\nIf you are working on the cloud server, follow the instructions above. Download using the link, and unpack in your working directory. This will download and extract the index in the current directory. Specify the path to this reference in the exercises accordingly."
   },
   {
     "objectID": "ipynb/day1-1_cellranger.html#data-overview",
