@@ -807,7 +807,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The <a href="https://scanpy.readthedocs.io/en/latest/api/scanpy.tl.ingest.html">ingest</a> function assumes an annotated reference dataset that captures the biological variability of interest. The rational is to fit a model on the reference data and use it to project new data. For the time being, this model is a PCA combined with a neighbor lookup search tree, for which we use UMAP’s implementation <a href="https://arxiv.org/abs/1802.03426">[McInnes18]</a>. Similar PCA-based integrations have been used before, for instance, in <a href="https://doi.org/10.1101/467886">[Weinreb18]</a>.</p>
 <ul>
 <li>As <code>ingest</code> is simple and the procedure clear, the workflow is transparent and fast.</li>
-<li>The function leaves the data matrix itself invariant, unlike harmony integration.</li>
+<li>The function leaves the data matrix itself invariant, unlike many integration methods.</li>
 <li>The function also solves the label mapping problem and maintains an embedding that might have desired properties like specific clusters or trajectories.</li>
 </ul>
 <p>We refer to this <em>asymmetric</em> dataset integration as <em>ingesting</em> annotations from an annotated reference <code>adata_ref</code> into an <code>adata</code> that still lacks this annotation. It is different from learning a joint representation that integrates datasets in a symmetric way as in CCA (e.g.&nbsp;from Seurat).</p>
