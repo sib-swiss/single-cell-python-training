@@ -308,6 +308,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="reading-data" class="level2">
 <h2 class="anchored" data-anchor-id="reading-data">Reading data</h2>
+<p>First, we will load a dataset on <a href="https://scvelo.readthedocs.io/en/stable/scvelo.datasets.pancreas.html">pancreatic endocrinogenesis</a> from a recent study:</p>
+<p><a href="https://doi.org/10.1242/dev.173849">Bastidas-Ponce et al.&nbsp;“Comprehensive single cell mRNA profiling reveals a detailed roadmap for pancreatic endocrinogenesis.” Development 2019.</a></p>
 <div id="9a26fe12-ca05-473a-b22f-8915dcc2a714" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> scv.datasets.pancreas()</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -321,120 +323,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     obsp: 'distances', 'connectivities'</code></pre>
 </div>
 </div>
-<div id="b326421d-8f94-4a15-abe4-7e5afe7bc65e" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adata.obs</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
-<div>
-<div>
-
-
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th">clusters_coarse</th>
-<th data-quarto-table-cell-role="th">clusters</th>
-<th data-quarto-table-cell-role="th">S_score</th>
-<th data-quarto-table-cell-role="th">G2M_score</th>
-</tr>
-<tr class="odd">
-<th data-quarto-table-cell-role="th">index</th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-<th data-quarto-table-cell-role="th"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">AAACCTGAGAGGGATA</td>
-<td>Pre-endocrine</td>
-<td>Pre-endocrine</td>
-<td>-0.224902</td>
-<td>-0.252071</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">AAACCTGAGCCTTGAT</td>
-<td>Ductal</td>
-<td>Ductal</td>
-<td>-0.014707</td>
-<td>-0.232610</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">AAACCTGAGGCAATTA</td>
-<td>Endocrine</td>
-<td>Alpha</td>
-<td>-0.171255</td>
-<td>-0.286834</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">AAACCTGCATCATCCC</td>
-<td>Ductal</td>
-<td>Ductal</td>
-<td>0.599244</td>
-<td>0.191243</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">AAACCTGGTAAGTGGC</td>
-<td>Ngn3 high EP</td>
-<td>Ngn3 high EP</td>
-<td>-0.179981</td>
-<td>-0.126030</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">TTTGTCAAGTGACATA</td>
-<td>Pre-endocrine</td>
-<td>Pre-endocrine</td>
-<td>-0.235896</td>
-<td>-0.266101</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">TTTGTCAAGTGTGGCA</td>
-<td>Ngn3 high EP</td>
-<td>Ngn3 high EP</td>
-<td>0.279374</td>
-<td>-0.204047</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">TTTGTCAGTTGTTTGG</td>
-<td>Ductal</td>
-<td>Ductal</td>
-<td>-0.045692</td>
-<td>-0.208907</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">TTTGTCATCGAATGCT</td>
-<td>Endocrine</td>
-<td>Alpha</td>
-<td>-0.240576</td>
-<td>-0.206865</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">TTTGTCATCTGTTTGT</td>
-<td>Endocrine</td>
-<td>Epsilon</td>
-<td>-0.136407</td>
-<td>-0.184763</td>
-</tr>
-</tbody>
-</table>
-
-<p>3696 rows × 4 columns</p>
-</div>
-</div>
-</div>
-</div>
 <p>This dataset contains single cells from very early in mouse development at multiple cell stages. Given that we know the exact temporal ordering of the cells, this dataset is ideal for demonstrating the purpose of trajectory inference and pseudotemporal ordering of single cells.</p>
-<div id="350f06a8-cdd2-4f0e-ba3e-ee0564b78003" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"clusters"</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<div id="350f06a8-cdd2-4f0e-ba3e-ee0564b78003" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"clusters"</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>clusters
 Ductal           916
 Ngn3 high EP     642
@@ -447,16 +339,48 @@ Delta             70
 Name: count, dtype: int64</code></pre>
 </div>
 </div>
-<p>We first quickly perform the standard steps of normalization, log-transformation, and PCA on the dataset.</p>
-<div id="fe067a7c-2b10-48fa-9f9a-2c7ac31c3462" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sc.pp.normalize_total(adata)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sc.pp.log1p(adata)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>sc.pp.highly_variable_genes(adata, n_top_genes<span class="op">=</span><span class="dv">3000</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[:, adata.var[<span class="st">"highly_variable"</span>]].copy()</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>sc.tl.pca(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Exercise 1</strong>: We must first quickly perform the standard steps of normalization, log-transformation, and PCA on the dataset. Can you do this using the functions you have learned to use in the previous exercises, and then plot the first two PCs, colored by the <code>clusters</code> metadata?</p>
+<button onclick="toggleVisibility('answer1')">
+Click for Answer
+</button>
+<div id="answer1" style="display:none;">
+<strong>Answer:</strong>
+<pre>    sc.pp.normalize_total(adata)
+    sc.pp.log1p(adata)
+    sc.pp.highly_variable_genes(adata, n_top_genes=3000, subset=True)
+    adata = adata[:, adata.var["highly_variable"]].copy()
+    sc.tl.pca(adata)
+    sc.pl.pca(adata, color='clusters')
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
 </div>
-<div id="65564900-6464-425b-9e2b-7dff7b24c68f" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sc.pl.pca(adata, color<span class="op">=</span><span class="st">'clusters'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="65564900-6464-425b-9e2b-7dff7b24c68f" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-3_trajectory_analysis_files/figure-html/cell-5-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Numerous trajectory inference methods, including PAGA, are graph-based. To obtain such a needed graph, we need to examine the nearest neighbors of each cell. Let’s compute the neighborhood using 50 nearest neighbors and then embed the results on a UMAP.</p>
+<div id="5e475feb-d7b7-4eca-bc48-8931e8fdde31" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_pcs <span class="op">=</span> <span class="dv">30</span>, n_neighbors <span class="op">=</span> <span class="dv">50</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata, min_dist<span class="op">=</span><span class="fl">0.4</span>, spread<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="68bc56bd-471b-4da6-a343-24c9aad6d17b" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color <span class="op">=</span> [<span class="st">'clusters'</span>],</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>           legend_loc <span class="op">=</span> <span class="st">'on data'</span>, edges <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -465,14 +389,28 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<p>Numerous trajectory inference methods, including PAGA, are graph-based. To obtain such a needed graph, we need to examine the nearest neighbors of each cell. Let’s compute the neighborhood using 50 nearest neighbors and then embed the results on a UMAP.</p>
-<div id="5e475feb-d7b7-4eca-bc48-8931e8fdde31" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_pcs <span class="op">=</span> <span class="dv">30</span>, n_neighbors <span class="op">=</span> <span class="dv">50</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata, min_dist<span class="op">=</span><span class="fl">0.4</span>, spread<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="run-paga" class="level2">
+<h2 class="anchored" data-anchor-id="run-paga">Run PAGA</h2>
+<p>Use the ground truth cell types to run PAGA. First we create the graph and initialize the positions using the umap.</p>
+<div id="00ea82d0-f289-4279-a947-3bf440b5629f" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use the umap to initialize the graph layout.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sc.tl.draw_graph(adata, init_pos<span class="op">=</span><span class="st">'X_umap'</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sc.pl.draw_graph(adata, color<span class="op">=</span><span class="st">'clusters'</span>, legend_loc<span class="op">=</span><span class="st">'on data'</span>, legend_fontsize <span class="op">=</span> <span class="st">'xx-small'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>WARNING: Package 'fa2' is not installed, falling back to layout 'fr'.To use the faster and better ForceAtlas2 layout, install package 'fa2' (`pip install fa2`).</code></pre>
 </div>
-<div id="68bc56bd-471b-4da6-a343-24c9aad6d17b" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color <span class="op">=</span> [<span class="st">'clusters'</span>],</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>           legend_loc <span class="op">=</span> <span class="st">'on data'</span>, edges <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-3_trajectory_analysis_files/figure-html/cell-8-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="ceb8c636-c741-4f92-b954-ddb9d4689930" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sc.tl.paga(adata, groups<span class="op">=</span><span class="st">'clusters'</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sc.pl.paga(adata, color<span class="op">=</span><span class="st">'clusters'</span>, edge_width_scale <span class="op">=</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -482,27 +420,18 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </section>
-<section id="run-paga" class="level2">
-<h2 class="anchored" data-anchor-id="run-paga">Run PAGA</h2>
-<p>Use the ground truth cell types to run PAGA. First we create the graph and initialize the positions using the umap.</p>
-<div id="00ea82d0-f289-4279-a947-3bf440b5629f" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use the umap to initialize the graph layout.</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sc.tl.draw_graph(adata, init_pos<span class="op">=</span><span class="st">'X_umap'</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sc.pl.draw_graph(adata, color<span class="op">=</span><span class="st">'clusters'</span>, legend_loc<span class="op">=</span><span class="st">'on data'</span>, legend_fontsize <span class="op">=</span> <span class="st">'xx-small'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="embedding-using-paga-initialization" class="level2">
+<h2 class="anchored" data-anchor-id="embedding-using-paga-initialization">Embedding using PAGA-initialization</h2>
+<p>We can now redraw the graph using another starting position from the paga layout. The following is just as well possible for a UMAP.</p>
+<div id="d4e7f1ce-9e7f-4484-ac2b-6cf2625b6383" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sc.tl.draw_graph(adata, init_pos<span class="op">=</span><span class="st">'paga'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>WARNING: Package 'fa2' is not installed, falling back to layout 'fr'.To use the faster and better ForceAtlas2 layout, install package 'fa2' (`pip install fa2`).</code></pre>
 </div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="day3-3_trajectory_analysis_files/figure-html/cell-10-output-2.png" class="img-fluid figure-img"></p>
-</figure>
 </div>
-</div>
-</div>
-<div id="ceb8c636-c741-4f92-b954-ddb9d4689930" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sc.tl.paga(adata, groups<span class="op">=</span><span class="st">'clusters'</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sc.pl.paga(adata, color<span class="op">=</span><span class="st">'clusters'</span>, edge_width_scale <span class="op">=</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Now we can see all marker genes also at single-cell resolution in a meaningful layout.</p>
+<div id="3bcbe52c-7479-4879-a7a3-83cacd469950" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sc.pl.draw_graph(adata, color<span class="op">=</span>[<span class="st">'clusters'</span>], legend_loc<span class="op">=</span><span class="st">'on data'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -512,18 +441,37 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </section>
-<section id="embedding-using-paga-initialization" class="level2">
-<h2 class="anchored" data-anchor-id="embedding-using-paga-initialization">Embedding using PAGA-initialization</h2>
-<p>We can now redraw the graph using another starting position from the paga layout. The following is just as well possible for a UMAP.</p>
-<div id="d4e7f1ce-9e7f-4484-ac2b-6cf2625b6383" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sc.tl.draw_graph(adata, init_pos<span class="op">=</span><span class="st">'paga'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>WARNING: Package 'fa2' is not installed, falling back to layout 'fr'.To use the faster and better ForceAtlas2 layout, install package 'fa2' (`pip install fa2`).</code></pre>
+<section id="gene-changes" class="level2">
+<h2 class="anchored" data-anchor-id="gene-changes">Gene changes</h2>
+<p>We can reconstruct gene changes along PAGA paths for a given set of genes</p>
+<p>Choose a “root” cell for diffusion pseudotime from the Ductal cells.</p>
+<div id="8b1799e6-8496-4ec9-9dd7-9b56fb4c1cb8" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>adata.uns[<span class="st">'iroot'</span>] <span class="op">=</span> np.flatnonzero(adata.obs[<span class="st">'clusters'</span>]  <span class="op">==</span> <span class="st">'Ductal'</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Exercise 2</strong>: Next, use the <code>sc.tl.diffmap</code> and <code>sc.tl.dpt</code> functions to estimate a pseudotime. What does each of these functions specifically do?</p>
+<button onclick="toggleVisibility('answer2')">
+Click for Answer
+</button>
+<div id="answer2" style="display:none;">
+<strong>Answer:</strong>
+<pre>    sc.tl.diffmap(adata)
+    sc.tl.dpt(adata)
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
 </div>
-<p>Now we can see all marker genes also at single-cell resolution in a meaningful layout.</p>
-<div id="3bcbe52c-7479-4879-a7a3-83cacd469950" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sc.pl.draw_graph(adata, color<span class="op">=</span>[<span class="st">'clusters'</span>], legend_loc<span class="op">=</span><span class="st">'on data'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Visualize the results on the published embedding. You need to restore this because it was overwritten in your analyses above.</p>
+<div id="bf0143ec-ad89-448c-ac11-94943251a60c" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> scv.datasets.pancreas().obsm[<span class="st">"X_umap"</span>]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">'clusters'</span>, <span class="st">'dpt_pseudotime'</span>], cmap<span class="op">=</span>plt.cm.Spectral, wspace<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -532,45 +480,23 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-</section>
-<section id="gene-changes" class="level2">
-<h2 class="anchored" data-anchor-id="gene-changes">Gene changes</h2>
-<p>We can reconstruct gene changes along PAGA paths for a given set of genes</p>
-<p>Choose a root cell for diffusion pseudotime from the zygotic cells.</p>
-<div id="8b1799e6-8496-4ec9-9dd7-9b56fb4c1cb8" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>adata.uns[<span class="st">'iroot'</span>] <span class="op">=</span> np.flatnonzero(adata.obs[<span class="st">'clusters'</span>]  <span class="op">==</span> <span class="st">'Ductal'</span>)[<span class="dv">0</span>]</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>sc.tl.diffmap(adata)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>sc.tl.dpt(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Use the full raw data for visualization.</p>
-<div id="bf0143ec-ad89-448c-ac11-94943251a60c" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sc.pl.draw_graph(adata, color<span class="op">=</span>[<span class="st">'clusters'</span>, <span class="st">'dpt_pseudotime'</span>], cmap<span class="op">=</span>plt.cm.Spectral, wspace<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="day3-3_trajectory_analysis_files/figure-html/cell-15-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
 <p>By looking at the different know lineages and the layout of the graph we define manually some paths to the graph that corresponds to specific lineages.</p>
-<div id="14812934-6e41-4ffb-b684-43cdccf11abb" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define paths</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>paths <span class="op">=</span> [(<span class="st">'beta'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Beta'</span>]),</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'alpha'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Alpha'</span>]),</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'delta'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Delta'</span>]),</span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'epsilon'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Epsilon'</span>])]</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">'distance'</span>] <span class="op">=</span> adata.obs[<span class="st">'dpt_pseudotime'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="14812934-6e41-4ffb-b684-43cdccf11abb" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define paths</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>paths <span class="op">=</span> [(<span class="st">'beta'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Beta'</span>]),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'alpha'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Alpha'</span>]),</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'delta'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Delta'</span>]),</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'epsilon'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Epsilon'</span>])]</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">'distance'</span>] <span class="op">=</span> adata.obs[<span class="st">'dpt_pseudotime'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we select some genes that can vary in the lineages and plot onto the paths.</p>
-<div id="4cb94187-99f2-48d2-ae50-757446d300ee" class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata, <span class="st">"clusters"</span>, method<span class="op">=</span><span class="st">"t-test"</span>, n_genes<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4cb94187-99f2-48d2-ae50-757446d300ee" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata, <span class="st">"clusters"</span>, method<span class="op">=</span><span class="st">"t-test"</span>, n_genes<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="c8f67924-7acc-4773-8e44-58e27f60d7ea" class="cell" data-execution_count="39">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(adata.uns[<span class="st">"rank_genes_groups"</span>][<span class="st">"names"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="39">
+<div id="c8f67924-7acc-4773-8e44-58e27f60d7ea" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(adata.uns[<span class="st">"rank_genes_groups"</span>][<span class="st">"names"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 <div>
 
@@ -607,9 +533,9 @@ Name: count, dtype: int64</code></pre>
 <td>Dbi</td>
 <td>Btbd17</td>
 <td>Fev</td>
-<td>Gnas</td>
+<td>Rbp4</td>
 <td>Tmem27</td>
-<td>Pyy</td>
+<td>Hhex</td>
 <td>Isl1</td>
 </tr>
 <tr class="odd">
@@ -618,9 +544,9 @@ Name: count, dtype: int64</code></pre>
 <td>Sparc</td>
 <td>Sox4</td>
 <td>Hmgn3</td>
-<td>Rbp4</td>
+<td>Mafb</td>
 <td>Pcsk1n</td>
-<td>Hhex</td>
+<td>Hmgn3</td>
 <td>Rbp4</td>
 </tr>
 <tr class="even">
@@ -629,9 +555,9 @@ Name: count, dtype: int64</code></pre>
 <td>Mgst1</td>
 <td>Mdk</td>
 <td>Bex2</td>
-<td>Mafb</td>
-<td>Gnas</td>
-<td>Hmgn3</td>
+<td>Sec61b</td>
+<td>Tspan7</td>
+<td>Isl1</td>
 <td>Bex2</td>
 </tr>
 <tr class="odd">
@@ -640,9 +566,9 @@ Name: count, dtype: int64</code></pre>
 <td>1700011H14Rik</td>
 <td>Gadd45a</td>
 <td>Ypel3</td>
-<td>Sec61b</td>
-<td>Pyy</td>
-<td>Isl1</td>
+<td>Cpe</td>
+<td>Meis2</td>
+<td>Fam183b</td>
 <td>Fam183b</td>
 </tr>
 <tr class="even">
@@ -651,9 +577,9 @@ Name: count, dtype: int64</code></pre>
 <td>Cldn3</td>
 <td>Smarcd2</td>
 <td>Chga</td>
-<td>Cpe</td>
-<td>Ttr</td>
-<td>Fam183b</td>
+<td>Gng12</td>
+<td>Gpx3</td>
+<td>Hadh</td>
 <td>Maged2</td>
 </tr>
 <tr class="odd">
@@ -662,9 +588,9 @@ Name: count, dtype: int64</code></pre>
 <td>Anxa2</td>
 <td>Btg2</td>
 <td>Emb</td>
-<td>Gng12</td>
-<td>Tspan7</td>
-<td>Hadh</td>
+<td>Pcsk1n</td>
+<td>Fam183b</td>
+<td>Arg1</td>
 <td>Cck</td>
 </tr>
 <tr class="even">
@@ -673,9 +599,9 @@ Name: count, dtype: int64</code></pre>
 <td>Clu</td>
 <td>Tmsb4x</td>
 <td>Cpe</td>
-<td>Pcsk1n</td>
-<td>Meis2</td>
-<td>Iapp</td>
+<td>Rap1b</td>
+<td>Slc38a5</td>
+<td>Sst</td>
 <td>Anpep</td>
 </tr>
 <tr class="odd">
@@ -684,9 +610,9 @@ Name: count, dtype: int64</code></pre>
 <td>Vim</td>
 <td>Hes6</td>
 <td>Cryba2</td>
-<td>Rap1b</td>
+<td>Tuba1a</td>
+<td>Slc25a5</td>
 <td>Gpx3</td>
-<td>Arg1</td>
 <td>Card19</td>
 </tr>
 <tr class="even">
@@ -695,9 +621,9 @@ Name: count, dtype: int64</code></pre>
 <td>Mt1</td>
 <td>Cd63</td>
 <td>Glud1</td>
-<td>Tuba1a</td>
-<td>Fam183b</td>
-<td>Sst</td>
+<td>1700086L19Rik</td>
+<td>Hmgn3</td>
+<td>Dlk1</td>
 <td>Arg1</td>
 </tr>
 </tbody>
@@ -707,38 +633,38 @@ Name: count, dtype: int64</code></pre>
 </div>
 </div>
 </div>
-<div id="cb90f91a-ca94-48bf-87ef-519c129ba665" class="cell" data-execution_count="46">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> [<span class="st">"Spp1"</span>, <span class="st">"Dbi"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Sparc"</span>, <span class="st">"Mgst1"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Neurog3"</span>, <span class="st">"Btbd17"</span>, <span class="st">"Sox4"</span>,</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Map1b"</span>, <span class="st">"Fev"</span>, <span class="st">"Hmgn3"</span>, <span class="st">"Bex2"</span>, <span class="st">"Sec61b"</span>, <span class="st">"Tuba1a"</span>, <span class="st">"Meis2"</span>, <span class="st">"Pcsk1n"</span>, <span class="st">"Sst"</span>, <span class="st">"Arg1"</span>,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Rbp4"</span>, <span class="st">"Pyy"</span>, <span class="st">"Hhex"</span>, <span class="st">"Ghrl"</span>, <span class="st">"Isl1"</span>, <span class="st">"Rbp4"</span>, <span class="st">"Bex2"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cb90f91a-ca94-48bf-87ef-519c129ba665" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> [<span class="st">"Spp1"</span>, <span class="st">"Dbi"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Sparc"</span>, <span class="st">"Mgst1"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Neurog3"</span>, <span class="st">"Btbd17"</span>, <span class="st">"Sox4"</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Map1b"</span>, <span class="st">"Fev"</span>, <span class="st">"Hmgn3"</span>, <span class="st">"Bex2"</span>, <span class="st">"Sec61b"</span>, <span class="st">"Tuba1a"</span>, <span class="st">"Meis2"</span>, <span class="st">"Pcsk1n"</span>, <span class="st">"Sst"</span>, <span class="st">"Arg1"</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Rbp4"</span>, <span class="st">"Hhex"</span>, <span class="st">"Ghrl"</span>, <span class="st">"Isl1"</span>, <span class="st">"Rbp4"</span>, <span class="st">"Bex2"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="3fe4a676-1d0b-476b-9f59-c0207b6fa11a" class="cell" data-execution_count="47">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>_, axs <span class="op">=</span> pl.subplots(ncols<span class="op">=</span><span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">8</span>), gridspec_kw<span class="op">=</span>{</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'wspace'</span>: <span class="fl">0.05</span>, <span class="st">'left'</span>: <span class="fl">0.12</span>})</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>pl.subplots_adjust(left<span class="op">=</span><span class="fl">0.05</span>, right<span class="op">=</span><span class="fl">0.98</span>, top<span class="op">=</span><span class="fl">0.82</span>, bottom<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ipath, (descr, path) <span class="kw">in</span> <span class="bu">enumerate</span>(paths):</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    _, data <span class="op">=</span> sc.pl.paga_path(</span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        adata, path, gene_names,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        show_node_names<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>        ax<span class="op">=</span>axs[ipath],</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        ytick_fontsize<span class="op">=</span><span class="dv">12</span>,</span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        left_margin<span class="op">=</span><span class="fl">0.15</span>,</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>        n_avg<span class="op">=</span><span class="dv">50</span>,</span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>        annotations<span class="op">=</span>[<span class="st">'distance'</span>],</span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>        show_yticks<span class="op">=</span><span class="va">True</span> <span class="cf">if</span> ipath <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="va">False</span>,</span>
-<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>        show_colorbar<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>        color_map<span class="op">=</span><span class="st">'Greys'</span>,</span>
-<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>        groups_key<span class="op">=</span><span class="st">'clusters'</span>,</span>
-<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>        color_maps_annotations<span class="op">=</span>{<span class="st">'distance'</span>: <span class="st">'viridis'</span>},</span>
-<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">'</span><span class="sc">{}</span><span class="st"> path'</span>.<span class="bu">format</span>(descr),</span>
-<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>        return_data<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>        use_raw<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>        show<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>pl.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3fe4a676-1d0b-476b-9f59-c0207b6fa11a" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>_, axs <span class="op">=</span> pl.subplots(ncols<span class="op">=</span><span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">8</span>), gridspec_kw<span class="op">=</span>{</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'wspace'</span>: <span class="fl">0.05</span>, <span class="st">'left'</span>: <span class="fl">0.12</span>})</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>pl.subplots_adjust(left<span class="op">=</span><span class="fl">0.05</span>, right<span class="op">=</span><span class="fl">0.98</span>, top<span class="op">=</span><span class="fl">0.82</span>, bottom<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ipath, (descr, path) <span class="kw">in</span> <span class="bu">enumerate</span>(paths):</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    _, data <span class="op">=</span> sc.pl.paga_path(</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        adata, path, gene_names,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        show_node_names<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        ax<span class="op">=</span>axs[ipath],</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        ytick_fontsize<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        left_margin<span class="op">=</span><span class="fl">0.15</span>,</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        n_avg<span class="op">=</span><span class="dv">50</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        annotations<span class="op">=</span>[<span class="st">'distance'</span>],</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        show_yticks<span class="op">=</span><span class="va">True</span> <span class="cf">if</span> ipath <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="va">False</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        show_colorbar<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        color_map<span class="op">=</span><span class="st">'Greys'</span>,</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        groups_key<span class="op">=</span><span class="st">'clusters'</span>,</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        color_maps_annotations<span class="op">=</span>{<span class="st">'distance'</span>: <span class="st">'viridis'</span>},</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">'</span><span class="sc">{}</span><span class="st"> path'</span>.<span class="bu">format</span>(descr),</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        return_data<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>        use_raw<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>        show<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>pl.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-3_trajectory_analysis_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day3-3_trajectory_analysis_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>

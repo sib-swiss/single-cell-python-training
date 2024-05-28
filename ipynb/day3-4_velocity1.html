@@ -249,8 +249,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#dynamical-modeling-of-rna-velocity" id="toc-dynamical-modeling-of-rna-velocity" class="nav-link active" data-scroll-target="#dynamical-modeling-of-rna-velocity">Dynamical modeling of RNA velocity</a></li>
+  <li><a href="#loading-data-into-scvelo-and-examining-splicedunspliced-counts" id="toc-loading-data-into-scvelo-and-examining-splicedunspliced-counts" class="nav-link active" data-scroll-target="#loading-data-into-scvelo-and-examining-splicedunspliced-counts">Loading data into scvelo and examining spliced/unspliced counts</a></li>
+  <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing">Data preprocessing</a></li>
+  <li><a href="#phase-portraits-and-gene-wise-velocity-results" id="toc-phase-portraits-and-gene-wise-velocity-results" class="nav-link" data-scroll-target="#phase-portraits-and-gene-wise-velocity-results">Phase portraits and gene-wise velocity results</a>
+  <ul class="collapse">
+  <li><a href="#dynamical-modeling-of-rna-velocity" id="toc-dynamical-modeling-of-rna-velocity" class="nav-link" data-scroll-target="#dynamical-modeling-of-rna-velocity">Dynamical modeling of RNA velocity</a></li>
   <li><a href="#velocities-in-cycling-progenitors" id="toc-velocities-in-cycling-progenitors" class="nav-link" data-scroll-target="#velocities-in-cycling-progenitors">Velocities in cycling progenitors</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -285,17 +290,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scanpy <span class="im">as</span> sc</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> scvelo <span class="im">as</span> scv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>RNA velocity is a method for estimating the rate of change in gene expression in scRNA-seq dataset. Differently from pseudotime trajectory inference, where you need to specify a “root” cell, RNA velocity tells you the direction along which cells are evolving in gene expression space. RNA velocity achieves this by examining the ratio of unspliced (intronic-containing) and spliced (exonic-only) reads in a dataset.</p>
-<p>In the previous notebook, we walked through the theoretical foundations behind RNA velocity. Here, we will demonstrate how to practically apply it to a dataset using the scvelo package, which is nicely integrated with the scanpy framework we have been working with during the past two days. This exercise is partially adapted from several tutorials on the scvelo documentation page: https://scvelo.readthedocs.io/</p>
-<p>First, we will load a dataset on pancreatic endocrinogenesis</p>
+<p>RNA velocity is a method for estimating the rate of change in gene expression in scRNA-seq dataset. For pseudotime trajectory inference, you need to specify a “root” cell at the start of the trajectory. On the other hand, RNA velocity tells you the direction along which cells are evolving in gene expression space. RNA velocity achieves this by examining the ratio of unspliced (intron-containing pre-mRNA) and spliced (exon-only mature mRNA) UMIs in a dataset.</p>
+<section id="loading-data-into-scvelo-and-examining-splicedunspliced-counts" class="level2">
+<h2 class="anchored" data-anchor-id="loading-data-into-scvelo-and-examining-splicedunspliced-counts">Loading data into scvelo and examining spliced/unspliced counts</h2>
+<p>In the presentation, we walked through the theoretical foundations behind RNA velocity. Here, we will demonstrate how to practically apply it to a dataset using the <a href="https://www.nature.com/articles/s41587-020-0591-3">scvelo</a> package, which is nicely integrated with the <code>scanpy</code> framework we have been working with during the past two days. This exercise is adapted from tutorials on the scvelo <a href="https://scvelo.readthedocs.io/">documentation page</a>.</p>
+<p>First, we will load a dataset on <a href="https://scvelo.readthedocs.io/en/stable/scvelo.datasets.pancreas.html">pancreatic endocrinogenesis</a> from a recent study:</p>
+<p><a href="https://doi.org/10.1242/dev.173849">Bastidas-Ponce et al.&nbsp;“Comprehensive single cell mRNA profiling reveals a detailed roadmap for pancreatic endocrinogenesis.” Development 2019.</a></p>
 <div id="1ca75a8a-9b5a-4d77-a6db-9cd83ea59f16" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> scv.datasets.pancreas()</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"9eaabb69a029417f95a74ea8a9137f20","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
-</script>
-</div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>AnnData object with n_obs × n_vars = 3696 × 27998
     obs: 'clusters_coarse', 'clusters', 'S_score', 'G2M_score'
@@ -307,8 +310,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p><strong>Exercise 1</strong>: As we can see from the metadata, this dataset already contains a low dimensional UMAP embedding with cluster annotations. Can you plot this UMAP embedding, coloring the cells by <code>clusters</code>?</p>
+<button onclick="toggleVisibility('answer1')">
+Click for Answer
+</button>
+<div id="answer1" style="display:none;">
+<strong>Answer:</strong>
+<pre>    sc.pl.umap(adata, color='clusters')
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
+</div>
 <div id="860a84bf-7e5f-4404-84e2-813fac4796c0" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span><span class="st">'clusters'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -317,9 +338,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p>Next, we display the proportions of spliced/unspliced counts. Depending on the protocol used , we typically have between 10%-25% of unspliced molecules containing intronic sequences. For single-nuclei data, you will have many more intronic reads, approximately 60%-70%. We also advice you to examine the variations on cluster level to verify consistency in splicing efficiency. Here, we find variations as expected, with slightly lower unspliced proportions at cycling ductal cells, then higher proportion at cell fate commitment in Ngn3-high and Pre-endocrine cells where many genes start to be transcribed.</p>
-<div id="2e94721c-8c8c-45f2-8824-c05605c1a68f" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>scv.pl.proportions(adata, groupby<span class="op">=</span><span class="st">"clusters"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Exercise 2</strong>: Since we will run RNA velocity on these data, we need to have both a <code>spliced</code> and <code>unspliced</code> count matrix. These should be stored in the <code>adata</code> object. Can you find them in <code>adata.layers</code>?</p>
+<p>Using the two matrices, can you calculate the fraction of unspliced UMI counts out of the total UMIs, averaged across all of the cells? Hint: You can do this computationally using the <code>.sum(1)</code> and <code>.mean()</code> functions.</p>
+<button onclick="toggleVisibility('answer2')">
+Click for Answer
+</button>
+<div id="answer2" style="display:none;">
+<strong>Answer:</strong> The unspliced and spliced layers are located at <code>adata.layers[“unspliced”]</code> and <code>adata.layers[“spliced”]</code> respectively.
+<pre>    spliced_counts_per_cell = adata.layers["spliced"].sum(1)
+    unspliced_counts_per_cell = adata.layers["unspliced"].sum(1)
+    mean_unspliced_fraction_of_total = (unspliced_counts_per_cell.mean() / (spliced_counts_per_cell.mean() + unspliced_counts_per_cell.mean())) * 100
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
+</div>
+<p>We can also use <code>scvelo.pl.proportions</code> to compute and display the proportions of spliced/unspliced counts. Depending on the protocol used, we typically have between 10%-25% of unspliced molecules containing intronic sequences. For single-nuclei data, you will have many more intronic reads, approximately 60%-70%. We suggest you to examine the variations on cluster level to verify consistency in splicing efficiency.</p>
+<p><strong>Exercise 3</strong>: Use <code>scv.pl.proportions</code> to plot the proportions of spliced and unspliced UMIs. Use the <code>groupby</code> argument to specify that you want to compute the proportions separately for each cluster annotation.</p>
+<button onclick="toggleVisibility('answer3')">
+Click for Answer
+</button>
+<div id="answer3" style="display:none;">
+<strong>Answer:</strong>
+<pre>    scv.pl.proportions(adata, groupby="clusters")
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
+</div>
+<div id="2e94721c-8c8c-45f2-8824-c05605c1a68f" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -328,32 +390,77 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<p>Here, we find variations as expected, with slightly lower unspliced proportions at cycling ductal cells, then higher proportion at cell fate commitment in Ngn3-high and Pre-endocrine cells, where many genes start to be transcribed.</p>
+</section>
+<section id="data-preprocessing" class="level2">
+<h2 class="anchored" data-anchor-id="data-preprocessing">Data preprocessing</h2>
 <p>Next, as with our standard scRNA-seq analysis pipeline, we need to preprocess the data! This requires performing the following steps, which you have studied in previous exercises: - Gene filtering (with a minimum number of counts per cell) - Normalization - Log transformation</p>
 <p>In scvelo, these steps are combined into a single function, called <code>scv.pp.filter_and_normalize</code>. We will run that command below with two parameters specified: - <code>min_shared_counts</code> requires a minimum number of counts (both spliced and unspliced) for all genes; any other genes are filtered out - <code>n_top_genes</code> is similar to <code>sc.pp.highly_variable_genes</code> from scanpy, finding the top variable genes and filtering out the others</p>
-<div id="8c9ffb87-19e3-46b2-8512-0a56b9db67e2" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>scv.pp.filter_and_normalize(adata, min_shared_counts<span class="op">=</span><span class="dv">20</span>, n_top_genes<span class="op">=</span><span class="dv">2000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Filtered out 20801 genes that are detected 20 counts (shared).
-Normalized count data: X, spliced, unspliced.
-Extracted 2000 highly variable genes.
-Logarithmized X.</code></pre>
+<p><strong>Exercise 4</strong>: Run the <code>filter_and_normalize</code> command requiring a <code>min_shared_counts</code> of at least 20 and selecting 2,000 <code>n_top_genes</code>.</p>
+<button onclick="toggleVisibility('answer4')">
+Click for Answer
+</button>
+<div id="answer4" style="display:none;">
+<strong>Answer:</strong>
+<pre>    scv.pp.filter_and_normalize(adata, min_shared_counts=20, n_top_genes=2000)
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
 </div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/scvelo/preprocessing/utils.py:705: DeprecationWarning: `log1p` is deprecated since scVelo v0.3.0 and will be removed in a future version. Please use `log1p` from `scanpy.pp` instead.
-  log1p(adata)</code></pre>
+<p><strong>Exercise 5</strong>: As we mentioned, <code>scv.pp.filter_and_normalize</code> combines several scanpy functions into a single command. However, if you want full control over the filtering, normalization, and log-transformation steps, you can run each command individually. Can you write the five lines of code needed to achieve the above steps?</p>
+<button onclick="toggleVisibility('answer5')">
+Click for Answer
+</button>
+<div id="answer5" style="display:none;">
+<strong>Answer:</strong> The five lines of code using just scanpy would be the following. Note that since scvelo filters based on shared counts between the spliced and unspliced, we need to update adata.X to be equal to the total spliced AND unspliced counts (by default, adata.X is just spliced counts for velocity datasets).
+<pre>    adata.X = adata.layers["spliced"] + adata.layers["unspliced"]
+    sc.pp.filter_genes(adata, min_counts=20)
+    sc.pp.normalize_total(adata)
+    sc.pp.log1p(adata)
+    sc.pp.highly_variable_genes(adata, n_top_genes=2000, subset=True)
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
 </div>
-</div>
-<p><strong>Exercise 2</strong>: As we mentioned, <code>scv.pp.filter_and_normalize</code> combines several scanpy functions into a single command. However, if you want full control over the filtering, normalization, and log-transformation steps, you can run each command individually. Can you write the five lines of code needed to achieve the above steps?</p>
-<p><strong>Answer</strong></p>
-<p>Next, we need to compute a PCA and neighborhood graph, as we have done previously.</p>
-<p><strong>Exercise 3</strong>: Write the commands to compute the PCA and then the neighborhood graph (using <code>n_pcs=30</code> and <code>n_neighbors=30</code>)</p>
-<div id="495a26bf-d6b1-4f87-bba3-8fccaaae1e39" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sc.pp.pca(adata)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_pcs<span class="op">=</span><span class="dv">30</span>, n_neighbors<span class="op">=</span><span class="dv">30</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Exercise 6</strong>: Next, we need to compute a PCA and neighborhood graph, as we have done previously. Write the <code>scanpy</code> commands to compute the PCA and then the neighborhood graph (using <code>n_pcs=30</code> and <code>n_neighbors=30</code>)</p>
+<button onclick="toggleVisibility('answer6')">
+Click for Answer
+</button>
+<div id="answer6" style="display:none;">
+<strong>Answer:</strong>
+<pre>    sc.pp.pca(adata)
+    sc.pp.neighbors(adata, n_pcs=30, n_neighbors=30)
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
 </div>
 <p>Next, we need to compute the first and second order moments (means and uncentered variances) computed among nearest neighbors in PCA space, summarized in <code>scv.pp.moments</code>.</p>
-<div id="8f76e710-863b-4c5c-8a98-ccffafec297a" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>scv.pp.moments(adata, n_pcs<span class="op">=</span><span class="va">None</span>, n_neighbors<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8f76e710-863b-4c5c-8a98-ccffafec297a" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>scv.pp.moments(adata, n_pcs<span class="op">=</span><span class="va">None</span>, n_neighbors<span class="op">=</span><span class="va">None</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>computing moments based on connectivities
     finished (0:00:00) --&gt; added 
@@ -361,8 +468,8 @@ Logarithmized X.</code></pre>
 </div>
 </div>
 <p>Velocities are vectors in gene expression space and represent the direction and speed of movement of the individual cells. The velocities are obtained by modeling transcriptional dynamics of splicing kinetics, either stochastically (default) or deterministically (by setting mode=‘deterministic’). For each gene, a steady-state-ratio of pre-mature (unspliced) and mature (spliced) mRNA counts is fitted, which constitutes a constant transcriptional state. Velocities are then obtained as residuals from this ratio. Positive velocity indicates that a gene is up-regulated, which occurs for cells that show higher abundance of unspliced mRNA for that gene than expected in steady state. Conversely, negative velocity indicates that a gene is down-regulated.</p>
-<div id="6e191191-bea1-4638-9548-14f172dd8b3c" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>scv.tl.velocity(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6e191191-bea1-4638-9548-14f172dd8b3c" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>scv.tl.velocity(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>computing velocities
     finished (0:00:01) --&gt; added 
@@ -370,24 +477,51 @@ Logarithmized X.</code></pre>
 </div>
 </div>
 <p>The combination of velocities across genes can then be used to estimate the future state of an individual cell. In order to project the velocities into a lower-dimensional embedding, transition probabilities of cell-to-cell transitions are estimated. That is, for each velocity vector we find the likely cell transitions that are accordance with that direction. The transition probabilities are computed using cosine correlation between the potential cell-to-cell transitions and the velocity vector, and are stored in a matrix denoted as velocity graph. The resulting velocity graph has dimension 𝑛𝑜𝑏𝑠×𝑛𝑜𝑏𝑠 and summarizes the possible cell state changes that are well explained through the velocity vectors (for runtime speedup it can also be computed on reduced PCA space by setting approx=True).</p>
-<div id="1e2e6fd8-58d4-403f-82ba-b910ba4fafc9" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>scv.tl.velocity_graph(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1e2e6fd8-58d4-403f-82ba-b910ba4fafc9" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>scv.tl.velocity_graph(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>computing velocity graph (using 1/160 cores)
-    finished (0:00:08) --&gt; added 
+    finished (0:00:10) --&gt; added 
     'velocity_graph', sparse matrix with cosine correlations (adata.uns)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"9da9ee275aec47e2b4f0738025230482","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"cfbdab5fa2514b3fabc6d9480a950123","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 </div>
-<p>Finally, the velocities are projected onto any embedding, specified by basis, and visualized in one of these ways: - on cellular level with scv.pl.velocity_embedding, - as gridlines with scv.pl.velocity_embedding_grid, - or as streamlines with scv.pl.velocity_embedding_stream.</p>
-<p>Note, that the data has an already pre-computed UMAP embedding, and annotated clusters. When applying to your own data, these can be obtained with scv.tl.umap and scv.tl.louvain.</p>
-<p>The most fine-grained resolution of the velocity vector field we get at single-cell level, with each arrow showing the direction and speed of movement of an individual cell. That reveals, e.g., the early endocrine commitment of Ngn3-cells (yellow) and a clear-cut difference between near-terminal α-cells (blue) and transient β-cells (green).</p>
-<div id="7bb82e71-e13c-4d41-968b-dc9efce21a52" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>scv.pl.velocity_embedding(adata, arrow_length<span class="op">=</span><span class="dv">3</span>, arrow_size<span class="op">=</span><span class="dv">2</span>, color<span class="op">=</span><span class="st">'clusters'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally, the velocities are projected onto any embedding, specified by basis, and visualized in one of these ways:</p>
+<ul>
+<li>on cellular level with <code>scv.pl.velocity_embedding</code></li>
+<li>as gridlines with <code>scv.pl.velocity_embedding_grid</code></li>
+<li>as streamlines with <code>scv.pl.velocity_embedding_stream</code>.</li>
+</ul>
+<p>Note, that the data has an already pre-computed UMAP embedding, and annotated clusters. When applying to your own data, these can be obtained with <code>scv.tl.umap</code> and <code>scv.tl.louvain</code>, which are direct wrappers around the scanpy functions.</p>
+<p>The most fine-grained resolution of the velocity vector field we get at single-cell level, with each arrow showing the direction and speed of movement of an individual cell.</p>
+<p><strong>Exercise 7</strong>: Plot the RNA velocity using the above functions <code>scv.pl.velocity_embedding</code> and <code>scv.pl.velocity_embedding_stream</code>. What looks different about the two representations? Can you <code>color</code> the embeddings by the clusters? For <code>scv.pl.velocity_embedding</code>, what happens what you change the values for the <code>arrow_length</code> and <code>arrow_size</code> parameters?</p>
+<button onclick="toggleVisibility('answer7')">
+Click for Answer
+</button>
+<div id="answer7" style="display:none;">
+<strong>Answer:</strong> Run the following commands:
+<pre>    scv.pl.velocity_embedding(adata, arrow_length=3, arrow_size=2, color='clusters')
+    scv.pl.velocity_embedding_stream(adata, basis='umap', color='clusters')
+</pre>
+<p>These plots reveal several things about cell state transitions, e.g., the early endocrine commitment of Ngn3-cells (yellow) and a clear-cut difference between near-terminal α-cells (blue) and transient β-cells (green).</p>
+<p>The velocity vector field displayed as streamlines also yields fine-grained insights into the developmental processes. It accurately delineates the cycling population of ductal cells and endocrine progenitors. Further, it illuminates cell states of lineage commitment, cell-cycle exit, and endocrine cell differentiation.</p>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
+</div>
+<div id="7bb82e71-e13c-4d41-968b-dc9efce21a52" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>computing velocity embedding
     finished (0:00:00) --&gt; added
@@ -396,14 +530,76 @@ Logarithmized X.</code></pre>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-11-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-9-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The velocity vector field displayed as streamlines yields fine-grained insights into the developmental processes. It accurately delineates the cycling population of ductal cells and endocrine progenitors. Further, it illuminates cell states of lineage commitment, cell-cycle exit, and endocrine cell differentiation.</p>
-<div id="0b97db50-f02a-464f-9cf9-88417a8992fb" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>scv.pl.velocity_embedding_stream(adata, basis<span class="op">=</span><span class="st">'umap'</span>, color<span class="op">=</span><span class="st">'clusters'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0b97db50-f02a-464f-9cf9-88417a8992fb" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity1_files/figure-html/cell-10-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="phase-portraits-and-gene-wise-velocity-results" class="level1">
+<h1>Phase portraits and gene-wise velocity results</h1>
+<p>This is perhaps the most important part! RNA velocity is computed for each gene with scvelo, and the user should not limit biological conclusions to the projected velocities, but rather examine individual gene dynamics via phase portraits. This will allow you to better understand how inferred directions are supported by particular genes.</p>
+<p><strong>As we discussed in our live tutorial into the theoretical foundations of RNA velocity</strong>: Gene activity is orchestrated by transcriptional regulation. Transcriptional induction for a particular gene results in an increase of (newly transcribed) precursor unspliced mRNAs while, conversely, repression or absence of transcription results in a decrease of unspliced mRNAs. Spliced mRNAs is produced from unspliced mRNA and follows the same trend with a time lag. Time is a hidden/latent variable. Thus, the dynamics needs to be inferred from what is actually measured: spliced and unspliced mRNAs as displayed in the phase portrait.</p>
+<p><strong>Exercise 8</strong>: Now, let us examine the phase portraits of some marker genes with <code>scv.pl.velocity(adata, gene_names)</code>. Set <code>var_names</code> to a list containing the genes <code>Cpe</code>, <code>Gnao1</code>, <code>Ins2</code> and <code>Ank</code>.</p>
+<button onclick="toggleVisibility('answer8')">
+Click for Answer
+</button>
+<div id="answer8" style="display:none;">
+<strong>Answer:</strong>
+<pre>    scv.pl.velocity(adata, ['Cpe',  'Gnao1', 'Ins2', 'Adk'], ncols=2)
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
+</div>
+<div id="b902fe7c-e722-4fd7-9af2-de7cd9d98989" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity1_files/figure-html/cell-11-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Exercise 9</strong>: Describe the plots above: what can you tell me about the patterns of the four genes, Cpe, Gnao1, Ins2, Adk, along the differentiation trajectory. Transitioning from ductal cells to mature alpha and beta cells, which genes are being upregulated? Which genes are being downregulated along the same trajectory? Are any of the genes limited to a particular cell type or lineage?</p>
+<button onclick="toggleVisibility('answer9')">
+Click for Answer
+</button>
+<div id="answer9" style="display:none;">
+<p><strong>Answer:</strong> Cpe explains the directionality in the up-regulated Ngn3 (yellow) to Pre-endocrine (orange) to β-cells (green), while Adk explains the directionality in the down-regulated Ductal (dark green) to Ngn3 (yellow) to the remaining endocrine cells.</p>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
+</div>
+<p>We can also use <code>scv.pl.scatter</code> to visualize the phase portrait for a single gene, colored both by the cell clusters and the magnitude of the velocity:</p>
+<div id="46b15895-0684-46c5-ab67-35ce8bf2babf" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, <span class="st">'Cpe'</span>, color<span class="op">=</span>[<span class="st">'clusters'</span>, <span class="st">'velocity'</span>],</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>               add_outline<span class="op">=</span><span class="st">'Ngn3 high EP, Pre-endocrine, Beta'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -412,43 +608,32 @@ Logarithmized X.</code></pre>
 </div>
 </div>
 </div>
-<p>This is perhaps the most important part as we advise the user not to limit biological conclusions to the projected velocities, but to examine individual gene dynamics via phase portraits to understand how inferred directions are supported by particular genes.</p>
-<p><strong>As we discussed in our previous exercise into the theoretical foundations of RNA velocity</strong>: Gene activity is orchestrated by transcriptional regulation. Transcriptional induction for a particular gene results in an increase of (newly transcribed) precursor unspliced mRNAs while, conversely, repression or absence of transcription results in a decrease of unspliced mRNAs. Spliced mRNAs is produced from unspliced mRNA and follows the same trend with a time lag. Time is a hidden/latent variable. Thus, the dynamics needs to be inferred from what is actually measured: spliced and unspliced mRNAs as displayed in the phase portrait.</p>
-<p>Now, let us examine the phase portraits of some marker genes, visualized with scv.pl.velocity(adata, gene_names) or scv.pl.scatter(adata, gene_names).</p>
-<div id="b902fe7c-e722-4fd7-9af2-de7cd9d98989" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>scv.pl.velocity(adata, [<span class="st">'Cpe'</span>,  <span class="st">'Gnao1'</span>, <span class="st">'Ins2'</span>, <span class="st">'Adk'</span>], ncols<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
-</figure>
+<p><strong>Exercise 10</strong>: What does the black dashed line represent in the phase portrait plots, and how does this relate to the way in which RNA velocity is determined?</p>
+<button onclick="toggleVisibility('answer10')">
+Click for Answer
+</button>
+<div id="answer10" style="display:none;">
+<p><strong>Answer:</strong> The black line corresponds to the estimated ‘steady-state’ ratio, i.e.&nbsp;the ratio of unspliced to spliced mRNA abundance which is in a constant transcriptional state. RNA velocity for a particular gene is determined as the residual, i.e.&nbsp;how much an observation deviates from that steady-state line.</p>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
 </div>
-</div>
-</div>
-<p><strong>Exercise 4</strong>: Describe the plots above: what can you tell me about the patterns of the four genes, Cpe, Gnao1, Ins2, Adk, along the differentiation trajectory. Transitioning from ductal cells to mature alpha and beta cells, which genes are being upregulated? Which genes are being downregulated along the same trajectory? Are any of the genes limited to a particular cell type or lineage?</p>
-<p><strong>Answer</strong>: Cpe explains the directionality in the up-regulated Ngn3 (yellow) to Pre-endocrine (orange) to β-cells (green), while Adk explains the directionality in the down-regulated Ductal (dark green) to Ngn3 (yellow) to the remaining endocrine cells.</p>
-<div id="46b15895-0684-46c5-ab67-35ce8bf2babf" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, <span class="st">'Cpe'</span>, color<span class="op">=</span>[<span class="st">'clusters'</span>, <span class="st">'velocity'</span>],</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>               add_outline<span class="op">=</span><span class="st">'Ngn3 high EP, Pre-endocrine, Beta'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><strong>Exercise 5</strong>: What does the black dashed line represent in the phase portrait plots, and how does this relate to the way in which RNA velocity is determined?</p>
-<p><strong>Answer</strong>: The black line corresponds to the estimated ‘steady-state’ ratio, i.e.&nbsp;the ratio of unspliced to spliced mRNA abundance which is in a constant transcriptional state. RNA velocity for a particular gene is determined as the residual, i.e.&nbsp;how much an observation deviates from that steady-state line.</p>
-<p>We need a systematic way to identify genes that may help explain the resulting vector field and inferred lineages. To do so, we can test which genes have cluster-specific differential velocity expression, being siginificantly higher/lower compared to the remaining population. The module scv.tl.rank_velocity_genes runs a differential velocity t-test and outpus a gene ranking for each cluster. Thresholds can be set (e.g.&nbsp;min_corr) to restrict the test on a selection of gene candidates.</p>
-<div id="0382d7a6-dfe8-46f0-a28e-08f6c863dac8" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>scv.tl.rank_velocity_genes(adata, groupby<span class="op">=</span><span class="st">'clusters'</span>, min_corr<span class="op">=</span><span class="fl">.3</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(adata.uns[<span class="st">'rank_velocity_genes'</span>][<span class="st">'names'</span>])</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We need a systematic way to identify genes that may help explain the resulting vector field and inferred lineages. To do so, we can test which genes have cluster-specific differential velocity expression, being siginificantly higher/lower compared to the remaining population. The module <code>scv.tl.rank_velocity_genes</code> runs a differential velocity t-test and outpus a gene ranking for each cluster. Thresholds can be set (e.g.&nbsp;min_corr) to restrict the test on a selection of gene candidates.</p>
+<div id="0382d7a6-dfe8-46f0-a28e-08f6c863dac8" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>scv.tl.rank_velocity_genes(adata, groupby<span class="op">=</span><span class="st">'clusters'</span>, min_corr<span class="op">=</span><span class="fl">.3</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(adata.uns[<span class="st">'rank_velocity_genes'</span>][<span class="st">'names'</span>])</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ranking velocity genes
-    finished (0:00:03) --&gt; added 
+    finished (0:00:02) --&gt; added 
     'rank_velocity_genes', sorted scores by group ids (adata.uns) 
     'spearmans_score', spearmans correlation scores (adata.var)</code></pre>
 </div>
@@ -456,7 +641,7 @@ Logarithmized X.</code></pre>
 <pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/scvelo/tools/utils.py:463: DeprecationWarning: Please use `rankdata` from the `scipy.stats` namespace, the `scipy.stats.stats` namespace is deprecated.
   from scipy.stats.stats import rankdata</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="24">
 <div>
 <div>
 
@@ -481,55 +666,55 @@ Logarithmized X.</code></pre>
 <td>Notch2</td>
 <td>Ptpn3</td>
 <td>Pde1c</td>
-<td>Baiap3</td>
+<td>Sdk1</td>
 <td>Pax6</td>
 <td>Zcchc16</td>
-<td>Zdbf2</td>
-<td>Heg1</td>
+<td>Ptprt</td>
+<td>Ica1</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
 <td>Sox5</td>
-<td>Hspa8</td>
+<td>Slc9a9</td>
 <td>Pclo</td>
-<td>Pam</td>
+<td>Abcc8</td>
 <td>Unc5c</td>
-<td>Nell1</td>
-<td>Ptprt</td>
-<td>Ica1</td>
+<td>Prune2</td>
+<td>Zdbf2</td>
+<td>Ctnna2</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>Hspa8</td>
-<td>Dcbld1</td>
-<td>Ptprs</td>
-<td>Sdk1</td>
+<td>Krt19</td>
+<td>Kcnq1</td>
+<td>Grik2</td>
+<td>Gnas</td>
 <td>Nnat</td>
-<td>Ksr2</td>
-<td>Akr1c19</td>
-<td>Tmcc3</td>
+<td>Nell1</td>
+<td>Spock3</td>
+<td>Sorcs1</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>Krt19</td>
-<td>Grb10</td>
-<td>Rap1gap2</td>
-<td>Abcc8</td>
-<td>Kcnmb2</td>
-<td>Prune2</td>
-<td>Ank2</td>
-<td>Gpr179</td>
+<td>Ano6</td>
+<td>Dcbld1</td>
+<td>Ttyh2</td>
+<td>Ptprn2</td>
+<td>Scg3</td>
+<td>Aff2</td>
+<td>Slc16a12</td>
+<td>A1cf</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>Nr2f6</td>
-<td>Hacd1</td>
-<td>Kcnb2</td>
-<td>Ptprn2</td>
-<td>Scg3</td>
-<td>Ndst4</td>
-<td>Spock3</td>
-<td>Mamld1</td>
+<td>Rbms3</td>
+<td>Trp53cor1</td>
+<td>Setbp1</td>
+<td>Asic2</td>
+<td>Tmem108</td>
+<td>Chrm3</td>
+<td>Fam155a</td>
+<td>Zcchc16</td>
 </tr>
 </tbody>
 </table>
@@ -538,23 +723,23 @@ Logarithmized X.</code></pre>
 </div>
 </div>
 </div>
-<div id="462655e7-d8dd-42ef-8939-d6f4e354d77c" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>kwargs <span class="op">=</span> <span class="bu">dict</span>(frameon<span class="op">=</span><span class="va">False</span>, size<span class="op">=</span><span class="dv">10</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>,</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>              add_outline<span class="op">=</span><span class="st">'Ngn3 high EP, Pre-endocrine, Beta'</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, df[<span class="st">'Ngn3 high EP'</span>][:<span class="dv">5</span>], ylabel<span class="op">=</span><span class="st">'Ngn3 high EP'</span>, <span class="op">**</span>kwargs)</span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, df[<span class="st">'Pre-endocrine'</span>][:<span class="dv">5</span>], ylabel<span class="op">=</span><span class="st">'Pre-endocrine'</span>, <span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="462655e7-d8dd-42ef-8939-d6f4e354d77c" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>kwargs <span class="op">=</span> <span class="bu">dict</span>(frameon<span class="op">=</span><span class="va">False</span>, size<span class="op">=</span><span class="dv">10</span>, linewidth<span class="op">=</span><span class="fl">1.5</span>,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>              add_outline<span class="op">=</span><span class="st">'Ngn3 high EP, Pre-endocrine, Beta'</span>)</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, df[<span class="st">'Ngn3 high EP'</span>][:<span class="dv">5</span>], ylabel<span class="op">=</span><span class="st">'Ngn3 high EP'</span>, <span class="op">**</span>kwargs)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, df[<span class="st">'Pre-endocrine'</span>][:<span class="dv">5</span>], ylabel<span class="op">=</span><span class="st">'Pre-endocrine'</span>, <span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-14-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-14-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -566,40 +751,40 @@ Logarithmized X.</code></pre>
 <p>Dynamical modeling of RNA velocity is possible with scvelo and allows for: - Estimation of a latent time - Identification of possible driver genes</p>
 <p>We run the dynamical model to learn the full transcriptional dynamics of splicing kinetics.</p>
 <p>It is solved in a likelihood-based expectation-maximization framework, by iteratively estimating the parameters of reaction rates and latent cell-specific variables, i.e.&nbsp;transcriptional state and cell-internal latent time. It thereby aims to learn the unspliced/spliced phase trajectory for each gene.</p>
-<div id="424340d0-f3a5-4821-a57b-dd9b566d8f65" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>scv.tl.recover_dynamics(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The function <code>scv.tl.recover_dynamics</code> uses expectation maximization to recover the gene velocity dynamics. It will take about 5 mins to run. In the meantime, have a look at the following steps.</p>
+<div id="424340d0-f3a5-4821-a57b-dd9b566d8f65" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>scv.tl.recover_dynamics(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>recovering dynamics (using 1/160 cores)
-    finished (0:06:26) --&gt; added 
+    finished (0:06:39) --&gt; added 
     'fit_pars', fitted parameters for splicing dynamics (adata.var)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"7f745b2f519943f0864154a6743e5eed","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"d96615ac6f454dfb9edbc21d88531ddd","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 </div>
 <p>Then, we before we need to estiamte the velocity and compute the velocity graph, specifying this time the “dynamical” mode.</p>
-<div id="9e0781f1-c835-45e9-bf7a-0a5d488bc43d" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>scv.tl.velocity(adata, mode<span class="op">=</span><span class="st">'dynamical'</span>)</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>scv.tl.velocity_graph(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9e0781f1-c835-45e9-bf7a-0a5d488bc43d" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>scv.tl.velocity(adata, mode<span class="op">=</span><span class="st">'dynamical'</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>scv.tl.velocity_graph(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>computing velocities
-    finished (0:00:06) --&gt; added 
+    finished (0:00:04) --&gt; added 
     'velocity', velocity vectors for each individual cell (adata.layers)
 computing velocity graph (using 1/160 cores)
-    finished (0:00:07) --&gt; added 
+    finished (0:00:06) --&gt; added 
     'velocity_graph', sparse matrix with cosine correlations (adata.uns)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <script type="application/vnd.jupyter.widget-view+json">
-{"model_id":"ab0ebfbd3009452a90400b7eb1416fbe","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+{"model_id":"eda563d1869c44e9aeec7c3d3f4a31d9","version_major":2,"version_minor":0,"quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
 </script>
 </div>
 </div>
-<p>Running the dynamical model can take a while (up to 10 mins for this dataset)</p>
-<div id="f725a448-881e-421e-98a7-b5b225f74b8c" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>scv.pl.velocity_embedding_stream(adata, basis<span class="op">=</span><span class="st">'umap'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="f725a448-881e-421e-98a7-b5b225f74b8c" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>scv.pl.velocity_embedding_stream(adata, basis<span class="op">=</span><span class="st">'umap'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>computing velocity embedding
     finished (0:00:00) --&gt; added
@@ -608,32 +793,32 @@ computing velocity graph (using 1/160 cores)
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-19-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-17-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>The rates of RNA transcription, splicing and degradation are estimated without the need of any experimental data.</p>
+<p><strong>With the dynamical model</strong>, The rates of RNA transcription, splicing and degradation are estimated without the need of any experimental data.</p>
 <p>They can be useful to better understand the cell identity and phenotypic heterogeneity.</p>
-<div id="cf811069-dff9-484a-8259-b30d771fc763" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> adata.var</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[(df[<span class="st">'fit_likelihood'</span>] <span class="op">&gt;</span> <span class="fl">.1</span>) <span class="op">&amp;</span> df[<span class="st">'velocity_genes'</span>] <span class="op">==</span> <span class="va">True</span>]</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>kwargs <span class="op">=</span> <span class="bu">dict</span>(xscale<span class="op">=</span><span class="st">'log'</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> scv.GridSpec(ncols<span class="op">=</span><span class="dv">3</span>) <span class="im">as</span> pl:</span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    pl.hist(df[<span class="st">'fit_alpha'</span>], xlabel<span class="op">=</span><span class="st">'transcription rate'</span>, <span class="op">**</span>kwargs)</span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>    pl.hist(df[<span class="st">'fit_beta'</span>] <span class="op">*</span> df[<span class="st">'fit_scaling'</span>], xlabel<span class="op">=</span><span class="st">'splicing rate'</span>, xticks<span class="op">=</span>[<span class="fl">.1</span>, <span class="fl">.4</span>, <span class="dv">1</span>], <span class="op">**</span>kwargs)</span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    pl.hist(df[<span class="st">'fit_gamma'</span>], xlabel<span class="op">=</span><span class="st">'degradation rate'</span>, xticks<span class="op">=</span>[<span class="fl">.1</span>, <span class="fl">.4</span>, <span class="dv">1</span>], <span class="op">**</span>kwargs)</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>scv.get_df(adata, <span class="st">'fit*'</span>, dropna<span class="op">=</span><span class="va">True</span>).head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cf811069-dff9-484a-8259-b30d771fc763" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> adata.var</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df[(df[<span class="st">'fit_likelihood'</span>] <span class="op">&gt;</span> <span class="fl">.1</span>) <span class="op">&amp;</span> df[<span class="st">'velocity_genes'</span>] <span class="op">==</span> <span class="va">True</span>]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>kwargs <span class="op">=</span> <span class="bu">dict</span>(xscale<span class="op">=</span><span class="st">'log'</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> scv.GridSpec(ncols<span class="op">=</span><span class="dv">3</span>) <span class="im">as</span> pl:</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    pl.hist(df[<span class="st">'fit_alpha'</span>], xlabel<span class="op">=</span><span class="st">'transcription rate'</span>, <span class="op">**</span>kwargs)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    pl.hist(df[<span class="st">'fit_beta'</span>] <span class="op">*</span> df[<span class="st">'fit_scaling'</span>], xlabel<span class="op">=</span><span class="st">'splicing rate'</span>, xticks<span class="op">=</span>[<span class="fl">.1</span>, <span class="fl">.4</span>, <span class="dv">1</span>], <span class="op">**</span>kwargs)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    pl.hist(df[<span class="st">'fit_gamma'</span>], xlabel<span class="op">=</span><span class="st">'degradation rate'</span>, xticks<span class="op">=</span>[<span class="fl">.1</span>, <span class="fl">.4</span>, <span class="dv">1</span>], <span class="op">**</span>kwargs)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>scv.get_df(adata, <span class="st">'fit*'</span>, dropna<span class="op">=</span><span class="va">True</span>).head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-18-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="19">
+<div class="cell-output cell-output-display" data-execution_count="29">
 <div>
 <div>
 
@@ -682,98 +867,98 @@ computing velocity graph (using 1/160 cores)
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Sntg1</td>
-<td>0.011041</td>
-<td>0.004043</td>
-<td>0.080231</td>
-<td>25.527206</td>
-<td>52.120241</td>
-<td>1.021111</td>
-<td>0.023619</td>
-<td>0.367464</td>
+<td>0.010688</td>
+<td>0.003801</td>
+<td>0.070298</td>
+<td>26.614919</td>
+<td>48.409039</td>
+<td>1.015340</td>
+<td>0.024470</td>
+<td>0.382195</td>
 <td>0.0</td>
 <td>0.0</td>
-<td>0.008509</td>
-<td>2.507244</td>
-<td>0.075472</td>
-<td>0.259419</td>
-<td>6.120456</td>
-<td>0.466323</td>
+<td>0.034819</td>
+<td>2.402895</td>
+<td>0.072442</td>
+<td>0.238926</td>
+<td>6.656648</td>
+<td>0.467566</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Sbspon</td>
-<td>0.225797</td>
-<td>1.682173</td>
-<td>0.302747</td>
-<td>6.147519</td>
-<td>0.463775</td>
-<td>0.057540</td>
-<td>0.175868</td>
-<td>0.242276</td>
+<td>0.466790</td>
+<td>2.485521</td>
+<td>0.407607</td>
+<td>3.988951</td>
+<td>0.145663</td>
+<td>0.058015</td>
+<td>0.188189</td>
+<td>0.267242</td>
 <td>0.0</td>
 <td>0.0</td>
-<td>0.215998</td>
-<td>0.162373</td>
-<td>0.481733</td>
-<td>0.794976</td>
-<td>1.816960</td>
-<td>0.651425</td>
+<td>0.206473</td>
+<td>0.150839</td>
+<td>0.503312</td>
+<td>0.690054</td>
+<td>1.242929</td>
+<td>0.630782</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Mcm3</td>
-<td>4.098365</td>
-<td>59.257791</td>
-<td>1.203317</td>
-<td>1.986274</td>
-<td>0.012154</td>
-<td>0.015394</td>
-<td>0.687152</td>
-<td>0.125647</td>
+<td>3.759589</td>
+<td>52.011484</td>
+<td>0.885513</td>
+<td>1.945249</td>
+<td>0.011923</td>
+<td>0.015849</td>
+<td>0.686825</td>
+<td>0.118566</td>
 <td>0.0</td>
 <td>0.0</td>
-<td>0.480542</td>
-<td>0.060191</td>
-<td>1.991981</td>
-<td>0.985103</td>
-<td>0.717393</td>
-<td>0.282687</td>
+<td>0.483623</td>
+<td>0.060455</td>
+<td>2.054615</td>
+<td>1.426064</td>
+<td>0.765975</td>
+<td>0.275293</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Fam135a</td>
-<td>0.169396</td>
-<td>0.113233</td>
-<td>0.185499</td>
-<td>11.025427</td>
-<td>1.057786</td>
-<td>0.350119</td>
-<td>0.153911</td>
-<td>0.271898</td>
+<td>0.185720</td>
+<td>0.124718</td>
+<td>0.218989</td>
+<td>10.854791</td>
+<td>1.090526</td>
+<td>0.353996</td>
+<td>0.153378</td>
+<td>0.293041</td>
 <td>0.0</td>
 <td>0.0</td>
-<td>0.414863</td>
-<td>1.239550</td>
-<td>0.397954</td>
-<td>0.730658</td>
-<td>3.569145</td>
-<td>0.362124</td>
+<td>0.397257</td>
+<td>1.331401</td>
+<td>0.395752</td>
+<td>0.611777</td>
+<td>3.308631</td>
+<td>0.363101</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">Adgrb3</td>
-<td>0.039118</td>
-<td>0.007863</td>
-<td>0.195750</td>
-<td>7.880056</td>
-<td>118.323538</td>
-<td>2.063335</td>
-<td>0.028773</td>
-<td>0.362395</td>
+<td>0.034546</td>
+<td>0.007763</td>
+<td>0.222066</td>
+<td>8.947714</td>
+<td>120.303430</td>
+<td>2.122017</td>
+<td>0.030074</td>
+<td>0.295653</td>
 <td>0.0</td>
 <td>0.0</td>
-<td>0.072837</td>
-<td>4.881226</td>
-<td>0.095819</td>
-<td>0.380088</td>
-<td>1.773425</td>
-<td>0.376199</td>
+<td>0.063172</td>
+<td>4.564255</td>
+<td>0.093443</td>
+<td>0.525843</td>
+<td>1.825699</td>
+<td>0.399879</td>
 </tr>
 </tbody>
 </table>
@@ -783,31 +968,51 @@ computing velocity graph (using 1/160 cores)
 </div>
 </div>
 <p>The dynamical model recovers the latent time of the underlying cellular processes. This latent time represents the cell’s internal clock and approximates the real time experienced by cells as they differentiate, based only on its transcriptional dynamics. This offers advantages over traditional pseudotime trajectory inference approaches.</p>
-<div id="7ccae805-3aa0-42d0-bab7-6e5b5eff2b7a" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>scv.tl.latent_time(adata)</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, color<span class="op">=</span><span class="st">'latent_time'</span>, color_map<span class="op">=</span><span class="st">'gnuplot'</span>, size<span class="op">=</span><span class="dv">80</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="7ccae805-3aa0-42d0-bab7-6e5b5eff2b7a" class="cell" data-execution_count="38">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>scv.tl.latent_time(adata)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, color<span class="op">=</span><span class="st">'latent_time'</span>, color_map<span class="op">=</span>plt.cm.Spectral, size<span class="op">=</span><span class="dv">80</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>computing terminal states
-    identified 1 region of root cells and 1 region of end points .
-    finished (0:00:00) --&gt; added
-    'root_cells', root cells of Markov diffusion process (adata.obs)
-    'end_points', end points of Markov diffusion process (adata.obs)
-computing latent time using root_cells as prior
+<pre><code>computing latent time using root_cells as prior
     finished (0:00:01) --&gt; added 
     'latent_time', shared time (adata.obs)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-21-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-19-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
+<p><strong>Exercise 11</strong>: Take a look back at the previous exercise, where the diffusion pseudotime was calculated for the same dataset. Are there differences between the <code>dpt_pseudotime</code> and <code>latent_time estimates</code>?</p>
 <p>Driver genes display pronounced dynamic behavior and are systematically detected via their characterization by high likelihoods in the dynamic model. We can plot a heatmap of the top 300 genes expressed along the pseudotime.</p>
-<div id="4c624ce9-ca74-4651-ab39-4a0cc95a6e5d" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>top_genes <span class="op">=</span> adata.var[<span class="st">'fit_likelihood'</span>].sort_values(ascending<span class="op">=</span><span class="va">False</span>).index[:<span class="dv">300</span>]</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>scv.pl.heatmap(adata, var_names<span class="op">=</span>top_genes, sortby<span class="op">=</span><span class="st">'latent_time'</span>, col_color<span class="op">=</span><span class="st">'clusters'</span>, n_convolve<span class="op">=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="4c624ce9-ca74-4651-ab39-4a0cc95a6e5d" class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>top_genes <span class="op">=</span> adata.var[<span class="st">'fit_likelihood'</span>].sort_values(ascending<span class="op">=</span><span class="va">False</span>).index[:<span class="dv">300</span>]</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>scv.pl.heatmap(adata, var_names<span class="op">=</span>top_genes, sortby<span class="op">=</span><span class="st">'latent_time'</span>, col_color<span class="op">=</span><span class="st">'clusters'</span>, n_convolve<span class="op">=</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity1_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For any top candidates that you might want to validate biologically, it is always essential to examine the phase portraits, to ensure that the gene is not too noisy.</p>
+<div id="eb97d1e7-65b7-4e87-a192-a5aa9c7d75a6" class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>top_genes <span class="op">=</span> adata.var[<span class="st">'fit_likelihood'</span>].sort_values(ascending<span class="op">=</span><span class="va">False</span>).index</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, basis<span class="op">=</span>top_genes[:<span class="dv">15</span>], ncols<span class="op">=</span><span class="dv">5</span>, frameon<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-4_velocity1_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="7dbfe5d3-c53b-4851-bfe6-141d96b5d6f9" class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>var_names <span class="op">=</span> [<span class="st">'Actn4'</span>, <span class="st">'Ppp3ca'</span>, <span class="st">'Cpe'</span>, <span class="st">'Nnat'</span>]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, var_names, frameon<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, x<span class="op">=</span><span class="st">'latent_time'</span>, y<span class="op">=</span>var_names, frameon<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -815,48 +1020,25 @@ computing latent time using root_cells as prior
 </figure>
 </div>
 </div>
-</div>
-<p>For any top candidates that you might want to validate biologically, it is always essential to examine the phase portraits, to ensure that the gene is not too noisy.</p>
-<div id="eb97d1e7-65b7-4e87-a192-a5aa9c7d75a6" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>top_genes <span class="op">=</span> adata.var[<span class="st">'fit_likelihood'</span>].sort_values(ascending<span class="op">=</span><span class="va">False</span>).index</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, basis<span class="op">=</span>top_genes[:<span class="dv">15</span>], ncols<span class="op">=</span><span class="dv">5</span>, frameon<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-22-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<div id="7dbfe5d3-c53b-4851-bfe6-141d96b5d6f9" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>var_names <span class="op">=</span> [<span class="st">'Actn4'</span>, <span class="st">'Ppp3ca'</span>, <span class="st">'Cpe'</span>, <span class="st">'Nnat'</span>]</span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, var_names, frameon<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, x<span class="op">=</span><span class="st">'latent_time'</span>, y<span class="op">=</span>var_names, frameon<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-24-output-2.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
-<div id="03d6cb99-e45a-4cc3-b063-83a04e0551d6" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>scv.tl.rank_dynamical_genes(adata, groupby<span class="op">=</span><span class="st">'clusters'</span>)</span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> scv.get_df(adata, <span class="st">'rank_dynamical_genes/names'</span>)</span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We can then use <code>scv.tl.rank_dynamical_genes</code> to rank the top dynamical genes by cluster. These are the genes that most strongly contribute to the cell-wise velocity for cells belonging to each cluster.</p>
+<div id="03d6cb99-e45a-4cc3-b063-83a04e0551d6" class="cell" data-execution_count="34">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>scv.tl.rank_dynamical_genes(adata, groupby<span class="op">=</span><span class="st">'clusters'</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> scv.get_df(adata, <span class="st">'rank_dynamical_genes/names'</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ranking genes by cluster-specific likelihoods
     finished (0:00:03) --&gt; added 
     'rank_dynamical_genes', sorted scores by group ids (adata.uns)</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="24">
+<div class="cell-output cell-output-display" data-execution_count="34">
 <div>
 <div>
 
@@ -879,57 +1061,57 @@ computing latent time using root_cells as prior
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>Nfib</td>
-<td>Top2a</td>
-<td>Gnas</td>
-<td>Abcc8</td>
+<td>Lockd</td>
+<td>Rbfox3</td>
+<td>Pcsk2</td>
+<td>Pcsk2</td>
+<td>Gnao1</td>
 <td>Pcsk2</td>
 <td>Pak3</td>
-<td>Pcsk2</td>
-<td>Tox3</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
+<td>Top2a</td>
 <td>Dcdc2a</td>
-<td>Dcdc2a</td>
-<td>Rbfox3</td>
-<td>Ppp3ca</td>
+<td>Btbd17</td>
+<td>Abcc8</td>
 <td>Ank</td>
-<td>Gnao1</td>
-<td>Pak3</td>
-<td>Meis2</td>
+<td>Cpe</td>
+<td>Abcc8</td>
+<td>Tox3</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>Top2a</td>
+<td>Incenp</td>
 <td>Adk</td>
-<td>Btbd17</td>
+<td>Tspan5</td>
 <td>Rap1b</td>
-<td>Scgn</td>
-<td>Cpe</td>
-<td>Rap1b</td>
-<td>Rnf130</td>
+<td>Abcc8</td>
+<td>Pak3</td>
+<td>Pak3</td>
+<td>Rap1gap2</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>Incenp</td>
+<td>Wfdc15b</td>
+<td>Bicc1</td>
 <td>Rap1gap2</td>
-<td>Tcp11</td>
-<td>Gnas</td>
+<td>Tmem163</td>
 <td>Tspan7</td>
-<td>Rph3al</td>
-<td>Meis2</td>
-<td>Adk</td>
+<td>Rap1b</td>
+<td>Rap1b</td>
+<td>Rnf130</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>Shank2</td>
-<td>Tpx2</td>
-<td>Mapre3</td>
-<td>Tox3</td>
-<td>Map1b</td>
-<td>Rap1b</td>
-<td>Map1b</td>
-<td>Rap1b</td>
+<td>Cdk1</td>
+<td>Wfdc15b</td>
+<td>Sulf2</td>
+<td>Ank</td>
+<td>Cryba2</td>
+<td>Pim2</td>
+<td>Meis2</td>
+<td>Meis2</td>
 </tr>
 </tbody>
 </table>
@@ -938,34 +1120,34 @@ computing latent time using root_cells as prior
 </div>
 </div>
 </div>
-<div id="138f3b3a-6872-4a0e-811d-b1ccd0b4e375" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cluster <span class="kw">in</span> [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Beta'</span>]:</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    scv.pl.scatter(adata, df[cluster][:<span class="dv">5</span>], ylabel<span class="op">=</span>cluster, frameon<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="138f3b3a-6872-4a0e-811d-b1ccd0b4e375" class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cluster <span class="kw">in</span> [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Beta'</span>]:</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    scv.pl.scatter(adata, df[cluster][:<span class="dv">5</span>], ylabel<span class="op">=</span>cluster, frameon<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-26-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-24-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-26-output-3.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-24-output-3.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-26-output-4.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-24-output-4.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -974,9 +1156,9 @@ computing latent time using root_cells as prior
 <section id="velocities-in-cycling-progenitors" class="level2">
 <h2 class="anchored" data-anchor-id="velocities-in-cycling-progenitors">Velocities in cycling progenitors</h2>
 <p>The cell cycle detected by RNA velocity, and it is biologically affirmed by cell cycle scores (standardized scores of mean expression levels of phase marker genes).</p>
-<div id="6b380d25-aea5-4f06-92be-cfbac69368be" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>scv.tl.score_genes_cell_cycle(adata)</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, color_gradients<span class="op">=</span>[<span class="st">'S_score'</span>, <span class="st">'G2M_score'</span>], smooth<span class="op">=</span><span class="va">True</span>, perc<span class="op">=</span>[<span class="dv">5</span>, <span class="dv">95</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6b380d25-aea5-4f06-92be-cfbac69368be" class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>scv.tl.score_genes_cell_cycle(adata)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, color_gradients<span class="op">=</span>[<span class="st">'S_score'</span>, <span class="st">'G2M_score'</span>], smooth<span class="op">=</span><span class="va">True</span>, perc<span class="op">=</span>[<span class="dv">5</span>, <span class="dv">95</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>calculating cell cycle phase
 --&gt;     'S_score' and 'G2M_score', scores of cell cycle phases (adata.obs)</code></pre>
@@ -984,34 +1166,53 @@ computing latent time using root_cells as prior
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-28-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-25-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>For the cycling Ductal cells, we may screen through S and G2M phase markers. The previous module also computed a spearmans correlation score, which we can use to rank/sort the phase marker genes to then display their phase portraits.</p>
-<div id="9685e98c-bc51-4bad-a7c2-d07f5bb4955d" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>s_genes, g2m_genes <span class="op">=</span> scv.utils.get_phase_marker_genes(adata)</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>s_genes <span class="op">=</span> scv.get_df(adata[:, s_genes], <span class="st">'spearmans_score'</span>, sort_values<span class="op">=</span><span class="va">True</span>).index</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>g2m_genes <span class="op">=</span> scv.get_df(adata[:, g2m_genes], <span class="st">'spearmans_score'</span>, sort_values<span class="op">=</span><span class="va">True</span>).index</span>
-<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>kwargs <span class="op">=</span> <span class="bu">dict</span>(frameon<span class="op">=</span><span class="va">False</span>, ylabel<span class="op">=</span><span class="st">'cell cycle genes'</span>)</span>
-<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, <span class="bu">list</span>(s_genes[:<span class="dv">2</span>]) <span class="op">+</span> <span class="bu">list</span>(g2m_genes[:<span class="dv">3</span>]), <span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="9685e98c-bc51-4bad-a7c2-d07f5bb4955d" class="cell" data-execution_count="37">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>s_genes, g2m_genes <span class="op">=</span> scv.utils.get_phase_marker_genes(adata)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>s_genes <span class="op">=</span> scv.get_df(adata[:, s_genes], <span class="st">'spearmans_score'</span>, sort_values<span class="op">=</span><span class="va">True</span>).index</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>g2m_genes <span class="op">=</span> scv.get_df(adata[:, g2m_genes], <span class="st">'spearmans_score'</span>, sort_values<span class="op">=</span><span class="va">True</span>).index</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>kwargs <span class="op">=</span> <span class="bu">dict</span>(frameon<span class="op">=</span><span class="va">False</span>, ylabel<span class="op">=</span><span class="st">'cell cycle genes'</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>scv.pl.scatter(adata, <span class="bu">list</span>(s_genes[:<span class="dv">2</span>]) <span class="op">+</span> <span class="bu">list</span>(g2m_genes[:<span class="dv">3</span>]), <span class="op">**</span>kwargs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Particularly Hells and Top2a are well-suited to explain the vector field in the cycling progenitors. Top2a gets assigned a high velocity shortly before it actually peaks in the G2M phase. There, the negative velocity then perfectly matches the immediately following down-regulation.</p>
+<p><strong>Exercise 12</strong>: As you did previously for other genes, can you use scvelo plotting functions to visualize the phase portraits and gene-wise velocity for the <code>Hells</code> and <code>Top2a</code> genes?</p>
+<button onclick="toggleVisibility('answer12')">
+Click for Answer
+</button>
+<div id="answer12" style="display:none;">
+<strong>Answer:</strong>
+<pre>    scv.pl.velocity(adata, ['Hells',  'Top2a'], ncols=2)
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
+</div>
 <div id="f2a5e738-b803-4918-9be7-aa245aac482d" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>scv.pl.velocity(adata, [<span class="st">'Hells'</span>, <span class="st">'Top2a'</span>], ncols<span class="op">=</span><span class="dv">2</span>, add_outline<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day3-4_velocity1_files/figure-html/cell-30-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day3-4_velocity1_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -1019,6 +1220,7 @@ computing latent time using root_cells as prior
 <p>The cell cycle is an interesting case for RNA velocity estimation, as pseudotime methods along often fail as estimations of cyclical processes. Moreover, RNA velocity corresponds roughly to cell cycle speed, which is both experimentally verifiable. The cell cycle also unfolds on a timescale of less than 24 hours, which is well suited for studying cell dynamics using RNA lifecycle kinetics, such as with RNA velocity.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
