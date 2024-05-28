@@ -273,15 +273,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<style>
-    .large-link {
-        font-size: 30px;
-        font-family: Arial, sans-serif;
-        color: #333;
-        text-decoration: none;
-    }
-</style>
-<p><a href="../assets/pdf/05_06_dimred_integration.pdf" target="_blank" class="large-link">Download Presentation: Dimensionality Reduction and Integration</a></p>
 <section id="learning-outcomes" class="level2">
 <h2 class="anchored" data-anchor-id="learning-outcomes">Learning outcomes</h2>
 <p><strong>After having completed this chapter you will be able to:</strong></p>
@@ -442,7 +433,7 @@ function toggleVisibility(id) {
 </div>
 </div>
 </div>
-<p>This plot ranks principle components based on the percentage of variance explained by each one. Where we observe an “elbow” or flattening curve, the majority of true signal is captured by this number of PCs.</p>
+<p>This plot ranks principle components based on the percentage of variance explained by each one. The majority of true signal is captured by the PCs up until the point at which an elbow (and plateau) is reached.</p>
 <p>Including too many PCs usually does not affect much the result, while including too few PCs can affect the results very much</p>
 <p>Another - maybe more intuitive - way to see it, is to use a cumulative sum to show the % unexplained variance in function of the number of PCs. If we look at the first PCs, we can see that we passed the elbow with 30 to 50 PCs, which should ensure that we capture the major part of the variability in our dataset to be shown on a 2D representation like UMAP or tSNE.</p>
 <div id="f55db278-ac3a-4af2-930c-04d45cb0412c" class="cell" data-executioninfo="{&quot;elapsed&quot;:1242,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340231278,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="de2c559f-1a4f-43d8-b8e9-6d7249166b79" data-execution_count="9">
