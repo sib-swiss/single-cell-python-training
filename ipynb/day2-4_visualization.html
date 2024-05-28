@@ -442,7 +442,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p><strong>Exercise 2 (optional)</strong>: Let’s take a few steps back to understand all of the previous steps a little bit better! The number of genes selected by the highly_variable_genes function can significantly impact your ability to cluster. Too few genes and you cannot discriminate between different cell types, too many genes and you capture lots of noisy clusters! Try repeating the previous analysis with either 200 or 5000 highly variable genes, naming the AnnData object differently (i.e.&nbsp;adata_200genes) to avoid overwriting your previous results. Transfer the metadata for the new cluster labels to the original AnnData object’s metadata at adata.obs and compare on the UMAP. Are the clusters different?</p>
+<p><strong>Exercise 2</strong>: Let’s take a few steps back to understand all of the previous steps a little bit better! The number of genes selected by the highly_variable_genes function can significantly impact your ability to cluster. Too few genes and you cannot discriminate between different cell types, too many genes and you capture lots of noisy clusters! Try repeating the previous analysis with either 200 or 5000 highly variable genes, naming the AnnData object differently (i.e.&nbsp;adata_200genes) to avoid overwriting your previous results. Transfer the metadata for the new cluster labels to the original AnnData object’s metadata at adata.obs and compare on the UMAP. Are the clusters different?</p>
 <p>Once you have settled on the parameters for the dimensionality reduction and clustering steps, it is time to begin annotating your clusters with cell types. This is normally a challenging step! When you are not too familiar with the marker genes for a particular cluster, a good starting point is simply to Google a strong marker gene and understand its function. Other tools that might be useful include EnrichR and GSEAPy. - https://maayanlab.cloud/Enrichr/ - https://gseapy.readthedocs.io/en/latest/gseapy_example.html#2.-Enrichr-Example</p>
 <p>Fortunately in our case, we will try automated cell type annotations!</p>
 <section id="automated-cell-type-annotation" class="level1">
@@ -547,26 +547,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>The model_high seems to have fewer cell types, let’s start with that for obtaining broader cell type categories.</p>
-<div id="0f0a9b62-71dd-4698-9a48-26826de8dbd1" class="cell" data-executioninfo="{&quot;elapsed&quot;:12802,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340636224,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="6458a888-548c-494f-8a03-b4764be06fdc" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>predictions_high <span class="op">=</span> celltypist.annotate(</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>    adata_celltypist, model<span class="op">=</span>model_high, majority_voting<span class="op">=</span><span class="va">True</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>🔬 Input data has 5459 cells and 10839 genes
-🔗 Matching reference genes in the model
-🧬 3729 features used for prediction
-⚖️ Scaling input data
-🖋️ Predicting labels
-✅ Prediction done!
-👀 Can not detect a neighborhood graph, will construct one before the over-clustering
-⛓️ Over-clustering input data with resolution set to 10
-🗳️ Majority voting the predictions
-✅ Majority voting done!</code></pre>
-</div>
+<p><strong>Exercise 4:</strong> Use the <code>celltypist.annotate</code> function to predict cell types using the model <code>model_high</code> and <code>marjority_voting=True</code>: Save the result to a variable called <code>predictions_high</code>.</p>
+<button onclick="toggleVisibility('answer4')">
+Click for Answer
+</button>
+<div id="answer4" style="display:none;">
+<strong>Answer:</strong>
+<pre>    predictions_high = celltypist.annotate(
+    adata_celltypist, model=model_high, majority_voting=True)
+
+    🔬 Input data has 5459 cells and 10839 genes
+    🔗 Matching reference genes in the model
+    🧬 3729 features used for prediction
+    ⚖️ Scaling input data
+    🖋️ Predicting labels
+    ✅ Prediction done!
+    👀 Can not detect a neighborhood graph, will construct one before the over-clustering
+    ⛓️ Over-clustering input data with resolution set to 10
+    🗳️ Majority voting the predictions
+    ✅ Majority voting done!
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
 </div>
 <div id="55536379-cd60-489b-ae6f-3c7f576d7a09" class="cell" data-executioninfo="{&quot;elapsed&quot;:19,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340636224,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="8241cd8f-f8b2-4e64-8d30-2fd265f74494" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>predictions_high_adata <span class="op">=</span> predictions_high.to_adata()</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>predictions_high_adata.obs[[<span class="st">'majority_voting'</span>, <span class="st">'conf_score'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>predictions_high_adata <span class="op">=</span> predictions_high.to_adata()</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>predictions_high_adata.obs[[<span class="st">'majority_voting'</span>, <span class="st">'conf_score'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <div>
 <div>
@@ -645,30 +659,43 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div id="4873ac7a-34ba-4fe6-823d-428ab02871c8" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_annotations_high"</span>] <span class="op">=</span> predictions_high_adata.obs[<span class="st">"majority_voting"</span>]</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_conf_score_high"</span>] <span class="op">=</span> predictions_high_adata.obs[<span class="st">"conf_score"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_annotations_high"</span>] <span class="op">=</span> predictions_high_adata.obs[<span class="st">"majority_voting"</span>]</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_conf_score_high"</span>] <span class="op">=</span> predictions_high_adata.obs[<span class="st">"conf_score"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Now let’s do the same for the finer-grained annotations</p>
-<div id="3ea9b431-3896-4ef2-8159-6f93e0922cfc" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>predictions_low <span class="op">=</span> celltypist.annotate(</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>    adata_celltypist, model<span class="op">=</span>model_low, majority_voting<span class="op">=</span><span class="va">True</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>🔬 Input data has 5459 cells and 10839 genes
-🔗 Matching reference genes in the model
-🧬 3729 features used for prediction
-⚖️ Scaling input data
-🖋️ Predicting labels
-✅ Prediction done!
-👀 Detected a neighborhood graph in the input object, will run over-clustering on the basis of it
-⛓️ Over-clustering input data with resolution set to 10
-🗳️ Majority voting the predictions
-✅ Majority voting done!</code></pre>
-</div>
+<p><strong>Exercise 5:</strong> Now do the same (<code>celltypist.annotate</code>) for the finer-grained annotations. Save the result to a variable called <code>predictions_low</code>.</p>
+<button onclick="toggleVisibility('answer5')">
+Click for Answer
+</button>
+<div id="answer5" style="display:none;">
+<strong>Answer:</strong>
+<pre>    predictions_low = celltypist.annotate(
+    adata_celltypist, model=model_low, majority_voting=True)
+
+    🔬 Input data has 5459 cells and 10839 genes
+    🔗 Matching reference genes in the model
+    🧬 3729 features used for prediction
+    ⚖️ Scaling input data
+    🖋️ Predicting labels
+    ✅ Prediction done!
+    👀 Can not detect a neighborhood graph, will construct one before the over-clustering
+    ⛓️ Over-clustering input data with resolution set to 10
+    🗳️ Majority voting the predictions
+    ✅ Majority voting done!
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
 </div>
 <div id="a1f1e332-9a71-4766-b28f-05ef0fff96b5" class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>predictions_low_adata <span class="op">=</span> predictions_low.to_adata()</span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>predictions_low_adata.obs[[<span class="st">'majority_voting'</span>, <span class="st">'conf_score'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>predictions_low_adata <span class="op">=</span> predictions_low.to_adata()</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>predictions_low_adata.obs[[<span class="st">'majority_voting'</span>, <span class="st">'conf_score'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <div>
 <div>
@@ -748,54 +775,54 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>And we save our predictions to our AnnData object:</p>
 <div id="0d4ef87e-92d1-4b6b-8a20-0ac344c09981" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_annotations_low"</span>] <span class="op">=</span> predictions_low_adata.obs[<span class="st">"majority_voting"</span>]</span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_conf_score_low"</span>] <span class="op">=</span> predictions_low_adata.obs[<span class="st">"conf_score"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_annotations_low"</span>] <span class="op">=</span> predictions_low_adata.obs[<span class="st">"majority_voting"</span>]</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_conf_score_low"</span>] <span class="op">=</span> predictions_low_adata.obs[<span class="st">"conf_score"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>CellTypist annotations can then be visualized on the UMAP embedding:</p>
 <div id="8f9d846b-9f1d-4a07-825e-09922afb59b4" class="cell" data-executioninfo="{&quot;elapsed&quot;:1596,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340637804,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="1eaca042-bffb-48a5-807e-dc6f865a9d44" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>sc.settings.set_figure_params(dpi<span class="op">=</span><span class="dv">80</span>, facecolor<span class="op">=</span><span class="st">'white'</span>)</span>
-<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
-<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>    adata_raw_norm,</span>
-<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>[<span class="st">"celltypist_annotations_low"</span>, <span class="st">"celltypist_annotations_high"</span>],</span>
-<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    sort_order<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    wspace<span class="op">=</span><span class="fl">1.2</span>,</span>
-<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>sc.settings.set_figure_params(dpi<span class="op">=</span><span class="dv">80</span>, facecolor<span class="op">=</span><span class="st">'white'</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    adata_raw_norm,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>[<span class="st">"celltypist_annotations_low"</span>, <span class="st">"celltypist_annotations_high"</span>],</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    sort_order<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    wspace<span class="op">=</span><span class="fl">1.2</span>,</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-4_visualization_files/figure-html/cell-24-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day2-4_visualization_files/figure-html/cell-22-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>Also, each cell gets a prediction score:</p>
 <div id="0dfacb9f-c9d6-4934-951b-149b36ad8163" class="cell" data-executioninfo="{&quot;elapsed&quot;:684,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340638480,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="6f3c9170-a120-492b-b43b-5dc3adb098d3" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>    adata_raw_norm,</span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>[<span class="st">"celltypist_conf_score_low"</span>, <span class="st">"celltypist_conf_score_high"</span>],</span>
-<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    sort_order<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    wspace<span class="op">=</span><span class="dv">1</span>,</span>
-<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>    adata_raw_norm,</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>    color<span class="op">=</span>[<span class="st">"celltypist_conf_score_low"</span>, <span class="st">"celltypist_conf_score_high"</span>],</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    frameon<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    sort_order<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    wspace<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-4_visualization_files/figure-html/cell-25-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day2-4_visualization_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>One way of getting a feeling for the quality of these annotations is by looking if the observed cell type similarities correspond to our expectations:</p>
 <div id="8160941b-a38b-4fd1-b7f4-689651cc1b50" class="cell" data-executioninfo="{&quot;elapsed&quot;:7,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1694340638480,&quot;user&quot;:{&quot;displayName&quot;:&quot;Alex Lederer&quot;,&quot;userId&quot;:&quot;09653581722857927737&quot;},&quot;user_tz&quot;:-120}" data-outputid="a46856f4-1aab-41a1-dd0f-29b2fcbf9bcc" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>sc.pl.dendrogram(adata_raw_norm, groupby<span class="op">=</span><span class="st">"celltypist_annotations_low"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>sc.pl.dendrogram(adata_raw_norm, groupby<span class="op">=</span><span class="st">"celltypist_annotations_low"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>WARNING: dendrogram data not found (using key=dendrogram_celltypist_annotations_low). Running `sc.tl.dendrogram` with default parameters. For fine tuning it is recommended to run `sc.tl.dendrogram` independently.</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-4_visualization_files/figure-html/cell-26-output-2.png" class="img-fluid figure-img"></p>
+<p><img src="day2-4_visualization_files/figure-html/cell-24-output-2.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -814,27 +841,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Take a look at tools in the <a href="https://scanpy.readthedocs.io/en/latest/external/#data-integration">external API</a> or at the <a href="https://scanpy.readthedocs.io/en/latest/ecosystem/#data-integration">ecoystem page</a> for scanpy to read about other related data integration and label transfer tools.</p>
 <p>Let’s evaluate the role of the <code>ingest</code> function by considering the case where we only use celltypist to annotate cells from one sample: PBMMC_1. We can use <code>ingest</code> to then transfer the labels to another sample, PBMMC_3.</p>
 <div id="ec7e9d3c-f148-4197-b9b3-4170510f2e68" class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reference dataset</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>sample1_adata <span class="op">=</span> adata_raw_norm[adata_raw_norm.obs[<span class="st">"sample"</span>]<span class="op">==</span><span class="st">"PBMMC_1"</span>].copy()</span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Unlabeled dataset to transfer cell type labels to</span></span>
-<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>sample3_adata <span class="op">=</span> adata_raw_norm[adata_raw_norm.obs[<span class="st">"sample"</span>]<span class="op">==</span><span class="st">"PBMMC_3"</span>].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reference dataset</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>sample1_adata <span class="op">=</span> adata_raw_norm[adata_raw_norm.obs[<span class="st">"sample"</span>]<span class="op">==</span><span class="st">"PBMMC_1"</span>].copy()</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Unlabeled dataset to transfer cell type labels to</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>sample3_adata <span class="op">=</span> adata_raw_norm[adata_raw_norm.obs[<span class="st">"sample"</span>]<span class="op">==</span><span class="st">"PBMMC_3"</span>].copy()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>In order for <code>ingest</code> to transfer the labels, we need to first remove the labels obtained with celltypist from our <code>sample3_adata</code> object. In the meantime, we can store them in a variable <code>old_annotations_sample3</code>:</p>
 <div id="636b0db3-09fc-4907-9937-368569959cb8" class="cell" data-execution_count="36">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>old_annotations_sample3 <span class="op">=</span> np.array(sample3_adata.obs[<span class="st">"celltypist_annotations_high"</span>])</span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> sample3_adata.obs[<span class="st">"celltypist_annotations_high"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>old_annotations_sample3 <span class="op">=</span> np.array(sample3_adata.obs[<span class="st">"celltypist_annotations_high"</span>])</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> sample3_adata.obs[<span class="st">"celltypist_annotations_high"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We need to quickly repeat the analysis steps we have previously performed before, but this time on the two samples (PBMMC_1; i.e.&nbsp;<code>sample1_adata</code> and PBMMC_3; i.e.&nbsp;<code>sample3_adata</code>) independently:</p>
-<p><strong>Exercise 4:</strong> Repeat the following steps, once with <code>sample1_adata</code> and once with <code>sample3_adata</code>:</p>
+<p><strong>Exercise 6:</strong> Repeat the following steps, once with <code>sample1_adata</code> and once with <code>sample3_adata</code>:</p>
 <p><code>sc.pp.highly_variable_genes</code> with <code>subset=True</code> and <code>n_top_genes=3000</code></p>
 <p><code>sc.pp.pca</code></p>
 <p><code>sc.pp.neighbors</code></p>
 <p><code>sc.tl.umap</code></p>
-<button onclick="toggleVisibility('answer4')">
+<button onclick="toggleVisibility('answer6')">
 Click for Answer
 </button>
-<div id="answer4" style="display:none;">
+<div id="answer6" style="display:none;">
 <strong>Answer:</strong> You should write the following code:
 <pre>    sc.pp.highly_variable_genes(sample1_adata, subset=True, n_top_genes=3000)
     sc.pp.pca(sample1_adata)
@@ -860,37 +887,37 @@ function toggleVisibility(id) {
 </div>
 <p>Visualize your generated UMAPs for each individual sample:</p>
 <div id="b66b0e31-633f-4d3e-b92f-e55046771451" class="cell" data-execution_count="39">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(sample1_adata, color<span class="op">=</span><span class="st">"celltypist_annotations_high"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(sample1_adata, color<span class="op">=</span><span class="st">"celltypist_annotations_high"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-4_visualization_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day2-4_visualization_files/figure-html/cell-27-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <div id="bbf6ba87-f57f-4526-9884-11284ede855f" class="cell" data-execution_count="40">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(sample3_adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(sample3_adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-4_visualization_files/figure-html/cell-30-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day2-4_visualization_files/figure-html/cell-28-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
 <p>To use <code>sc.tl.ingest</code>, the datasets need to be defined on the same variables.</p>
 <div id="8b55b5ad-1a00-4f67-b3df-9ff1e378b3a3" class="cell" data-execution_count="41">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>var_names <span class="op">=</span> sample1_adata.var_names.intersection(sample3_adata.var_names)</span>
-<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>sample1_adata <span class="op">=</span> sample1_adata[:, var_names]</span>
-<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>sample3_adata <span class="op">=</span> sample3_adata[:, var_names]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>var_names <span class="op">=</span> sample1_adata.var_names.intersection(sample3_adata.var_names)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>sample1_adata <span class="op">=</span> sample1_adata[:, var_names]</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>sample3_adata <span class="op">=</span> sample3_adata[:, var_names]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can finally map labels and embeddings from <code>sample1_adata</code> (our reference) to <code>sample3_adata</code> (our unannotated new dataset) based on a chosen representation.</p>
-<p><strong>Exercise 5:</strong> Run the <code>sc.tl.ingest</code> command, with <code>sample3_adata</code> as your unlabeled dataset and <code>sample1_adata</code> as your reference dataset. Transfer the label <code>celltypist_annotations_high</code> using the <code>pca</code> as the embedding method.</p>
-<button onclick="toggleVisibility('answer5')">
+<p><strong>Exercise 7:</strong> Run the <code>sc.tl.ingest</code> command, with <code>sample3_adata</code> as your unlabeled dataset and <code>sample1_adata</code> as your reference dataset. Transfer the label <code>celltypist_annotations_high</code> using the <code>pca</code> as the embedding method.</p>
+<button onclick="toggleVisibility('answer7')">
 Click for Answer
 </button>
-<div id="answer5" style="display:none;">
+<div id="answer7" style="display:none;">
 <strong>Answer:</strong> You should write the following code:
 <pre>    sc.tl.ingest(adata=sample3_adata, 
                  adata_ref=sample1_adata, 
@@ -910,15 +937,15 @@ function toggleVisibility(id) {
 </div>
 <p>Finally, we want to rename the labels obtained for <code>sample3_adata</code> from <code>celltypist</code> and <code>ingest</code>, and compare them to each other on the UMAP space:</p>
 <div id="ce241c06-f52c-4e4e-93c0-ca43ba146cab" class="cell" data-execution_count="43">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>sample3_adata.obs[<span class="st">"celltypist_labels"</span>] <span class="op">=</span> old_annotations_sample3</span>
-<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>sample3_adata.obs[<span class="st">"ingest_labels"</span>] <span class="op">=</span> sample3_adata.obs[<span class="st">"celltypist_annotations_high"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>sample3_adata.obs[<span class="st">"celltypist_labels"</span>] <span class="op">=</span> old_annotations_sample3</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>sample3_adata.obs[<span class="st">"ingest_labels"</span>] <span class="op">=</span> sample3_adata.obs[<span class="st">"celltypist_annotations_high"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="60b73b7a-22d5-4d7f-bdc6-824fe24c39ed" class="cell" data-execution_count="46">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(sample3_adata, color<span class="op">=</span>[<span class="st">'celltypist_labels'</span>, <span class="st">'ingest_labels'</span>], wspace<span class="op">=</span><span class="fl">0.50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(sample3_adata, color<span class="op">=</span>[<span class="st">'celltypist_labels'</span>, <span class="st">'ingest_labels'</span>], wspace<span class="op">=</span><span class="fl">0.50</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="day2-4_visualization_files/figure-html/cell-33-output-1.png" class="img-fluid figure-img"></p>
+<p><img src="day2-4_visualization_files/figure-html/cell-31-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
