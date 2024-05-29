@@ -253,6 +253,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#run-paga" id="toc-run-paga" class="nav-link" data-scroll-target="#run-paga">Run PAGA</a></li>
   <li><a href="#embedding-using-paga-initialization" id="toc-embedding-using-paga-initialization" class="nav-link" data-scroll-target="#embedding-using-paga-initialization">Embedding using PAGA-initialization</a></li>
   <li><a href="#gene-changes" id="toc-gene-changes" class="nav-link" data-scroll-target="#gene-changes">Gene changes</a></li>
+  <li><a href="#diffusion-pseudotime" id="toc-diffusion-pseudotime" class="nav-link" data-scroll-target="#diffusion-pseudotime">Diffusion pseudotime</a></li>
   </ul>
 </nav>
     </div>
@@ -443,58 +444,22 @@ function toggleVisibility(id) {
 <section id="gene-changes" class="level2">
 <h2 class="anchored" data-anchor-id="gene-changes">Gene changes</h2>
 <p>We can reconstruct gene changes along PAGA paths for a given set of genes</p>
-<p>Choose a “root” cell for diffusion pseudotime from the Ductal cells.</p>
-<div id="8b1799e6-8496-4ec9-9dd7-9b56fb4c1cb8" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>adata.uns[<span class="st">'iroot'</span>] <span class="op">=</span> np.flatnonzero(adata.obs[<span class="st">'clusters'</span>]  <span class="op">==</span> <span class="st">'Ductal'</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><strong>Exercise 2</strong>: Next, use the <code>sc.tl.diffmap</code> and <code>sc.tl.dpt</code> functions to estimate a pseudotime. What does each of these functions specifically do?</p>
-<button onclick="toggleVisibility('answer2')">
-Click for Answer
-</button>
-<div id="answer2" style="display:none;">
-<strong>Answer:</strong>
-<pre>    sc.tl.diffmap(adata)
-    sc.tl.dpt(adata)
-</pre>
-<script>
-function toggleVisibility(id) {
-   var element = document.getElementById(id);
-   if (element.style.display === 'none') {
-       element.style.display = 'block';
-   } else {
-       element.style.display = 'none';
-   }
-}
-</script>
-</div>
-<p>Visualize the results on the published embedding. You need to restore this because it was overwritten in your analyses above.</p>
-<div id="bf0143ec-ad89-448c-ac11-94943251a60c" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> scv.datasets.pancreas().obsm[<span class="st">"X_umap"</span>]</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">'clusters'</span>, <span class="st">'dpt_pseudotime'</span>], cmap<span class="op">=</span>plt.cm.Spectral, wspace<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="day3-3_trajectory_analysis_files/figure-html/cell-13-output-1.png" class="img-fluid figure-img"></p>
-</figure>
-</div>
-</div>
-</div>
 <p>By looking at the different know lineages and the layout of the graph we define manually some paths to the graph that corresponds to specific lineages.</p>
 <div id="14812934-6e41-4ffb-b684-43cdccf11abb" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define paths</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>paths <span class="op">=</span> [(<span class="st">'beta'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Beta'</span>]),</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'alpha'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Alpha'</span>]),</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'delta'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Delta'</span>]),</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'epsilon'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Epsilon'</span>])]</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">'distance'</span>] <span class="op">=</span> adata.obs[<span class="st">'dpt_pseudotime'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define paths</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>paths <span class="op">=</span> [(<span class="st">'beta'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Beta'</span>]),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'alpha'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Alpha'</span>]),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'delta'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Delta'</span>]),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'epsilon'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Epsilon'</span>])]</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">'distance'</span>] <span class="op">=</span> adata.obs[<span class="st">'dpt_pseudotime'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Then we select some genes that can vary in the lineages and plot onto the paths.</p>
 <div id="4cb94187-99f2-48d2-ae50-757446d300ee" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata, <span class="st">"clusters"</span>, method<span class="op">=</span><span class="st">"t-test"</span>, n_genes<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata, <span class="st">"clusters"</span>, method<span class="op">=</span><span class="st">"t-test"</span>, n_genes<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="c8f67924-7acc-4773-8e44-58e27f60d7ea" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(adata.uns[<span class="st">"rank_genes_groups"</span>][<span class="st">"names"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(adata.uns[<span class="st">"rank_genes_groups"</span>][<span class="st">"names"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 <div>
@@ -633,33 +598,72 @@ function toggleVisibility(id) {
 </div>
 </div>
 <div id="cb90f91a-ca94-48bf-87ef-519c129ba665" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> [<span class="st">"Spp1"</span>, <span class="st">"Dbi"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Sparc"</span>, <span class="st">"Mgst1"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Neurog3"</span>, <span class="st">"Btbd17"</span>, <span class="st">"Sox4"</span>,</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Map1b"</span>, <span class="st">"Fev"</span>, <span class="st">"Hmgn3"</span>, <span class="st">"Bex2"</span>, <span class="st">"Sec61b"</span>, <span class="st">"Tuba1a"</span>, <span class="st">"Meis2"</span>, <span class="st">"Pcsk1n"</span>, <span class="st">"Sst"</span>, <span class="st">"Arg1"</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Rbp4"</span>, <span class="st">"Hhex"</span>, <span class="st">"Ghrl"</span>, <span class="st">"Isl1"</span>, <span class="st">"Rbp4"</span>, <span class="st">"Bex2"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> [<span class="st">"Spp1"</span>, <span class="st">"Dbi"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Sparc"</span>, <span class="st">"Mgst1"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Neurog3"</span>, <span class="st">"Btbd17"</span>, <span class="st">"Sox4"</span>,</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Map1b"</span>, <span class="st">"Fev"</span>, <span class="st">"Hmgn3"</span>, <span class="st">"Bex2"</span>, <span class="st">"Sec61b"</span>, <span class="st">"Tuba1a"</span>, <span class="st">"Meis2"</span>, <span class="st">"Pcsk1n"</span>, <span class="st">"Sst"</span>, <span class="st">"Arg1"</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Rbp4"</span>, <span class="st">"Hhex"</span>, <span class="st">"Ghrl"</span>, <span class="st">"Isl1"</span>, <span class="st">"Rbp4"</span>, <span class="st">"Bex2"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="3fe4a676-1d0b-476b-9f59-c0207b6fa11a" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>_, axs <span class="op">=</span> pl.subplots(ncols<span class="op">=</span><span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">8</span>), gridspec_kw<span class="op">=</span>{</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'wspace'</span>: <span class="fl">0.05</span>, <span class="st">'left'</span>: <span class="fl">0.12</span>})</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>pl.subplots_adjust(left<span class="op">=</span><span class="fl">0.05</span>, right<span class="op">=</span><span class="fl">0.98</span>, top<span class="op">=</span><span class="fl">0.82</span>, bottom<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ipath, (descr, path) <span class="kw">in</span> <span class="bu">enumerate</span>(paths):</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    _, data <span class="op">=</span> sc.pl.paga_path(</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>        adata, path, gene_names,</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>        show_node_names<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>        ax<span class="op">=</span>axs[ipath],</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>        ytick_fontsize<span class="op">=</span><span class="dv">12</span>,</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>        left_margin<span class="op">=</span><span class="fl">0.15</span>,</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>        n_avg<span class="op">=</span><span class="dv">50</span>,</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        annotations<span class="op">=</span>[<span class="st">'distance'</span>],</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>        show_yticks<span class="op">=</span><span class="va">True</span> <span class="cf">if</span> ipath <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="va">False</span>,</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>        show_colorbar<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>        color_map<span class="op">=</span><span class="st">'Greys'</span>,</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>        groups_key<span class="op">=</span><span class="st">'clusters'</span>,</span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>        color_maps_annotations<span class="op">=</span>{<span class="st">'distance'</span>: <span class="st">'viridis'</span>},</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">'</span><span class="sc">{}</span><span class="st"> path'</span>.<span class="bu">format</span>(descr),</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        return_data<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>        use_raw<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>        show<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>pl.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>_, axs <span class="op">=</span> pl.subplots(ncols<span class="op">=</span><span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">8</span>), gridspec_kw<span class="op">=</span>{</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'wspace'</span>: <span class="fl">0.05</span>, <span class="st">'left'</span>: <span class="fl">0.12</span>})</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>pl.subplots_adjust(left<span class="op">=</span><span class="fl">0.05</span>, right<span class="op">=</span><span class="fl">0.98</span>, top<span class="op">=</span><span class="fl">0.82</span>, bottom<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ipath, (descr, path) <span class="kw">in</span> <span class="bu">enumerate</span>(paths):</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    _, data <span class="op">=</span> sc.pl.paga_path(</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>        adata, path, gene_names,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>        show_node_names<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>        ax<span class="op">=</span>axs[ipath],</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>        ytick_fontsize<span class="op">=</span><span class="dv">12</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>        left_margin<span class="op">=</span><span class="fl">0.15</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>        n_avg<span class="op">=</span><span class="dv">50</span>,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>        annotations<span class="op">=</span>[<span class="st">'distance'</span>],</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>        show_yticks<span class="op">=</span><span class="va">True</span> <span class="cf">if</span> ipath <span class="op">==</span> <span class="dv">0</span> <span class="cf">else</span> <span class="va">False</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>        show_colorbar<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>        color_map<span class="op">=</span><span class="st">'Greys'</span>,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>        groups_key<span class="op">=</span><span class="st">'clusters'</span>,</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>        color_maps_annotations<span class="op">=</span>{<span class="st">'distance'</span>: <span class="st">'viridis'</span>},</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">'</span><span class="sc">{}</span><span class="st"> path'</span>.<span class="bu">format</span>(descr),</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>        return_data<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>        use_raw<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>        show<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>pl.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-3_trajectory_analysis_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="diffusion-pseudotime" class="level1">
+<h1>Diffusion pseudotime</h1>
+<p>We can also define pseudotime at the level of the cells. Here we need to choose a “root” cell for diffusion pseudotime, which we do from the Ductal cells.</p>
+<div id="8b1799e6-8496-4ec9-9dd7-9b56fb4c1cb8" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>adata.uns[<span class="st">'iroot'</span>] <span class="op">=</span> np.flatnonzero(adata.obs[<span class="st">'clusters'</span>]  <span class="op">==</span> <span class="st">'Ductal'</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Exercise 2</strong>: Next, use the <code>sc.tl.diffmap</code> and <code>sc.tl.dpt</code> functions to estimate a pseudotime. What does each of these functions specifically do?</p>
+<button onclick="toggleVisibility('answer2')">
+Click for Answer
+</button>
+<div id="answer2" style="display:none;">
+<strong>Answer:</strong>
+<pre>    sc.tl.diffmap(adata)
+    sc.tl.dpt(adata)
+</pre>
+<script>
+function toggleVisibility(id) {
+   var element = document.getElementById(id);
+   if (element.style.display === 'none') {
+       element.style.display = 'block';
+   } else {
+       element.style.display = 'none';
+   }
+}
+</script>
+</div>
+<p>Visualize the results on the published embedding. You need to restore this because it was overwritten in your analyses above.</p>
+<div id="bf0143ec-ad89-448c-ac11-94943251a60c" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> scv.datasets.pancreas().obsm[<span class="st">"X_umap"</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">'clusters'</span>, <span class="st">'dpt_pseudotime'</span>], cmap<span class="op">=</span>plt.cm.Spectral, wspace<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
