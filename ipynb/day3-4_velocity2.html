@@ -275,6 +275,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<style>
+    .large-link {
+        font-size: 30px;
+        font-family: Arial, sans-serif;
+        color: #333;
+        text-decoration: none;
+    }
+</style>
+<p><a href="../assets/pdf/13_velocycle.pdf" target="_blank" class="large-link">Download Presentation: VeloCycle</a></p>
 <p>The cell cycle is an interesting case for RNA velocity estimation, as pseudotime methods along often fail as estimations of cyclical processes. Moreover, RNA velocity corresponds roughly to cell cycle speed, which is both experimentally verifiable. The cell cycle also unfolds on a timescale of less than 24 hours, which is well suited for studying cell dynamics using RNA lifecycle kinetics, such as with RNA velocity.</p>
 <p>A <a href="https://www.biorxiv.org/content/10.1101/2024.01.18.576093v1">recent method</a> has been developed called <a href="https://github.com/lamanno-epfl/velocycle"><strong>VeloCycle</strong></a> to estimate RNA velocity of the cell cycle on the real time scale. This method offers several advantages over existing approaches: - The ability to estimate uncertainty of velocity estimates (i.e.&nbsp;velocity confidence). - The ability to estimate both the low dimensional manifold and the velocity jointly. - The ability to perform statistical tests of velocity between conditions. - The ability to convert velocity estimates to a “real” time scale.</p>
 <p>Comparing cell cycle velocities might be useful in a variable of scientific contexts: - Do two cancer subtumors proliferate as similar speeds? - Does a particular gene knockout or mutant impact the cell cycle speed? - Do progenitor cells in different regions of an organ (i.e., brain) or at different developmental stages divide equally quickly?</p>

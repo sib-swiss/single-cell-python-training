@@ -281,7 +281,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><strong>This exercise has been largely borrowed from the pySCENIC <a href="https://htmlpreview.github.io/?https://github.com/aertslab/SCENICprotocol/blob/master/notebooks/PBMC10k_SCENIC-protocol-CLI.html">tutorial</a> and adapted to work with a dataset of <a href="https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_10k_v3?">10X PBMCs</a> which you have downloaded with the course data. As it takes a long time run, we suggest if you are curious in the method to run it after the course</strong></p>
+<p><strong>This exercise has been largely borrowed from the pySCENIC <a href="https://htmlpreview.github.io/?https://github.com/aertslab/SCENICprotocol/blob/master/notebooks/PBMC10k_SCENIC-protocol-CLI.html">tutorial</a> and adapted to work with a dataset of <a href="https://support.10xgenomics.com/single-cell-gene-expression/datasets/3.0.0/pbmc_10k_v3?">10X PBMCs</a> which you have downloaded with the course data. As it takes a long time run, we suggest if you are curious in the method to run it after the course.</strong></p>
+<p>Related paper – <a href="https://www.nature.com/articles/nmeth.4463#Fig1">SCENIC: single-cell regulatory network inference and clustering.</a></p>
+<style>
+    .large-link {
+        font-size: 30px;
+        font-family: Arial, sans-serif;
+        color: #333;
+        text-decoration: none;
+    }
+</style>
+<p><a href="../assets/pdf/10_scenic.pdf" target="_blank" class="large-link">Download Presentation: SCENIC Overview</a></p>
 <p>Once single-cell genomics data has been processed, one can dissect important relationships between observed features in their genome context. In our genome, the activation of genes is controlled in the nucleus by the RNA transcriptional machinery, which activates local (promoters) or distal cis-regulatory elements (enhancers), to control the amount of RNA produced by every gene.</p>
 <p>Conceptually, a Gene Regulatory Network (GRN) refers to a graph representation of how certain genes that control transcription i.e.&nbsp;“Transcription Factors” (TF) are in charge of directly controlling the transcription rates of their target genes (cis-regulation). At the same time, such target genes once activated, can be in charge of controlling other downstream target genes (trans-regulation). Computationally, methods that infer GRNs consider the co-variation of gene and chromatin accessibility features to identify modules that could be grouped and associated simultaneously with a few TFs. A group of genes controlled by the activity of the same TF is defined as a regulon.</p>
 <p>In addition to co-variation, several methods have recognized the gathering and injection of prior knowledge data, such as the locations where a TF bind in the genome, or previously reported TF-target gene associations, to pre-define gene-gene edges that guide the inference of GRNs that are most-supported by that type of evidence.</p>
@@ -1276,6 +1286,285 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <div>
 <figure class="figure">
 <p><img src="day3-1_tf_files/figure-html/cell-39-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="ccdb5fb3-7cd7-4ec3-b42a-6c2f89730056" class="cell" data-execution_count="64">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>regulon_df <span class="op">=</span> pd.read_csv(<span class="st">"reg.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="31bbf9b1-bdd5-4e3f-8484-29225202b3de" class="cell" data-execution_count="65">
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>regulon_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="65">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Unnamed: 1</th>
+<th data-quarto-table-cell-role="th">Enrichment</th>
+<th data-quarto-table-cell-role="th">Enrichment.1</th>
+<th data-quarto-table-cell-role="th">Enrichment.2</th>
+<th data-quarto-table-cell-role="th">Enrichment.3</th>
+<th data-quarto-table-cell-role="th">Enrichment.4</th>
+<th data-quarto-table-cell-role="th">Enrichment.5</th>
+<th data-quarto-table-cell-role="th">Enrichment.6</th>
+<th data-quarto-table-cell-role="th">Enrichment.7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">NaN</td>
+<td>NaN</td>
+<td>AUC</td>
+<td>NES</td>
+<td>MotifSimilarityQvalue</td>
+<td>OrthologousIdentity</td>
+<td>Annotation</td>
+<td>Context</td>
+<td>TargetGenes</td>
+<td>RankAtMax</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">TF</td>
+<td>MotifID</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">ARID5B</td>
+<td>cisbp__M0110</td>
+<td>0.09194977843426884</td>
+<td>3.4110817264013087</td>
+<td>0.0</td>
+<td>0.880471</td>
+<td>gene is orthologous to ENSMUSG00000019947 in M...</td>
+<td>frozenset({'weight&gt;75.0%', 'activating', 'hg38...</td>
+<td>[('ID3', 0.8384963869548077), ('KAT6B', 0.3927...</td>
+<td>1113</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">ARID5B</td>
+<td>cisbp__M0107</td>
+<td>0.0899019739492413</td>
+<td>3.2853287808894263</td>
+<td>0.0</td>
+<td>0.880471</td>
+<td>gene is orthologous to ENSMUSG00000019947 in M...</td>
+<td>frozenset({'weight&gt;75.0%', 'activating', 'hg38...</td>
+<td>[('NXPH4', 0.883027200867596), ('TRIB2', 0.556...</td>
+<td>818</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">BATF</td>
+<td>dbcorrdb__RCOR1__ENCSR000ECM_1__m1</td>
+<td>0.09647906429927953</td>
+<td>3.295409378378749</td>
+<td>0.000478</td>
+<td>1.0</td>
+<td>gene is annotated for similar motif factorbook...</td>
+<td>frozenset({'weight&gt;75.0%', 'activating', 'hg38...</td>
+<td>[('NOL4L', 0.4502441398393177), ('LLGL2', 0.40...</td>
+<td>1072</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</div>
+<div id="63ae0e84-d439-4f74-89e4-1d2b49312745" class="cell" data-execution_count="66">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>regulon_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="66">
+<pre><code>(4115, 9)</code></pre>
+</div>
+</div>
+<div id="69ba0b7d-8ade-48d6-85aa-2229f32b546d" class="cell" data-execution_count="67">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>regulon_df.loc[<span class="st">"SPIB"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="67">
+<div>
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Unnamed: 1</th>
+<th data-quarto-table-cell-role="th">Enrichment</th>
+<th data-quarto-table-cell-role="th">Enrichment.1</th>
+<th data-quarto-table-cell-role="th">Enrichment.2</th>
+<th data-quarto-table-cell-role="th">Enrichment.3</th>
+<th data-quarto-table-cell-role="th">Enrichment.4</th>
+<th data-quarto-table-cell-role="th">Enrichment.5</th>
+<th data-quarto-table-cell-role="th">Enrichment.6</th>
+<th data-quarto-table-cell-role="th">Enrichment.7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SPIB</td>
+<td>dbcorrdb__IRF1__ENCSR000EGK_1__m1</td>
+<td>0.07806698870214379</td>
+<td>3.90354587822946</td>
+<td>0.000965</td>
+<td>0.82397</td>
+<td>motif similar to hocomoco__SPIB_MOUSE.H11MO.0....</td>
+<td>frozenset({'weight&gt;75.0%', 'activating', 'hg38...</td>
+<td>[('FCGR2B', 1.869718459857277), ('STX7', 6.892...</td>
+<td>4932</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">SPIB</td>
+<td>cisbp__M6313</td>
+<td>0.07676953171783304</td>
+<td>3.77165735433781</td>
+<td>0.000466</td>
+<td>0.82397</td>
+<td>motif similar to hocomoco__SPIB_MOUSE.H11MO.0....</td>
+<td>frozenset({'weight&gt;75.0%', 'activating', 'hg38...</td>
+<td>[('PNOC', 7.0142442259089695), ('PEG10', 1.095...</td>
+<td>856</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SPIB</td>
+<td>dbcorrdb__TBL1XR1__ENCSR000DYZ_1__m1</td>
+<td>0.07155724779432313</td>
+<td>3.241820572780774</td>
+<td>3.1e-05</td>
+<td>1.0</td>
+<td>motif similar to hocomoco__SPIB_HUMAN.H11MO.0....</td>
+<td>frozenset({'weight&gt;75.0%', 'activating', 'hg38...</td>
+<td>[('BTK', 3.20425594834044), ('CYB561A3', 9.741...</td>
+<td>2320</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">SPIB</td>
+<td>cisbp__M4489</td>
+<td>0.08201924228512117</td>
+<td>4.305298612545568</td>
+<td>1e-06</td>
+<td>1.0</td>
+<td>gene is annotated for similar motif homer__AAA...</td>
+<td>frozenset({'weight&gt;75.0%', 'activating', 'hg38...</td>
+<td>[('SSBP2', 0.869120775272342), ('ARID5B', 2.30...</td>
+<td>1221</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SPIB</td>
+<td>hocomoco__SPIB_MOUSE.H11MO.0.A</td>
+<td>0.0760484450477065</td>
+<td>3.698357770867258</td>
+<td>0.0</td>
+<td>0.839695</td>
+<td>gene is orthologous to ENSMUSG00000008193 in M...</td>
+<td>frozenset({'weight&gt;75.0%', 'activating', 'hg38...</td>
+<td>[('FCGR2B', 1.869718459857277), ('TMEM156', 4....</td>
+<td>4732</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SPIB</td>
+<td>taipale__Spic_DBD_AAAAAGMGGAAGTA</td>
+<td>0.07192604342454488</td>
+<td>4.096439803073309</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>gene is annotated for similar motif taipale__S...</td>
+<td>frozenset({'activating', 'hg38__refseq-r80__10...</td>
+<td>[('ALOX5AP', 0.2436475904030507), ('DOPEY2', 4...</td>
+<td>3194</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">SPIB</td>
+<td>hocomoco__IRF8_HUMAN.H11MO.0.B</td>
+<td>0.08214495894116133</td>
+<td>5.281967790108696</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>motif similar to hocomoco__SPIB_HUMAN.H11MO.0....</td>
+<td>frozenset({'activating', 'hg38__refseq-r80__10...</td>
+<td>[('ALOX5AP', 0.2436475904030507), ('P2RY14', 1...</td>
+<td>3184</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SPIB</td>
+<td>dbcorrdb__SPI1__ENCSR000BIJ_1__m1</td>
+<td>0.0709653406500041</td>
+<td>3.9849857036056426</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>motif similar to hocomoco__SPIB_HUMAN.H11MO.0....</td>
+<td>frozenset({'activating', 'hg38__refseq-r80__10...</td>
+<td>[('KCNG1', 0.97964022364969), ('CXXC5', 8.0650...</td>
+<td>581</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">SPIB</td>
+<td>dbcorrdb__EP300__ENCSR000DZG_1__m1</td>
+<td>0.07342458385785497</td>
+<td>4.270290112384945</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>motif similar to hocomoco__SPIB_HUMAN.H11MO.0....</td>
+<td>frozenset({'activating', 'hg38__refseq-r80__10...</td>
+<td>[('TCF4', 3.091736175722826), ('MEF2C', 7.5755...</td>
+<td>1982</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">SPIB</td>
+<td>hocomoco__IRF4_HUMAN.H11MO.0.A</td>
+<td>0.08185655324008216</td>
+<td>5.24850895294599</td>
+<td>0.0</td>
+<td>1.0</td>
+<td>motif similar to hocomoco__SPIB_HUMAN.H11MO.0....</td>
+<td>frozenset({'activating', 'hg38__refseq-r80__10...</td>
+<td>[('MYO1C', 1.9761547224955385), ('TPM2', 0.319...</td>
+<td>993</td>
+</tr>
+</tbody>
+</table>
+
+<p>143 rows × 9 columns</p>
+</div>
+</div>
+</div>
+</div>
+<div id="3dbcc70a-7535-435f-82f4-cb427d842663" class="cell" data-execution_count="71">
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>regulon_df.loc[<span class="st">"SPIB"</span>].iloc[<span class="dv">0</span>][<span class="st">"Enrichment.6"</span>][:<span class="dv">1000</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="71">
+<pre><code>"[('FCGR2B', 1.869718459857277), ('STX7', 6.892725862395004), ('P2RY14', 1.8778070177222), ('TMEM156', 4.272053543910822), ('BLNK', 5.738561565806354), ('CD38', 0.5724236819241179), ('CXCR4', 1.0237407733006956), ('RIMKLB', 3.814839002835818), ('FCRL3', 1.6683434765092275), ('LINC01215', 2.4484182394885634), ('HLA-DMB', 5.275150829219921), ('BCL11A', 5.323875629596565), ('HLA-DQA1', 12.631876848026147), ('TCF4', 3.091736175722826), ('CD40', 5.98234166462111), ('DOPEY2', 4.554553673574461), ('AFF3', 3.926454150323302), ('CXXC5', 8.0650414459558), ('LPAR5', 1.3386477473776452), ('KLF8', 1.6187543679806742), ('SLC44A2', 0.3937692393269603), ('SHISA8', 0.9218564482844408), ('FCRL5', 2.534706255811908), ('IKZF3', 1.4164772622710846), ('MPP6', 0.7198674632752087), ('PLEKHG1', 3.1788634402443443), ('FMNL3', 0.4906561541272032), ('PKIG', 3.768067885404645), ('CCR6', 2.1375793714457263), ('PLAC8', 3.411256052315926), ('BLK', 7.363519956872278), ('SETBP1', 5.3370810233327015), ('HLA-DQA2', 4.0790"</code></pre>
+</div>
+</div>
+<div id="6c7c00f6-6de5-4364-89db-037637cf6cab" class="cell" data-execution_count="77">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>sc.pl.embedding(adata, basis<span class="op">=</span><span class="st">"X_umap_aucell"</span>, use_raw<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>                color<span class="op">=</span>[<span class="st">'FCGR2B'</span>, <span class="st">'STX7'</span>, <span class="st">'P2RY14'</span>, <span class="st">'TMEM156'</span>], ncols<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="day3-1_tf_files/figure-html/cell-45-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
