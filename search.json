@@ -74,7 +74,7 @@
     "href": "ipynb/day3-3_trajectory_analysis.html#embedding-using-paga-initialization",
     "title": "Trajectory Inference and Pseudotime",
     "section": "Embedding using PAGA-initialization",
-    "text": "Embedding using PAGA-initialization\nWe can now redraw the graph using another starting position from the paga layout. The following is just as well possible for a UMAP.\n\nsc.tl.draw_graph(adata, init_pos='paga')\n\nWARNING: Package 'fa2' is not installed, falling back to layout 'fr'.To use the faster and better ForceAtlas2 layout, install package 'fa2' (`pip install fa2`).\n\n\nNow we can see all marker genes also at single-cell resolution in a meaningful layout.\n\nsc.pl.draw_graph(adata, color=['clusters'], legend_loc='on data')"
+    "text": "Embedding using PAGA-initialization\nWe can now redraw the graph using another starting position from the paga layout. The following is just as well possible for a UMAP.\n\nsc.tl.draw_graph(adata, init_pos='paga')\n\nWARNING: Package 'fa2' is not installed, falling back to layout 'fr'.To use the faster and better ForceAtlas2 layout, install package 'fa2' (`pip install fa2`).\n\n\n\nsc.pl.draw_graph(adata, color=['clusters'], legend_loc='on data')"
   },
   {
     "objectID": "ipynb/day3-3_trajectory_analysis.html#gene-changes",
