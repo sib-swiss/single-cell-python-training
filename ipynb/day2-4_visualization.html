@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.554">
+<meta name="generator" content="quarto-1.4.555">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -386,10 +386,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>marker_genes.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="32">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -544,17 +543,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-</div>
 <div id="42e574b8-b97b-4b75-b92b-ffa674c206d7" class="cell" data-execution_count="34">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>marker_genes_pvals <span class="op">=</span> pd.DataFrame(adata_raw_norm.uns[<span class="st">"dea_leiden"</span>][<span class="st">"logfoldchanges"</span>])</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>marker_genes_pvals.columns <span class="op">=</span> [<span class="st">"Cluster"</span> <span class="op">+</span> <span class="bu">str</span>(x) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(adata_raw_norm.obs[<span class="st">"leiden"</span>].unique()))]</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>marker_genes_pvals.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="34">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -706,7 +703,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 
 <p>5 rows × 24 columns</p>
-</div>
 </div>
 </div>
 </div>
@@ -919,10 +915,9 @@ function toggleVisibility(id) {
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>predictions_high_adata.obs[[<span class="st">'majority_voting'</span>, <span class="st">'conf_score'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="18">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -993,7 +988,6 @@ function toggleVisibility(id) {
 </div>
 </div>
 </div>
-</div>
 <div id="4873ac7a-34ba-4fe6-823d-428ab02871c8" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_annotations_high"</span>] <span class="op">=</span> predictions_high_adata.obs[<span class="st">"majority_voting"</span>]</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>adata_raw_norm.obs[<span class="st">"celltypist_conf_score_high"</span>] <span class="op">=</span> predictions_high_adata.obs[<span class="st">"conf_score"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1034,10 +1028,9 @@ function toggleVisibility(id) {
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>predictions_low_adata.obs[[<span class="st">'majority_voting'</span>, <span class="st">'conf_score'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <div>
-<div>
 
 
-<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1105,7 +1098,6 @@ function toggleVisibility(id) {
 </table>
 
 <p>5459 rows × 2 columns</p>
-</div>
 </div>
 </div>
 </div>
