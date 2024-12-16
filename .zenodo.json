@@ -1,0 +1,36 @@
+{
+    "upload_type": "lesson",
+    "license": "cc-by-4.0",
+    "title": "Course material Single Cell Transcriptomics with Python",
+    "keywords": [
+        "NGS",
+        "RNA-seq",
+        "Single cell",
+        "python",
+        "course",
+        "training"
+    ],
+    "creators": [
+    {
+        "name": "Wyss, Tania",
+        "affiliation": "SIB Swiss Institute of Bioinformatics",
+        "orcid": "0000-0003-2641-0895"
+        },
+        {
+        "name": "Marcone, Rachel",
+        "affiliation": "SIB Swiss Institute of Bioinformatics",
+        "orcid": "0000-0002-5711-8435"
+        },
+        {
+            "name": "Lederer, Alex",
+            "affiliation": "EPFL",
+            "orcid": "0000-0001-6381-5088"
+            },
+        {
+        "name": "Geert van Geest",
+        "affiliation": "SIB Swiss Institute of Bioinformatics",
+        "orcid": "0000-0002-1561-078X"
+        }
+    ]
+  }
+  
