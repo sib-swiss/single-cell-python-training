@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -58,7 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -68,14 +68,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../assets/SIB_logo.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-c689c328c07166c7d6ed12bed5f4ae6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e3927889d5cf2ac3822bdfd92e19c7ec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -103,7 +104,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
@@ -133,6 +134,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Single-cell transcriptomics with Python</span>
     </a>
@@ -254,7 +257,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../index.html" class="sidebar-logo-link">
-      <img src="../assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="../assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
       </div>
 </nav>
@@ -309,7 +313,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="loading-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="loading-libraries">Loading libraries</h2>
 <div id="b6c9cf78-090b-4064-a9e0-c0f8b2090b3f" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> pl</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> rcParams</span>
@@ -321,7 +325,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>warnings.simplefilter(action<span class="op">=</span><span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">Warning</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>warnings.simplefilter(action<span class="op">=</span><span class="st">"ignore"</span>, category<span class="op">=</span><span class="pp">Warning</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="reading-data" class="level2">
@@ -329,8 +333,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>First, we will load a dataset on <a href="https://scvelo.readthedocs.io/en/stable/scvelo.datasets.pancreas.html">pancreatic endocrinogenesis</a> from a recent study:</p>
 <p><a href="https://doi.org/10.1242/dev.173849">Bastidas-Ponce et al.&nbsp;“Comprehensive single cell mRNA profiling reveals a detailed roadmap for pancreatic endocrinogenesis.” Development 2019.</a></p>
 <div id="9a26fe12-ca05-473a-b22f-8915dcc2a714" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> scv.datasets.pancreas()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>adata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> scv.datasets.pancreas()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>adata</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
 <pre><code>AnnData object with n_obs × n_vars = 3696 × 27998
     obs: 'clusters_coarse', 'clusters', 'S_score', 'G2M_score'
@@ -343,7 +347,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>This dataset contains single cells from very early in mouse development at multiple cell stages. Given that we know the exact temporal ordering of the cells, this dataset is ideal for demonstrating the purpose of trajectory inference and pseudotemporal ordering of single cells.</p>
 <div id="350f06a8-cdd2-4f0e-ba3e-ee0564b78003" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"clusters"</span>].value_counts()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">"clusters"</span>].value_counts()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>clusters
 Ductal           916
@@ -382,7 +386,7 @@ function toggleVisibility(id) {
 </script>
 </div>
 <div id="65564900-6464-425b-9e2b-7dff7b24c68f" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># your code here</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -393,12 +397,12 @@ function toggleVisibility(id) {
 </div>
 <p>Numerous trajectory inference methods, including PAGA, are graph-based. To obtain such a needed graph, we need to examine the nearest neighbors of each cell. Let’s compute the neighborhood using 50 nearest neighbors and then embed the results on a UMAP.</p>
 <div id="5e475feb-d7b7-4eca-bc48-8931e8fdde31" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_pcs <span class="op">=</span> <span class="dv">30</span>, n_neighbors <span class="op">=</span> <span class="dv">50</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata, min_dist<span class="op">=</span><span class="fl">0.4</span>, spread<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_pcs <span class="op">=</span> <span class="dv">30</span>, n_neighbors <span class="op">=</span> <span class="dv">50</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata, min_dist<span class="op">=</span><span class="fl">0.4</span>, spread<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="68bc56bd-471b-4da6-a343-24c9aad6d17b" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color <span class="op">=</span> [<span class="st">'clusters'</span>],</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>           legend_loc <span class="op">=</span> <span class="st">'on data'</span>, edges <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color <span class="op">=</span> [<span class="st">'clusters'</span>],</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>           legend_loc <span class="op">=</span> <span class="st">'on data'</span>, edges <span class="op">=</span> <span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -412,9 +416,9 @@ function toggleVisibility(id) {
 <h2 class="anchored" data-anchor-id="run-paga">Run PAGA</h2>
 <p>Use the ground truth cell types to run PAGA. First we create the graph and initialize the positions using the umap.</p>
 <div id="00ea82d0-f289-4279-a947-3bf440b5629f" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use the umap to initialize the graph layout.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use the umap to initialize the graph layout.</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sc.tl.draw_graph(adata, init_pos<span class="op">=</span><span class="st">'X_umap'</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sc.pl.draw_graph(adata, color<span class="op">=</span><span class="st">'clusters'</span>, legend_loc<span class="op">=</span><span class="st">'on data'</span>, legend_fontsize <span class="op">=</span> <span class="st">'xx-small'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>sc.pl.draw_graph(adata, color<span class="op">=</span><span class="st">'clusters'</span>, legend_loc<span class="op">=</span><span class="st">'on data'</span>, legend_fontsize <span class="op">=</span> <span class="st">'xx-small'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>WARNING: Package 'fa2' is not installed, falling back to layout 'fr'.To use the faster and better ForceAtlas2 layout, install package 'fa2' (`pip install fa2`).</code></pre>
 </div>
@@ -427,8 +431,8 @@ function toggleVisibility(id) {
 </div>
 </div>
 <div id="ceb8c636-c741-4f92-b954-ddb9d4689930" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sc.tl.paga(adata, groups<span class="op">=</span><span class="st">'clusters'</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sc.pl.paga(adata, color<span class="op">=</span><span class="st">'clusters'</span>, edge_width_scale <span class="op">=</span> <span class="fl">0.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>sc.tl.paga(adata, groups<span class="op">=</span><span class="st">'clusters'</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sc.pl.paga(adata, color<span class="op">=</span><span class="st">'clusters'</span>, edge_width_scale <span class="op">=</span> <span class="fl">0.3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -442,13 +446,13 @@ function toggleVisibility(id) {
 <h2 class="anchored" data-anchor-id="embedding-using-paga-initialization">Embedding using PAGA-initialization</h2>
 <p>We can now redraw the graph using another starting position from the paga layout. The following is just as well possible for a UMAP.</p>
 <div id="d4e7f1ce-9e7f-4484-ac2b-6cf2625b6383" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sc.tl.draw_graph(adata, init_pos<span class="op">=</span><span class="st">'paga'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sc.tl.draw_graph(adata, init_pos<span class="op">=</span><span class="st">'paga'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>WARNING: Package 'fa2' is not installed, falling back to layout 'fr'.To use the faster and better ForceAtlas2 layout, install package 'fa2' (`pip install fa2`).</code></pre>
 </div>
 </div>
 <div id="3bcbe52c-7479-4879-a7a3-83cacd469950" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sc.pl.draw_graph(adata, color<span class="op">=</span>[<span class="st">'clusters'</span>], legend_loc<span class="op">=</span><span class="st">'on data'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>sc.pl.draw_graph(adata, color<span class="op">=</span>[<span class="st">'clusters'</span>], legend_loc<span class="op">=</span><span class="st">'on data'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -463,25 +467,25 @@ function toggleVisibility(id) {
 <p>We can reconstruct gene changes along PAGA paths for a given set of genes</p>
 <p>By looking at the different know lineages and the layout of the graph we define manually some paths to the graph that corresponds to specific lineages.</p>
 <div id="14812934-6e41-4ffb-b684-43cdccf11abb" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define paths</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define paths</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>paths <span class="op">=</span> [(<span class="st">'beta'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Beta'</span>]),</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'alpha'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Alpha'</span>]),</span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'delta'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Delta'</span>]),</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        (<span class="st">'epsilon'</span>, [<span class="st">'Ductal'</span>, <span class="st">'Ngn3 low EP'</span>, <span class="st">'Ngn3 high EP'</span>, <span class="st">'Pre-endocrine'</span>, <span class="st">'Epsilon'</span>])]</span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">'distance'</span>] <span class="op">=</span> adata.obs[<span class="st">'dpt_pseudotime'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">'distance'</span>] <span class="op">=</span> adata.obs[<span class="st">'dpt_pseudotime'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Then we select some genes that can vary in the lineages and plot onto the paths.</p>
 <div id="4cb94187-99f2-48d2-ae50-757446d300ee" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata, <span class="st">"clusters"</span>, method<span class="op">=</span><span class="st">"t-test"</span>, n_genes<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata, <span class="st">"clusters"</span>, method<span class="op">=</span><span class="st">"t-test"</span>, n_genes<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="c8f67924-7acc-4773-8e44-58e27f60d7ea" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(adata.uns[<span class="st">"rank_genes_groups"</span>][<span class="st">"names"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pd.DataFrame(adata.uns[<span class="st">"rank_genes_groups"</span>][<span class="st">"names"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -497,7 +501,7 @@ function toggleVisibility(id) {
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
+<th data-quarto-table-cell-role="th">0</th>
 <td>Spp1</td>
 <td>Spp1</td>
 <td>Neurog3</td>
@@ -508,7 +512,7 @@ function toggleVisibility(id) {
 <td>Ghrl</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
+<th data-quarto-table-cell-role="th">1</th>
 <td>Dbi</td>
 <td>Dbi</td>
 <td>Btbd17</td>
@@ -519,7 +523,7 @@ function toggleVisibility(id) {
 <td>Isl1</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
+<th data-quarto-table-cell-role="th">2</th>
 <td>Cldn3</td>
 <td>Sparc</td>
 <td>Sox4</td>
@@ -530,7 +534,7 @@ function toggleVisibility(id) {
 <td>Rbp4</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
+<th data-quarto-table-cell-role="th">3</th>
 <td>Mgst1</td>
 <td>Mgst1</td>
 <td>Mdk</td>
@@ -541,7 +545,7 @@ function toggleVisibility(id) {
 <td>Bex2</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
+<th data-quarto-table-cell-role="th">4</th>
 <td>Anxa2</td>
 <td>1700011H14Rik</td>
 <td>Gadd45a</td>
@@ -552,7 +556,7 @@ function toggleVisibility(id) {
 <td>Fam183b</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">5</td>
+<th data-quarto-table-cell-role="th">5</th>
 <td>Bicc1</td>
 <td>Cldn3</td>
 <td>Smarcd2</td>
@@ -563,7 +567,7 @@ function toggleVisibility(id) {
 <td>Maged2</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">6</td>
+<th data-quarto-table-cell-role="th">6</th>
 <td>Krt18</td>
 <td>Anxa2</td>
 <td>Btg2</td>
@@ -574,7 +578,7 @@ function toggleVisibility(id) {
 <td>Cck</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">7</td>
+<th data-quarto-table-cell-role="th">7</th>
 <td>Mt1</td>
 <td>Clu</td>
 <td>Tmsb4x</td>
@@ -585,7 +589,7 @@ function toggleVisibility(id) {
 <td>Anpep</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">8</td>
+<th data-quarto-table-cell-role="th">8</th>
 <td>Clu</td>
 <td>Vim</td>
 <td>Hes6</td>
@@ -596,7 +600,7 @@ function toggleVisibility(id) {
 <td>Card19</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">9</td>
+<th data-quarto-table-cell-role="th">9</th>
 <td>1700011H14Rik</td>
 <td>Mt1</td>
 <td>Cd63</td>
@@ -613,12 +617,12 @@ function toggleVisibility(id) {
 </div>
 </div>
 <div id="cb90f91a-ca94-48bf-87ef-519c129ba665" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> [<span class="st">"Spp1"</span>, <span class="st">"Dbi"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Sparc"</span>, <span class="st">"Mgst1"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Neurog3"</span>, <span class="st">"Btbd17"</span>, <span class="st">"Sox4"</span>,</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>gene_names <span class="op">=</span> [<span class="st">"Spp1"</span>, <span class="st">"Dbi"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Sparc"</span>, <span class="st">"Mgst1"</span>, <span class="st">"Cldn3"</span>, <span class="st">"Neurog3"</span>, <span class="st">"Btbd17"</span>, <span class="st">"Sox4"</span>,</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Map1b"</span>, <span class="st">"Fev"</span>, <span class="st">"Hmgn3"</span>, <span class="st">"Bex2"</span>, <span class="st">"Sec61b"</span>, <span class="st">"Tuba1a"</span>, <span class="st">"Meis2"</span>, <span class="st">"Pcsk1n"</span>, <span class="st">"Sst"</span>, <span class="st">"Arg1"</span>,</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Rbp4"</span>, <span class="st">"Hhex"</span>, <span class="st">"Ghrl"</span>, <span class="st">"Isl1"</span>, <span class="st">"Rbp4"</span>, <span class="st">"Bex2"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>              <span class="st">"Rbp4"</span>, <span class="st">"Hhex"</span>, <span class="st">"Ghrl"</span>, <span class="st">"Isl1"</span>, <span class="st">"Rbp4"</span>, <span class="st">"Bex2"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="3fe4a676-1d0b-476b-9f59-c0207b6fa11a" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>_, axs <span class="op">=</span> pl.subplots(ncols<span class="op">=</span><span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">8</span>), gridspec_kw<span class="op">=</span>{</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>_, axs <span class="op">=</span> pl.subplots(ncols<span class="op">=</span><span class="dv">4</span>, figsize<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">8</span>), gridspec_kw<span class="op">=</span>{</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">'wspace'</span>: <span class="fl">0.05</span>, <span class="st">'left'</span>: <span class="fl">0.12</span>})</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>pl.subplots_adjust(left<span class="op">=</span><span class="fl">0.05</span>, right<span class="op">=</span><span class="fl">0.98</span>, top<span class="op">=</span><span class="fl">0.82</span>, bottom<span class="op">=</span><span class="fl">0.2</span>)</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> ipath, (descr, path) <span class="kw">in</span> <span class="bu">enumerate</span>(paths):</span>
@@ -639,7 +643,7 @@ function toggleVisibility(id) {
 <span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>        return_data<span class="op">=</span><span class="va">True</span>,</span>
 <span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>        use_raw<span class="op">=</span><span class="va">False</span>,</span>
 <span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>        show<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>pl.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>pl.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -653,7 +657,7 @@ function toggleVisibility(id) {
 <h1>Diffusion pseudotime</h1>
 <p>We can also define pseudotime at the level of the cells. Here we need to choose a “root” cell for diffusion pseudotime, which we do from the Ductal cells.</p>
 <div id="8b1799e6-8496-4ec9-9dd7-9b56fb4c1cb8" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>adata.uns[<span class="st">'iroot'</span>] <span class="op">=</span> np.flatnonzero(adata.obs[<span class="st">'clusters'</span>]  <span class="op">==</span> <span class="st">'Ductal'</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>adata.uns[<span class="st">'iroot'</span>] <span class="op">=</span> np.flatnonzero(adata.obs[<span class="st">'clusters'</span>]  <span class="op">==</span> <span class="st">'Ductal'</span>)[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><strong>Exercise 2</strong>: Next, use the <code>sc.tl.diffmap</code> and <code>sc.tl.dpt</code> functions to estimate a pseudotime. What does each of these functions specifically do?</p>
 <button onclick="toggleVisibility('answer2')">
@@ -677,8 +681,8 @@ function toggleVisibility(id) {
 </div>
 <p>Visualize the results on the published embedding. You need to restore this because it was overwritten in your analyses above.</p>
 <div id="bf0143ec-ad89-448c-ac11-94943251a60c" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> scv.datasets.pancreas().obsm[<span class="st">"X_umap"</span>]</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">'clusters'</span>, <span class="st">'dpt_pseudotime'</span>], cmap<span class="op">=</span>plt.cm.Spectral, wspace<span class="op">=</span><span class="fl">0.2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_umap"</span>] <span class="op">=</span> scv.datasets.pancreas().obsm[<span class="st">"X_umap"</span>]</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">'clusters'</span>, <span class="st">'dpt_pseudotime'</span>], cmap<span class="op">=</span>plt.cm.Spectral, wspace<span class="op">=</span><span class="fl">0.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -743,13 +747,14 @@ function toggleVisibility(id) {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

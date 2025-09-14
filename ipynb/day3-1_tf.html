@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -58,7 +58,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -68,14 +68,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../assets/SIB_logo.svg" rel="icon" type="image/svg+xml">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-c689c328c07166c7d6ed12bed5f4ae6b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-e3927889d5cf2ac3822bdfd92e19c7ec.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -103,7 +104,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-label": "Search"
   }
 }</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
@@ -133,6 +134,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Single-cell transcriptomics with Python</span>
     </a>
@@ -254,7 +257,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
       <a href="../index.html" class="sidebar-logo-link">
-      <img src="../assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <img src="../assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo light-content py-0 d-lg-inline d-none">
+      <img src="../assets/SIB_LogoQ_GBv.svg" alt="" class="sidebar-logo dark-content py-0 d-lg-inline d-none">
       </a>
       </div>
 </nav>
@@ -316,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="pyscenic" class="level2">
 <h2 class="anchored" data-anchor-id="pyscenic"><a href="https://scenic.aertslab.org/">pySCENIC</a></h2>
 <div id="cce1b6a6-5cfe-4312-971a-fd983223edb2" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import dependencies</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import dependencies</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -325,7 +329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> glob</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/loompy/bus_file.py:68: NumbaDeprecationWarning: The 'nopython' keyword argument was not supplied to the 'numba.jit' decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.
   def twobit_to_dna(twobit: int, size: int) -&gt; str:
@@ -338,7 +342,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="load-dataset" class="level3">
 <h3 class="anchored" data-anchor-id="load-dataset">Load dataset</h3>
 <div id="9eb2c9cf-30e5-4d93-801b-dc8221ab6d0e" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_10x_h5(<span class="st">"course_data/pbmc_10k_v3_filtered_feature_bc_matrix.h5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> sc.read_10x_h5(<span class="st">"course_data/pbmc_10k_v3_filtered_feature_bc_matrix.h5"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/anndata/_core/anndata.py:1840: UserWarning: Variable names are not unique. To make them unique, call `.var_names_make_unique`.
   utils.warn_names_duplicates("var")
@@ -347,36 +351,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div id="c0322c5d-7d4b-42e0-844a-adaadba8fcd4" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adata.var_names_make_unique()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>adata.var_names_make_unique()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="5ecb97d5-1c1d-40f0-802c-c00c95b367c3" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nCountsPerGene <span class="op">=</span> np.<span class="bu">sum</span>(adata.X, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>nCountsPerGene <span class="op">=</span> np.<span class="bu">sum</span>(adata.X, axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>nCellsPerGene <span class="op">=</span> np.<span class="bu">sum</span>(adata.X<span class="op">&gt;</span><span class="dv">0</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Show info</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Number of counts (in the dataset units) per gene:"</span>, nCountsPerGene.<span class="bu">min</span>(), <span class="st">" - "</span> ,nCountsPerGene.<span class="bu">max</span>())</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Number of cells in which each gene is detected:"</span>, nCellsPerGene.<span class="bu">min</span>(), <span class="st">" - "</span> ,nCellsPerGene.<span class="bu">max</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Number of cells in which each gene is detected:"</span>, nCellsPerGene.<span class="bu">min</span>(), <span class="st">" - "</span> ,nCellsPerGene.<span class="bu">max</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Number of counts (in the dataset units) per gene: 0.0  -  3567008.0
 Number of cells in which each gene is detected: 0  -  11766</code></pre>
 </div>
 </div>
 <div id="3a62dcc4-6c72-42a3-abeb-0478be8af256" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nCells<span class="op">=</span>adata.X.shape[<span class="dv">0</span>]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nCells<span class="op">=</span>adata.X.shape[<span class="dv">0</span>]</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># pySCENIC thresholds</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>minCountsPerGene<span class="op">=</span><span class="dv">3</span><span class="op">*</span><span class="fl">.01</span><span class="op">*</span>nCells <span class="co"># 3 counts in 1% of cells</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"minCountsPerGene: "</span>, minCountsPerGene)</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>minSamples<span class="op">=</span><span class="fl">.01</span><span class="op">*</span>nCells <span class="co"># 1% of cells</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"minSamples: "</span>, minSamples)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"minSamples: "</span>, minSamples)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>minCountsPerGene:  353.07
 minSamples:  117.69</code></pre>
 </div>
 </div>
 <div id="57174330-7407-4655-a197-2eba1dbb29f2" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simply compute the number of genes per cell (computers 'n_genes' column)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># simply compute the number of genes per cell (computers 'n_genes' column)</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sc.pp.filter_cells(adata, min_genes<span class="op">=</span><span class="dv">0</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># mito and genes/counts cuts</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>mito_genes <span class="op">=</span> adata.var_names.<span class="bu">str</span>.startswith(<span class="st">'MT-'</span>)</span>
@@ -384,19 +388,19 @@ minSamples:  117.69</code></pre>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">'percent_mito'</span>] <span class="op">=</span> np.<span class="bu">sum</span>(</span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    adata[:, mito_genes].X, axis<span class="op">=</span><span class="dv">1</span>).A1 <span class="op">/</span> np.<span class="bu">sum</span>(adata.X, axis<span class="op">=</span><span class="dv">1</span>).A1</span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># add the total counts per cell as observations-annotation to adata</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">'n_counts'</span>] <span class="op">=</span> adata.X.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>).A1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>adata.obs[<span class="st">'n_counts'</span>] <span class="op">=</span> adata.X.<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>).A1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="153f4788-a2f3-4a0f-b571-a8b5aafbd7fb" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># initial cuts</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># initial cuts</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sc.pp.filter_cells(adata, min_genes<span class="op">=</span><span class="dv">200</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sc.pp.filter_genes(adata, min_cells<span class="op">=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>sc.pp.filter_genes(adata, min_cells<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="809696c6-6c1e-46f8-8b50-d92e17b647e6" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[adata.obs[<span class="st">'n_genes'</span>] <span class="op">&lt;</span> <span class="dv">4000</span>, :]</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[adata.obs[<span class="st">'percent_mito'</span>] <span class="op">&lt;</span> <span class="fl">0.15</span>, :]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[adata.obs[<span class="st">'n_genes'</span>] <span class="op">&lt;</span> <span class="dv">4000</span>, :]</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>adata <span class="op">=</span> adata[adata.obs[<span class="st">'percent_mito'</span>] <span class="op">&lt;</span> <span class="fl">0.15</span>, :]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="a72913eb-667a-4d86-8590-af432883f220" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save a copy of the raw data</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># save a copy of the raw data</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>adata.raw <span class="op">=</span> adata</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Total-count normalize (library-size correct) to 10,000 reads/cell</span></span>
@@ -416,7 +420,7 @@ minSamples:  117.69</code></pre>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>sc.pp.regress_out(adata, [<span class="st">'n_counts'</span>, <span class="st">'percent_mito'</span>] ) <span class="co">#, n_jobs=args.threads)</span></span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co"># scale each gene to unit variance, clip values exceeding SD 10.</span></span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>sc.pp.scale(adata, max_value<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>sc.pp.scale(adata, max_value<span class="op">=</span><span class="dv">10</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -432,9 +436,9 @@ minSamples:  117.69</code></pre>
 </div>
 </div>
 <div id="df120718-5afc-449e-be38-910bedfe84a4" class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># principal component analysis</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># principal component analysis</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sc.tl.pca(adata, svd_solver<span class="op">=</span><span class="st">'arpack'</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>sc.pl.pca_variance_ratio(adata, log<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>sc.pl.pca_variance_ratio(adata, log<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -444,12 +448,12 @@ minSamples:  117.69</code></pre>
 </div>
 </div>
 <div id="cc0d22f0-c007-4269-9a6b-909c50b55c3a" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_neighbors<span class="op">=</span><span class="dv">15</span>, n_pcs<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(adata, n_neighbors<span class="op">=</span><span class="dv">15</span>, n_pcs<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(adata)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="e97c94c5-e46c-4119-b4e5-de9fe4c023a1" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sc.tl.louvain(adata,resolution<span class="op">=</span><span class="fl">0.4</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">'louvain'</span>] )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>sc.tl.louvain(adata,resolution<span class="op">=</span><span class="fl">0.4</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>sc.pl.umap(adata, color<span class="op">=</span>[<span class="st">'louvain'</span>] )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/scanpy/plotting/_tools/scatterplots.py:394: UserWarning: No data for colormapping provided via 'c'. Parameters 'cmap' will be ignored
   cax = scatter(</code></pre>
@@ -463,8 +467,8 @@ minSamples:  117.69</code></pre>
 </div>
 </div>
 <div id="34bce213-c17a-4234-9764-b0d085259694" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata, <span class="st">'louvain'</span>, method<span class="op">=</span><span class="st">'t-test'</span>)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(adata, n_genes<span class="op">=</span><span class="dv">25</span>, sharey<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(adata, <span class="st">'louvain'</span>, method<span class="op">=</span><span class="st">'t-test'</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sc.pl.rank_genes_groups(adata, n_genes<span class="op">=</span><span class="dv">25</span>, sharey<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>WARNING: It seems you use rank_genes_groups on the raw count data. Please logarithmize your data before calling rank_genes_groups.</code></pre>
 </div>
@@ -482,19 +486,19 @@ minSamples:  117.69</code></pre>
 <p>GRN inference using the GRNBoost2 algorithm: for this step the CLI version of SCENIC is used. This step can be deployed on an High Performance Computing system. We use the counts matrix (without log transformation or further processing) from the loom file we wrote earlier.</p>
 <p>Output: List of adjacencies between a TF and its targets stored in <code>ADJACENCIES_FNAME</code>.</p>
 <div id="4d81f75c-4ac3-4f62-8c95-3c22d5a9222e" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">## this file has to be downloaded if not found</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget <span class="op">-</span>nc https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>aertslab<span class="op">/</span>SCENICprotocol<span class="op">/</span>master<span class="op">/</span>example<span class="op">/</span>allTFs_hg38.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">## this file has to be downloaded if not found</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget <span class="op">-</span>nc https:<span class="op">//</span>raw.githubusercontent.com<span class="op">/</span>aertslab<span class="op">/</span>SCENICprotocol<span class="op">/</span>master<span class="op">/</span>example<span class="op">/</span>allTFs_hg38.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>File ‘allTFs_hg38.txt’ already there; not retrieving.
 </code></pre>
 </div>
 </div>
 <div id="a5855bc9-3b1a-4986-a087-eec62ac87392" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>f_tfs <span class="op">=</span> <span class="st">"allTFs_hg38.txt"</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>f_loom_path_scenic <span class="op">=</span> <span class="st">"pbmc10k_filtered_scenic.loom"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>f_tfs <span class="op">=</span> <span class="st">"allTFs_hg38.txt"</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>f_loom_path_scenic <span class="op">=</span> <span class="st">"pbmc10k_filtered_scenic.loom"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="223e1426-12f7-4d31-972d-d8203e627559" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create basic row and column attributes for the loom file:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># create basic row and column attributes for the loom file:</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>row_attrs <span class="op">=</span> {</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Gene"</span>: np.array(adata.var_names) ,</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -503,10 +507,10 @@ minSamples:  117.69</code></pre>
 <span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nGene"</span>: np.array( np.<span class="bu">sum</span>(adata.X.transpose()<span class="op">&gt;</span><span class="dv">0</span> , axis<span class="op">=</span><span class="dv">0</span>)).flatten() ,</span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nUMI"</span>: np.array( np.<span class="bu">sum</span>(adata.X.transpose() , axis<span class="op">=</span><span class="dv">0</span>)).flatten() ,</span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>lp.create( f_loom_path_scenic, adata.X.transpose(), row_attrs, col_attrs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>lp.create( f_loom_path_scenic, adata.X.transpose(), row_attrs, col_attrs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="4fd079ec-bbcd-4a95-acae-bd971799f418" class="cell" data-scrolled="true" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pyscenic grn {f_loom_path_scenic} {f_tfs} <span class="op">-</span>o adj.csv <span class="op">--</span>num_workers <span class="dv">20</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pyscenic grn {f_loom_path_scenic} {f_tfs} <span class="op">-</span>o adj.csv <span class="op">--</span>num_workers <span class="dv">20</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/loompy/bus_file.py:68: NumbaDeprecationWarning: The 'nopython' keyword argument was not supplied to the 'numba.jit' decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.
   def twobit_to_dna(twobit: int, size: int) -&gt; str:
@@ -654,16 +658,16 @@ finished
 </div>
 </div>
 <div id="3a23cba0-e78f-4094-bcd2-5d1a198eaaa8" class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>adjacencies <span class="op">=</span> pd.read_csv(<span class="st">"adj.csv"</span>, index_col<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>adjacencies <span class="op">=</span> pd.read_csv(<span class="st">"adj.csv"</span>, index_col<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Visualize the distribution of weights for general inspection of the quantiles and thresholds obtained from pyscenic. As provided by the pyscenic grn step, the importance scores follow a unimodal distribution, with negative/positive values indicating TF-gene associations with less/more importance, respectively. From the right-tail of this distribution, we can recover the most relevant interactions between TFs and potential target genes, supported by gene expression values and the analysis done by pyscenic.</p>
 <div id="28ab5cad-5564-4c16-8066-7dc5fb90f59b" class="cell" data-execution_count="38">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>adjacencies.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>adjacencies.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="38">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -674,31 +678,31 @@ finished
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
+<th data-quarto-table-cell-role="th">0</th>
 <td>CEBPD</td>
 <td>VCAN</td>
 <td>33.587173</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
+<th data-quarto-table-cell-role="th">1</th>
 <td>ZEB2</td>
 <td>LTB</td>
 <td>33.086506</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
+<th data-quarto-table-cell-role="th">2</th>
 <td>KLF4</td>
 <td>VCAN</td>
 <td>29.961844</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
+<th data-quarto-table-cell-role="th">3</th>
 <td>CEBPD</td>
 <td>SRGN</td>
 <td>29.306472</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
+<th data-quarto-table-cell-role="th">4</th>
 <td>MEF2C</td>
 <td>HLA-DRA</td>
 <td>28.519784</td>
@@ -710,8 +714,8 @@ finished
 </div>
 </div>
 <div id="6788467f-24d8-4745-a9ab-343727896849" class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plt.hist(np.log10(adjacencies[<span class="st">"importance"</span>]), bins<span class="op">=</span><span class="dv">50</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>plt.hist(np.log10(adjacencies[<span class="st">"importance"</span>]), bins<span class="op">=</span><span class="dv">50</span>)</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>plt.xlim([<span class="op">-</span><span class="dv">10</span>, <span class="dv">10</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -728,43 +732,43 @@ finished
 <p>Output: List of adjacencies between a TF and its targets stored in MOTIFS_FNAME.</p>
 <p>Download TSS annotations precalculated by Aerts’s lab:</p>
 <div id="0857b70f-af22-4057-98b8-37dd5b5253fb" class="cell" data-execution_count="23">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget <span class="op">-</span>nc https:<span class="op">//</span>resources.aertslab.org<span class="op">/</span>cistarget<span class="op">/</span>databases<span class="op">/</span>homo_sapiens<span class="op">/</span>hg38<span class="op">/</span>refseq_r80<span class="op">/</span>mc9nr<span class="op">/</span>gene_based<span class="op">/</span>hg38__refseq<span class="op">-</span>r80__10kb_up_and_down_tss.mc9nr.genes_vs_motifs.rankings.feather</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget <span class="op">-</span>nc https:<span class="op">//</span>resources.aertslab.org<span class="op">/</span>cistarget<span class="op">/</span>databases<span class="op">/</span>homo_sapiens<span class="op">/</span>hg38<span class="op">/</span>refseq_r80<span class="op">/</span>mc9nr<span class="op">/</span>gene_based<span class="op">/</span>hg38__refseq<span class="op">-</span>r80__10kb_up_and_down_tss.mc9nr.genes_vs_motifs.rankings.feather</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>File ‘hg38__refseq-r80__10kb_up_and_down_tss.mc9nr.genes_vs_motifs.rankings.feather’ already there; not retrieving.
 </code></pre>
 </div>
 </div>
 <div id="0e0c6905-a2b7-4e1d-9009-aa37ce36ebd9" class="cell" data-execution_count="24">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ranking databases</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ranking databases</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>db_glob <span class="op">=</span> <span class="st">"*feather"</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>db_names <span class="op">=</span> <span class="st">" "</span>.join(glob.glob(db_glob))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>db_names <span class="op">=</span> <span class="st">" "</span>.join(glob.glob(db_glob))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="2d1b9ef7-402f-460d-8494-6b9542631406" class="cell" data-execution_count="25">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>db_names</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>db_names</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
 <pre><code>'hg38__refseq-r80__10kb_up_and_down_tss.mc9nr.genes_vs_motifs.rankings.feather'</code></pre>
 </div>
 </div>
 <p>Download a catalog of motif-to-TF associations</p>
 <div id="79621ca9-39ae-48c7-a4c1-ac8b1d8bc8db" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget <span class="op">-</span>nc https:<span class="op">//</span>resources.aertslab.org<span class="op">/</span>cistarget<span class="op">/</span>motif2tf<span class="op">/</span>motifs<span class="op">-</span>v9<span class="op">-</span>nr.hgnc<span class="op">-</span>m0<span class="fl">.001</span><span class="op">-</span>o0<span class="fl">.0</span>.tbl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>wget <span class="op">-</span>nc https:<span class="op">//</span>resources.aertslab.org<span class="op">/</span>cistarget<span class="op">/</span>motif2tf<span class="op">/</span>motifs<span class="op">-</span>v9<span class="op">-</span>nr.hgnc<span class="op">-</span>m0<span class="fl">.001</span><span class="op">-</span>o0<span class="fl">.0</span>.tbl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>File ‘motifs-v9-nr.hgnc-m0.001-o0.0.tbl’ already there; not retrieving.
 </code></pre>
 </div>
 </div>
 <div id="9fbe62ef-e086-4e61-82e4-a7174a4e6030" class="cell" data-execution_count="27">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># motif databases</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>motif_path <span class="op">=</span> <span class="st">"motifs-v9-nr.hgnc-m0.001-o0.0.tbl"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># motif databases</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>motif_path <span class="op">=</span> <span class="st">"motifs-v9-nr.hgnc-m0.001-o0.0.tbl"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="854fc03f-4655-44c9-8e9d-390c8c11065e" class="cell" data-execution_count="28">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pyscenic ctx adj.csv <span class="op">\</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pyscenic ctx adj.csv <span class="op">\</span></span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">'hg38__refseq-r80__10kb_up_and_down_tss.mc9nr.genes_vs_motifs.rankings.feather'</span> <span class="op">\</span></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>annotations_fname <span class="st">"motifs-v9-nr.hgnc-m0.001-o0.0.tbl"</span> <span class="op">\</span></span>
 <span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>expression_mtx_fname <span class="st">"pbmc10k_filtered_scenic.loom"</span> <span class="op">\</span></span>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>output reg.csv <span class="op">\</span></span>
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>mask_dropouts <span class="op">\</span></span>
-<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>num_workers <span class="dv">3</span> <span class="op">&gt;</span> pyscenic_ctx_stdout.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>num_workers <span class="dv">3</span> <span class="op">&gt;</span> pyscenic_ctx_stdout.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/loompy/bus_file.py:68: NumbaDeprecationWarning: The 'nopython' keyword argument was not supplied to the 'numba.jit' decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.
   def twobit_to_dna(twobit: int, size: int) -&gt; str:
@@ -896,13 +900,13 @@ finished
 <section id="define-custom-quantiles-for-further-exploration" class="level3">
 <h3 class="anchored" data-anchor-id="define-custom-quantiles-for-further-exploration">Define custom quantiles for further exploration</h3>
 <div id="a31696b4-1426-4765-a809-110da695f792" class="cell" data-execution_count="29">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>n_genes_detected_per_cell <span class="op">=</span> np.<span class="bu">sum</span>(adata.X <span class="op">&gt;</span> <span class="dv">0</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>percentiles <span class="op">=</span> pd.Series(n_genes_detected_per_cell.flatten()).quantile(</span>
 <span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.10</span>, <span class="fl">0.50</span>, <span class="dv">1</span>]</span>
 <span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(percentiles)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(percentiles)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.01     136.0
 0.05     155.0
@@ -914,7 +918,7 @@ dtype: float64</code></pre>
 </div>
 <p>The histogram below indicates the distribution of genes detected per cell. This visualization is convenient to define the parameter –auc_threshold in the next step. Specifically, the default parameter of –auc_threshold is 0.05, which in this plot would result in the selection of 144 genes, to be used as a reference per cell for AUCell calculations. The modification of this parameter affects the estimation of AUC values calculated by AUCell.</p>
 <div id="cc987abf-470d-43aa-abb3-a42e256a1b8f" class="cell" data-execution_count="30">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">100</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">5</span>), dpi<span class="op">=</span><span class="dv">100</span>)</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>sns.distplot(n_genes_detected_per_cell, norm_hist<span class="op">=</span><span class="va">False</span>, kde<span class="op">=</span><span class="va">False</span>, bins<span class="op">=</span><span class="st">"fd"</span>)</span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, x <span class="kw">in</span> <span class="bu">enumerate</span>(percentiles):</span>
 <span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    fig.gca().axvline(x<span class="op">=</span>x, ymin<span class="op">=</span><span class="dv">0</span>, ymax<span class="op">=</span><span class="dv">1</span>, color<span class="op">=</span><span class="st">"red"</span>)</span>
@@ -929,7 +933,7 @@ dtype: float64</code></pre>
 <span id="cb42-13"><a href="#cb42-13" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb42-14"><a href="#cb42-14" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"# of genes"</span>)</span>
 <span id="cb42-15"><a href="#cb42-15" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"# of cells"</span>)</span>
-<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb42-16"><a href="#cb42-16" aria-hidden="true" tabindex="-1"></a>fig.tight_layout()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/tmp/ipykernel_279481/1384461256.py:2: UserWarning: 
 
@@ -959,10 +963,10 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <p>It is important to check that most cells have a substantial fraction of expressed/detected genes in the calculation of the AUC. The following histogram gives an idea of the distribution and allows selection of an appropriate threshold. In this plot, a few thresholds are highlighted, with the number of genes selected shown in red text and the corresponding percentile in parentheses). See the relevant section in the R tutorial for more information.</p>
 <p>By using the default setting for –auc_threshold of 0.05, we see that 1192 genes are selected for the rankings based on the plot below.</p>
 <div id="bc11b5c1-d02d-4d5d-b3a4-b7a6fe8be3bb" class="cell" data-execution_count="31">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pyscenic aucell <span class="st">"pbmc10k_filtered_scenic.loom"</span> <span class="op">\</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pyscenic aucell <span class="st">"pbmc10k_filtered_scenic.loom"</span> <span class="op">\</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"reg.csv"</span> <span class="op">\</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>output <span class="st">"auc.csv"</span> <span class="op">\</span></span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>num_workers <span class="dv">3</span> <span class="op">&gt;</span> <span class="st">"pyscenic_aucell_stdout.txt"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">--</span>num_workers <span class="dv">3</span> <span class="op">&gt;</span> <span class="st">"pyscenic_aucell_stdout.txt"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/loompy/bus_file.py:68: NumbaDeprecationWarning: The 'nopython' keyword argument was not supplied to the 'numba.jit' decorator. The implicit default value for this argument is currently False, but it will be changed to True in Numba 0.59.0. See https://numba.readthedocs.io/en/stable/reference/deprecation.html#deprecation-of-object-mode-fall-back-behaviour-when-using-jit for details.
   def twobit_to_dna(twobit: int, size: int) -&gt; str:
@@ -981,15 +985,15 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </div>
 </div>
 <div id="15588f9b-240d-4e56-bc4b-56f6ceb5f330" class="cell" data-execution_count="32">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>auc_df <span class="op">=</span> pd.read_csv(<span class="st">"auc.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>auc_df <span class="op">=</span> pd.read_csv(<span class="st">"auc.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="0167712e-0fec-4f5b-8d0d-f956e64df2f5" class="cell" data-execution_count="33">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>auc_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>auc_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1042,7 +1046,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">AAACCCAAGCGCCCAT-1</td>
+<th data-quarto-table-cell-role="th">AAACCCAAGCGCCCAT-1</th>
 <td>0.035164</td>
 <td>0.000000</td>
 <td>0.047850</td>
@@ -1066,7 +1070,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>0.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">AAACCCACAGAGTTGG-1</td>
+<th data-quarto-table-cell-role="th">AAACCCACAGAGTTGG-1</th>
 <td>0.004977</td>
 <td>0.010264</td>
 <td>0.023925</td>
@@ -1090,7 +1094,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>0.000000</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">AAACCCACAGGTATGG-1</td>
+<th data-quarto-table-cell-role="th">AAACCCACAGGTATGG-1</th>
 <td>0.015828</td>
 <td>0.004716</td>
 <td>0.176838</td>
@@ -1114,7 +1118,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>0.000000</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">AAACCCACATAGTCAC-1</td>
+<th data-quarto-table-cell-role="th">AAACCCACATAGTCAC-1</th>
 <td>0.087623</td>
 <td>0.046325</td>
 <td>0.000000</td>
@@ -1138,7 +1142,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>0.101942</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">AAACCCACATCCAATG-1</td>
+<th data-quarto-table-cell-role="th">AAACCCACATCCAATG-1</th>
 <td>0.016399</td>
 <td>0.046325</td>
 <td>0.079404</td>
@@ -1169,19 +1173,19 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </div>
 </div>
 <div id="74104785-63c2-42e3-8892-1bd201b55aa8" class="cell" data-execution_count="34">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>ad_auc_mtx <span class="op">=</span> sc.AnnData(auc_df)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>ad_auc_mtx <span class="op">=</span> sc.AnnData(auc_df)</span>
 <span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>sc.pp.neighbors(ad_auc_mtx, n_neighbors<span class="op">=</span><span class="dv">10</span>, metric<span class="op">=</span><span class="st">"correlation"</span>)</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(ad_auc_mtx)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>sc.tl.umap(ad_auc_mtx)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>WARNING: You’re trying to run this on 59 dimensions of `.X`, if you really want this, set `use_rep='X'`.
          Falling back to preprocessing with `sc.pp.pca` and default params.</code></pre>
 </div>
 </div>
 <div id="a660c020-365a-41ba-9005-1ae43a9345c9" class="cell" data-execution_count="35">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_umap_aucell"</span>] <span class="op">=</span> ad_auc_mtx.obsm[<span class="st">"X_umap"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>adata.obsm[<span class="st">"X_umap_aucell"</span>] <span class="op">=</span> ad_auc_mtx.obsm[<span class="st">"X_umap"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="9ffc6a59-dfbe-4da1-aaee-b2144fbe1fb2" class="cell" data-execution_count="54">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>sc.pl.embedding(adata, basis<span class="op">=</span><span class="st">"X_umap_aucell"</span>, color<span class="op">=</span><span class="st">"louvain"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>sc.pl.embedding(adata, basis<span class="op">=</span><span class="st">"X_umap_aucell"</span>, color<span class="op">=</span><span class="st">"louvain"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/scanpy/plotting/_tools/scatterplots.py:394: UserWarning: No data for colormapping provided via 'c'. Parameters 'cmap' will be ignored
   cax = scatter(</code></pre>
@@ -1195,8 +1199,8 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </div>
 </div>
 <div id="eca2ecfb-de71-4fa8-9a84-fe7c50b5ea66" class="cell" data-execution_count="56">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>sc.tl.louvain(ad_auc_mtx, resolution<span class="op">=</span><span class="fl">0.2</span>)</span>
-<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>sc.pl.embedding(ad_auc_mtx, basis<span class="op">=</span><span class="st">"X_umap"</span>, color<span class="op">=</span><span class="st">'louvain'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>sc.tl.louvain(ad_auc_mtx, resolution<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>sc.pl.embedding(ad_auc_mtx, basis<span class="op">=</span><span class="st">"X_umap"</span>, color<span class="op">=</span><span class="st">'louvain'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>/home/alex/anaconda3/envs/sctp/lib/python3.8/site-packages/scanpy/plotting/_tools/scatterplots.py:394: UserWarning: No data for colormapping provided via 'c'. Parameters 'cmap' will be ignored
   cax = scatter(</code></pre>
@@ -1210,17 +1214,17 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </div>
 </div>
 <div id="f417fb9f-610d-4e5e-9d4f-b45cd0863025" class="cell" data-execution_count="57">
-<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(ad_auc_mtx, <span class="st">'louvain'</span>, method<span class="op">=</span><span class="st">'t-test'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>sc.tl.rank_genes_groups(ad_auc_mtx, <span class="st">'louvain'</span>, method<span class="op">=</span><span class="st">'t-test'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="0e6bef86-e6e7-4cd9-a186-630e70e37592" class="cell" data-execution_count="58">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>marker_genes <span class="op">=</span> pd.DataFrame(ad_auc_mtx.uns[<span class="st">"rank_genes_groups"</span>][<span class="st">"names"</span>])</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>marker_genes <span class="op">=</span> pd.DataFrame(ad_auc_mtx.uns[<span class="st">"rank_genes_groups"</span>][<span class="st">"names"</span>])</span>
 <span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>marker_genes.columns <span class="op">=</span> [<span class="st">"Cluster"</span> <span class="op">+</span> <span class="bu">str</span>(x) <span class="cf">for</span> x <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(ad_auc_mtx.obs[<span class="st">"louvain"</span>].unique()))]</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>marker_genes.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>marker_genes.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="58">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1235,7 +1239,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">0</td>
+<th data-quarto-table-cell-role="th">0</th>
 <td>PRDM1(+)</td>
 <td>SPI1(+)</td>
 <td>SPIB(+)</td>
@@ -1245,7 +1249,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>CEBPB(+)</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">1</td>
+<th data-quarto-table-cell-role="th">1</th>
 <td>EOMES(+)</td>
 <td>NFE2(+)</td>
 <td>BCL11A(+)</td>
@@ -1255,7 +1259,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>SPI1(+)</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">2</td>
+<th data-quarto-table-cell-role="th">2</th>
 <td>TBX21(+)</td>
 <td>CEBPD(+)</td>
 <td>PAX5(+)</td>
@@ -1265,7 +1269,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>NFE2(+)</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">3</td>
+<th data-quarto-table-cell-role="th">3</th>
 <td>RUNX3(+)</td>
 <td>CEBPB(+)</td>
 <td>IRF8(+)</td>
@@ -1275,7 +1279,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>GATA3(+)</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">4</td>
+<th data-quarto-table-cell-role="th">4</th>
 <td>KLF12(+)</td>
 <td>MAFB(+)</td>
 <td>IRF4(+)</td>
@@ -1291,8 +1295,8 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </div>
 </div>
 <div id="c07e1c54-45c5-460c-b8b1-ce42e271ac1d" class="cell" data-execution_count="63">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>sc.pl.embedding(ad_auc_mtx, basis<span class="op">=</span><span class="st">"X_umap"</span>, color<span class="op">=</span>[<span class="st">'SPI1(+)'</span>,</span>
-<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>                                                  <span class="st">'SPIB(+)'</span>, <span class="st">'MEOX1(+)'</span>, <span class="st">'TCF7L2(+)'</span>], ncols<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>sc.pl.embedding(ad_auc_mtx, basis<span class="op">=</span><span class="st">"X_umap"</span>, color<span class="op">=</span>[<span class="st">'SPI1(+)'</span>,</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>                                                  <span class="st">'SPIB(+)'</span>, <span class="st">'MEOX1(+)'</span>, <span class="st">'TCF7L2(+)'</span>], ncols<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1302,15 +1306,15 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </div>
 </div>
 <div id="ccdb5fb3-7cd7-4ec3-b42a-6c2f89730056" class="cell" data-execution_count="64">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>regulon_df <span class="op">=</span> pd.read_csv(<span class="st">"reg.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>regulon_df <span class="op">=</span> pd.read_csv(<span class="st">"reg.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="31bbf9b1-bdd5-4e3f-8484-29225202b3de" class="cell" data-execution_count="65">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>regulon_df.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>regulon_df.head()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="65">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1327,7 +1331,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">NaN</td>
+<th data-quarto-table-cell-role="th">NaN</th>
 <td>NaN</td>
 <td>AUC</td>
 <td>NES</td>
@@ -1339,7 +1343,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>RankAtMax</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">TF</td>
+<th data-quarto-table-cell-role="th">TF</th>
 <td>MotifID</td>
 <td>NaN</td>
 <td>NaN</td>
@@ -1351,7 +1355,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>NaN</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">ARID5B</td>
+<th data-quarto-table-cell-role="th">ARID5B</th>
 <td>cisbp__M0110</td>
 <td>0.09194977843426884</td>
 <td>3.4110817264013087</td>
@@ -1363,7 +1367,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>1113</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">ARID5B</td>
+<th data-quarto-table-cell-role="th">ARID5B</th>
 <td>cisbp__M0107</td>
 <td>0.0899019739492413</td>
 <td>3.2853287808894263</td>
@@ -1375,7 +1379,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>818</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">BATF</td>
+<th data-quarto-table-cell-role="th">BATF</th>
 <td>dbcorrdb__RCOR1__ENCSR000ECM_1__m1</td>
 <td>0.09647906429927953</td>
 <td>3.295409378378749</td>
@@ -1393,18 +1397,18 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </div>
 </div>
 <div id="63ae0e84-d439-4f74-89e4-1d2b49312745" class="cell" data-execution_count="66">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>regulon_df.shape</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>regulon_df.shape</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="66">
 <pre><code>(4115, 9)</code></pre>
 </div>
 </div>
 <div id="69ba0b7d-8ade-48d6-85aa-2229f32b546d" class="cell" data-execution_count="67">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>regulon_df.loc[<span class="st">"SPIB"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>regulon_df.loc[<span class="st">"SPIB"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="67">
 <div>
 
 
-<table class="dataframe caption-top table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
 <thead>
 <tr class="header">
 <th data-quarto-table-cell-role="th"></th>
@@ -1421,7 +1425,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">SPIB</td>
+<th data-quarto-table-cell-role="th">SPIB</th>
 <td>dbcorrdb__IRF1__ENCSR000EGK_1__m1</td>
 <td>0.07806698870214379</td>
 <td>3.90354587822946</td>
@@ -1433,7 +1437,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>4932</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">SPIB</td>
+<th data-quarto-table-cell-role="th">SPIB</th>
 <td>cisbp__M6313</td>
 <td>0.07676953171783304</td>
 <td>3.77165735433781</td>
@@ -1445,7 +1449,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>856</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">SPIB</td>
+<th data-quarto-table-cell-role="th">SPIB</th>
 <td>dbcorrdb__TBL1XR1__ENCSR000DYZ_1__m1</td>
 <td>0.07155724779432313</td>
 <td>3.241820572780774</td>
@@ -1457,7 +1461,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>2320</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">SPIB</td>
+<th data-quarto-table-cell-role="th">SPIB</th>
 <td>cisbp__M4489</td>
 <td>0.08201924228512117</td>
 <td>4.305298612545568</td>
@@ -1469,7 +1473,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>1221</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">SPIB</td>
+<th data-quarto-table-cell-role="th">SPIB</th>
 <td>hocomoco__SPIB_MOUSE.H11MO.0.A</td>
 <td>0.0760484450477065</td>
 <td>3.698357770867258</td>
@@ -1481,7 +1485,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>4732</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
+<th data-quarto-table-cell-role="th">...</th>
 <td>...</td>
 <td>...</td>
 <td>...</td>
@@ -1493,7 +1497,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>...</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">SPIB</td>
+<th data-quarto-table-cell-role="th">SPIB</th>
 <td>taipale__Spic_DBD_AAAAAGMGGAAGTA</td>
 <td>0.07192604342454488</td>
 <td>4.096439803073309</td>
@@ -1505,7 +1509,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>3194</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">SPIB</td>
+<th data-quarto-table-cell-role="th">SPIB</th>
 <td>hocomoco__IRF8_HUMAN.H11MO.0.B</td>
 <td>0.08214495894116133</td>
 <td>5.281967790108696</td>
@@ -1517,7 +1521,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>3184</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">SPIB</td>
+<th data-quarto-table-cell-role="th">SPIB</th>
 <td>dbcorrdb__SPI1__ENCSR000BIJ_1__m1</td>
 <td>0.0709653406500041</td>
 <td>3.9849857036056426</td>
@@ -1529,7 +1533,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>581</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">SPIB</td>
+<th data-quarto-table-cell-role="th">SPIB</th>
 <td>dbcorrdb__EP300__ENCSR000DZG_1__m1</td>
 <td>0.07342458385785497</td>
 <td>4.270290112384945</td>
@@ -1541,7 +1545,7 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 <td>1982</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">SPIB</td>
+<th data-quarto-table-cell-role="th">SPIB</th>
 <td>hocomoco__IRF4_HUMAN.H11MO.0.A</td>
 <td>0.08185655324008216</td>
 <td>5.24850895294599</td>
@@ -1560,14 +1564,14 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
 </div>
 </div>
 <div id="3dbcc70a-7535-435f-82f4-cb427d842663" class="cell" data-execution_count="71">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>regulon_df.loc[<span class="st">"SPIB"</span>].iloc[<span class="dv">0</span>][<span class="st">"Enrichment.6"</span>][:<span class="dv">1000</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>regulon_df.loc[<span class="st">"SPIB"</span>].iloc[<span class="dv">0</span>][<span class="st">"Enrichment.6"</span>][:<span class="dv">1000</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="71">
 <pre><code>"[('FCGR2B', 1.869718459857277), ('STX7', 6.892725862395004), ('P2RY14', 1.8778070177222), ('TMEM156', 4.272053543910822), ('BLNK', 5.738561565806354), ('CD38', 0.5724236819241179), ('CXCR4', 1.0237407733006956), ('RIMKLB', 3.814839002835818), ('FCRL3', 1.6683434765092275), ('LINC01215', 2.4484182394885634), ('HLA-DMB', 5.275150829219921), ('BCL11A', 5.323875629596565), ('HLA-DQA1', 12.631876848026147), ('TCF4', 3.091736175722826), ('CD40', 5.98234166462111), ('DOPEY2', 4.554553673574461), ('AFF3', 3.926454150323302), ('CXXC5', 8.0650414459558), ('LPAR5', 1.3386477473776452), ('KLF8', 1.6187543679806742), ('SLC44A2', 0.3937692393269603), ('SHISA8', 0.9218564482844408), ('FCRL5', 2.534706255811908), ('IKZF3', 1.4164772622710846), ('MPP6', 0.7198674632752087), ('PLEKHG1', 3.1788634402443443), ('FMNL3', 0.4906561541272032), ('PKIG', 3.768067885404645), ('CCR6', 2.1375793714457263), ('PLAC8', 3.411256052315926), ('BLK', 7.363519956872278), ('SETBP1', 5.3370810233327015), ('HLA-DQA2', 4.0790"</code></pre>
 </div>
 </div>
 <div id="6c7c00f6-6de5-4364-89db-037637cf6cab" class="cell" data-execution_count="77">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>sc.pl.embedding(adata, basis<span class="op">=</span><span class="st">"X_umap_aucell"</span>, use_raw<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>                color<span class="op">=</span>[<span class="st">'FCGR2B'</span>, <span class="st">'STX7'</span>, <span class="st">'P2RY14'</span>, <span class="st">'TMEM156'</span>], ncols<span class="op">=</span><span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>sc.pl.embedding(adata, basis<span class="op">=</span><span class="st">"X_umap_aucell"</span>, use_raw<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>                color<span class="op">=</span>[<span class="st">'FCGR2B'</span>, <span class="st">'STX7'</span>, <span class="st">'P2RY14'</span>, <span class="st">'TMEM156'</span>], ncols<span class="op">=</span><span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -1633,13 +1637,14 @@ https://gist.github.com/mwaskom/de44147ed2974457ad6372750bbe5751
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
